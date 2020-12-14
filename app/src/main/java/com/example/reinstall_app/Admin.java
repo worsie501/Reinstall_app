@@ -6,6 +6,7 @@ package com.example.reinstall_app;
 //tsekkkk;;;
 //asdjkaslp;djas
 //tsekkkk
+//rebase
 
 public class Admin extends User {
     String adminName;
