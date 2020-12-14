@@ -31,6 +31,6 @@ public class Admin extends User {
     public void setMunicipalityName(String municipalityName) {
         this.municipalityName = municipalityName;
     }
-    //lekker
-    //lekker
+
+
 }
