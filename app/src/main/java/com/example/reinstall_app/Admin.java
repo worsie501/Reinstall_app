@@ -1,6 +1,6 @@
 package com.example.reinstall_app;
 
-//halo
+//lets go
 
 public class Admin extends User {
     String adminName;
