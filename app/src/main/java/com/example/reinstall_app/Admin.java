@@ -2,7 +2,7 @@ package com.example.reinstall_app;
 
 //lets go
 //tos
-//tsek
+//tsekkkk
 
 public class Admin extends User {
     String adminName;
