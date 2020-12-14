@@ -7,6 +7,7 @@ package com.example.reinstall_app;
 //123
 //ASSSSSSSSSBBBBBBBBBBBBB Werk
 //123333333333333333333333333
+//Ekt nie gedruk nie
 
 public class Admin extends User {
     String adminName;
