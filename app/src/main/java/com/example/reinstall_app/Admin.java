@@ -1,11 +1,6 @@
 package com.example.reinstall_app;
 
-//asdddddd
-//lets go
-//tos
-//tsekkkk;;;
-//asdjkaslp;djas
-//tsekkkk
+//New Beginning
 
 
 public class Admin extends User {
