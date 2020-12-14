@@ -3,6 +3,7 @@ package com.example.reinstall_app;
 
 //Test ALTYDDD!!!!!!!!!!!
 //Kan julle dit sien!!
+// Push worsie
 
 public class Admin extends User {
     String adminName;
