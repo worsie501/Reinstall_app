@@ -2,16 +2,6 @@ package com.example.reinstall_app;
 
 public class Municipality {
     String municipalityName;
-    String province;
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
     String email;
 
     public String getMunicipalityName() {
