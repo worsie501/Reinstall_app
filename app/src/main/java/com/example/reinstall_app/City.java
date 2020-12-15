@@ -5,6 +5,7 @@ public class City extends  Municipality{
     String cityName;
     String municipalityName;
 
+
     public String getCityName() {
         return cityName;
     }
