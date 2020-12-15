@@ -1,6 +1,7 @@
 package com.example.reinstall_app;
 
 public class Municipality extends District{
+
     String municipalityName;
     String districtName;
     String email;

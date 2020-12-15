@@ -1,16 +1,18 @@
 package com.example.reinstall_app;
 
 public class Admin extends User {
-    String adminName;
+    long userId;
     String adminEmail;
-    String municipalityName;
+    String adminName;
 
-    public String getAdminName() {
-        return adminName;
+    @Override
+    public long getUserId() {
+        return userId;
     }
 
-    public void setAdminName(String adminName) {
-        this.adminName = adminName;
+    @Override
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public String getAdminEmail() {
@@ -21,13 +23,11 @@ public class Admin extends User {
         this.adminEmail = adminEmail;
     }
 
-    public String getMunicipalityName() {
-        return municipalityName;
+    public String getAdminName() {
+        return adminName;
     }
 
-    public void setMunicipalityName(String municipalityName) {
-        this.municipalityName = municipalityName;
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
     }
-
-
 }

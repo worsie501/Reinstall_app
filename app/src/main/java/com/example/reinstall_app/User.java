@@ -1,9 +1,10 @@
 package com.example.reinstall_app;
 
 public class User {
+
     long userId;
     String userPassword;
-    String location;
+    String province;
     String loginStatus;
 
     public long getUserId() {
@@ -22,12 +23,12 @@ public class User {
         this.userPassword = userPassword;
     }
 
-    public String getLocation() {
-        return location;
+    public String getProvince() {
+        return province;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setProvince(String location) {
+        this.province = location;
     }
 
     public String getLoginStatus() {
