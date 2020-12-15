@@ -5,16 +5,8 @@ public class User {
     long userId;
     String userPassword;
     String province;
-    String suburb;
     String loginStatus;
 
-    public String getSuburb() {
-        return suburb;
-    }
-
-    public void setSuburb(String suburb) {
-        this.suburb = suburb;
-    }
 
     public long getUserId() {
         return userId;
