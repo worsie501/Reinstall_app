@@ -1,8 +1,18 @@
 package com.example.reinstall_app;
 
-public class Municipality {
+public class Municipality extends District{
     String municipalityName;
+    String districtName;
     String email;
+
+    public String getDistrict() {
+        return districtName;
+    }
+
+    public void setDistrict(String district) {
+        this.districtName = district;
+    }
+
 
     public String getMunicipalityName() {
         return municipalityName;
