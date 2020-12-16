@@ -20,20 +20,20 @@ public class RoleSelection extends AppCompatActivity {
         setContentView(R.layout.activity_role_selection);
 
         btnAdmin=findViewById(R.id.btnAdmin);
-        btnMunicipality=findViewById(R.id.btnMunicipality);
+        btnMunicipality=findViewById(R.id.btnMainRegister);
         btnResident=findViewById(R.id.btnResident);
 
         btnAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                 /*String adminVerify;
+                 String verify="Admin";
 
-                Intent admin=new Intent(RoleSelection.this,  com.example.reinstall_app.    .class );
+                Intent admin=new Intent(RoleSelection.this,  com.example.reinstall_app.Login_Register_Page.class );
 
-                admin.putExtra("admin", adminVerify.trim());
+                admin.putExtra("verifyData", verify.trim());
 
-               startActivity(admin); */
+               startActivity(admin);
 
             }
         });
@@ -42,13 +42,13 @@ public class RoleSelection extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                /*String municipalityVerify;
+                String verify="Municipality";
 
-                Intent municipality=new Intent(RoleSelection.this,  com.example.reinstall_app.    .class );
+                Intent municipality=new Intent(RoleSelection.this,  com.example.reinstall_app.Login_Register_Page.class );
 
-                municipality.putExtra("municipality", municipalityVerify.trim());
+                municipality.putExtra("verifyData", verify.trim());
 
-               startActivity(municipality);*/
+               startActivity(municipality);
 
             }
         });
@@ -57,13 +57,13 @@ public class RoleSelection extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                /*String residentVerify;
+                String verify="Resident";
 
-                Intent resident=new Intent(RoleSelection.this,  com.example.reinstall_app.    .class );
+                Intent resident=new Intent(RoleSelection.this,  com.example.reinstall_app.Login_Register_Page.class );
 
-               resident.putExtra("resident",residentVerify.trim());
+               resident.putExtra("verifyData",verify.trim());
 
-               startActivity(resident); */
+               startActivity(resident);
 
             }
         });
