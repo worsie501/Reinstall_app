@@ -12,7 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Resident_Login_Register"></activity>
+        <activity android:name=".AdminRegister"></activity>
+        <activity android:name=".AdminLogin" />
+        <activity android:name=".MunicipalityRegister" />
+        <activity android:name=".MunicipalityLogin" />
+        <activity android:name=".ResidentRegister" />
+        <activity android:name=".ResidentLogin" />
         <activity android:name=".Login_Register_Page" />
         <activity android:name=".MainActivity" />
         <activity android:name=".RoleSelection">
