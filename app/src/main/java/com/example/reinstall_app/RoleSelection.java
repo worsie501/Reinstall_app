@@ -27,7 +27,11 @@ public class RoleSelection extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                /*Intent admin=new Intent(RoleSelection.this,  com.example.reinstall_app.    .class );
+                 /*String adminVerify;
+
+                Intent admin=new Intent(RoleSelection.this,  com.example.reinstall_app.    .class );
+
+                admin.putExtra("admin", adminVerify.trim());
 
                startActivity(admin); */
 
@@ -38,9 +42,13 @@ public class RoleSelection extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                /*Intent municipality=new Intent(RoleSelection.this,  com.example.reinstall_app.    .class );
+                /*String municipalityVerify;
 
-               startActivity(municipality); */
+                Intent municipality=new Intent(RoleSelection.this,  com.example.reinstall_app.    .class );
+
+                municipality.putExtra("municipality", municipalityVerify.trim());
+
+               startActivity(municipality);*/
 
             }
         });
@@ -49,7 +57,11 @@ public class RoleSelection extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                /*Intent resident=new Intent(RoleSelection.this,  com.example.reinstall_app.    .class );
+                /*String residentVerify;
+
+                Intent resident=new Intent(RoleSelection.this,  com.example.reinstall_app.    .class );
+
+               resident.putExtra("resident",residentVerify.trim());
 
                startActivity(resident); */
 
