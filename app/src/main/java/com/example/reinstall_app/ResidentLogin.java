@@ -56,7 +56,7 @@ public class ResidentLogin extends AppCompatActivity {
             public void handleResponse(Boolean response) {
 
                 if(response) {
-                    tvLoad.setText("Userauthenticating...signing in...");
+                    tvLoad.setText("User authenticating...signing in...");
 
                     String userObject = UserIdStorageFactory.instance().getStorage().get();
 
@@ -131,7 +131,7 @@ public class ResidentLogin extends AppCompatActivity {
                             Toast.makeText(ResidentLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
                             showProgress(false);
                         }
-                    }, true);
+                    }, false);
                 }
 
             }

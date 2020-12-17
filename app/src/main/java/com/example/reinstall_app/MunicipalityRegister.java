@@ -60,30 +60,32 @@ public class MunicipalityRegister extends AppCompatActivity {
                 else {
 
                     if (etMunicipalityRegisterPassword.getText().toString().trim().equals(etConfirmMunicipalityPassword.getText().toString().trim())) {
-                        BackendlessUser user = new BackendlessUser();
-                        user.setEmail(etMunicipalityRegisterEmail.getText().toString().trim());
-                        user.setPassword(etMunicipalityRegisterPassword.getText().toString().trim());
-                        user.setProperty("name", etMunicipalityName.getText().toString().trim());
-                        user.setProperty("role", role);
+                        Municipality municipality=new Municipality();
+                        municipality.setEmail(etMunicipalityRegisterEmail.getText().toString().trim());
+                        municipality.setPassword(etMunicipalityRegisterPassword.getText().toString().trim());
+                        municipality.setMunicipalityName(etMunicipalityName.getText().toString().trim());
 
                         tvLoad.setText("Registering...Please wait...");
                         showProgress(true);
 
-                        Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
+                        Backendless.Persistence.save(municipality, new AsyncCallback<Municipality>() {
                             @Override
-                            public void handleResponse(BackendlessUser response) {
-
+                            public void handleResponse(Municipality response) {
                                 Toast.makeText(MunicipalityRegister.this, "Municipality Registered!", Toast.LENGTH_SHORT).show();
-                                MunicipalityRegister.this.finish();
+                                etMunicipalityName.setText(null);
+                                etMunicipalityRegisterEmail.setText(null);
+                                etConfirmMunicipalityPassword.setText(null);
+                                etMunicipalityRegisterPassword.setText(null);
+                                showProgress(false);
                             }
 
                             @Override
                             public void handleFault(BackendlessFault fault) {
-
-                                Toast.makeText(MunicipalityRegister.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MunicipalityRegister.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
                                 showProgress(false);
                             }
                         });
+
                     } else {
                         Toast.makeText(MunicipalityRegister.this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
                     }

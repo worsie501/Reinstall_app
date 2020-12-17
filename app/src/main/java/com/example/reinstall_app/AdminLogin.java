@@ -46,8 +46,8 @@ public class AdminLogin extends AppCompatActivity {
         btnAdminLogin=findViewById(R.id.btnAdminLogin);
         tvAdminReset=findViewById(R.id.tvAdminReset);
 
-        tvLoad.setText("Busy authenticating user...please wait...");
-        showProgress(true);
+       // tvLoad.setText("Busy authenticating user...please wait...");
+       // showProgress(true);
 
         Backendless.UserService.isValidLogin(new AsyncCallback<Boolean>() {
             @Override
@@ -118,7 +118,6 @@ public class AdminLogin extends AppCompatActivity {
                         public void handleResponse(BackendlessUser response) {
 
                             Intent intent=new Intent(AdminLogin.this, com.example.reinstall_app.MainActivity.class);
-                            String role="Admin";
 
                             Toast.makeText(AdminLogin.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
                             startActivity(intent);
@@ -131,7 +130,7 @@ public class AdminLogin extends AppCompatActivity {
                             Toast.makeText(AdminLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
                             showProgress(false);
                         }
-                    }, true);
+                    }, false);
                 }
 
             }
