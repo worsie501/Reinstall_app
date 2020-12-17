@@ -66,8 +66,8 @@
             android:layout_marginEnd="30dp"
             android:ems="10"
             android:gravity="center"
-            android:inputType="textPersonName"
-            android:text="Name" />
+            android:hint="Enter Name"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/etMunicipalityRegisterEmail"
@@ -80,6 +80,14 @@
             android:gravity="center"
             android:hint="Enter Email"
             android:inputType="textEmailAddress" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp" />
 
         <EditText
             android:id="@+id/etMunicipalityRegisterPassword"
