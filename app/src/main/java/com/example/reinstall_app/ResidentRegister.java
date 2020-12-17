@@ -65,16 +65,32 @@ public class ResidentRegister extends AppCompatActivity {
 
                         resident.setResidentName(etResidentName.getText().toString().trim());
                         resident.setEmail(etResidentRegisterEmail.getText().toString().trim());
-                        resident.setCity(spnrCity.getSelectedItem().toString().trim());
-                        resident.setSuburb(spnrSuburb.getSelectedItem().toString().trim());
+                       // resident.setCity(spnrCity.getSelectedItem().toString().trim());
+                       // resident.setSuburb(spnrSuburb.getSelectedItem().toString().trim());
                         resident.setUserPassword(etResidentRegisterPassword.getText().toString().trim());
-
-
+                        resident.setEmail(ReinstallApplicationClass.user.getEmail());
 
                         tvLoad.setText("Registering...Please wait...");
                         showProgress(true);
 
-                        Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
+                        Backendless.Persistence.save(resident, new AsyncCallback<Resident>() {
+                            @Override
+                            public void handleResponse(Resident response) {
+                                Toast.makeText(ResidentRegister.this, "Resident Registered!", Toast.LENGTH_SHORT).show();
+                                etResidentName.setText(null);
+                                etResidentRegisterEmail.setText(null);
+                                etResidentRegisterPassword.setText(null);
+                                etConfirmResidentPassword.setText(null);
+                            }
+
+                            @Override
+                            public void handleFault(BackendlessFault fault) {
+                                Toast.makeText(ResidentRegister.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                showProgress(false);
+                            }
+                        });
+
+                       /* Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
                             @Override
                             public void handleResponse(BackendlessUser response) {
 
@@ -88,7 +104,7 @@ public class ResidentRegister extends AppCompatActivity {
                                 Toast.makeText(ResidentRegister.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
                                 showProgress(false);
                             }
-                        });
+                        });*/
                     } else {
                         Toast.makeText(ResidentRegister.this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
                     }

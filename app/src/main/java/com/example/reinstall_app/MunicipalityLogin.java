@@ -18,6 +18,7 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.local.UserIdStorageFactory;
 
 public class MunicipalityLogin extends AppCompatActivity {
 
@@ -45,6 +46,44 @@ public class MunicipalityLogin extends AppCompatActivity {
         etMunicipalityPassword=findViewById(R.id.etMunicipalityPassword);
         btnMunicipalityLogin=findViewById(R.id.btnMunicipalityLogin);
         tvMunicipalityReset=findViewById(R.id.tvMunicipalityReset);
+
+        tvLoad.setText("Busy authenticating user...please wait...");
+        showProgress(true);
+
+        Backendless.UserService.isValidLogin(new AsyncCallback<Boolean>() {
+            @Override
+            public void handleResponse(Boolean response) {
+                if(response)
+                {
+                    tvLoad.setText("User authenticated...signing in...");
+
+                    String userObjectId= UserIdStorageFactory.instance().getStorage().get();
+
+                    Backendless.Data.of(BackendlessUser.class).findById(userObjectId, new AsyncCallback<BackendlessUser>() {
+                        @Override
+                        public void handleResponse(BackendlessUser response) {
+                            Intent intent=new Intent(MunicipalityLogin.this, com.example.reinstall_app.MainActivity.class);
+                            startActivity(intent);
+                            MunicipalityLogin.this.finish();
+                        }
+
+                        @Override
+                        public void handleFault(BackendlessFault fault) {
+                            Toast.makeText(MunicipalityLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                else
+                {
+                    showProgress(false);
+                }
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+
+            }
+        });
 
         tvMunicipalityReset.setOnClickListener(new View.OnClickListener() {
             @Override

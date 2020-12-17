@@ -46,7 +46,7 @@ public class AdminLogin extends AppCompatActivity {
         btnAdminLogin=findViewById(R.id.btnAdminLogin);
         tvAdminReset=findViewById(R.id.tvAdminReset);
 
-       /* tvLoad.setText("Busy authenticating user...please wait...");
+        tvLoad.setText("Busy authenticating user...please wait...");
         showProgress(true);
 
         Backendless.UserService.isValidLogin(new AsyncCallback<Boolean>() {
@@ -88,7 +88,7 @@ public class AdminLogin extends AppCompatActivity {
                 showProgress(false);
 
             }
-        });*/
+        });
 
         tvAdminReset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +131,7 @@ public class AdminLogin extends AppCompatActivity {
                             Toast.makeText(AdminLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
                             showProgress(false);
                         }
-                    }, false);
+                    }, true);
                 }
 
             }

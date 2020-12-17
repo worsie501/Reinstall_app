@@ -18,6 +18,7 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.local.UserIdStorageFactory;
 
 public class ResidentLogin extends AppCompatActivity {
 
@@ -30,6 +31,7 @@ public class ResidentLogin extends AppCompatActivity {
     EditText etResidentPassword;
     Button btnResidentLogin;
     TextView tvResidentReset;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,48 @@ public class ResidentLogin extends AppCompatActivity {
         etResidentPassword=findViewById(R.id.etResidentPassword);
         btnResidentLogin=findViewById(R.id.btnResidentLogin);
         tvResidentReset=findViewById(R.id.tvResidentReset);
+
+        tvLoad.setText("Busy authenticating user...please wait...");
+        showProgress(true);
+
+        Backendless.UserService.isValidLogin(new AsyncCallback<Boolean>() {
+            @Override
+            public void handleResponse(Boolean response) {
+
+                if(response) {
+                    tvLoad.setText("Userauthenticating...signing in...");
+
+                    String userObject = UserIdStorageFactory.instance().getStorage().get();
+
+                    Backendless.Data.of(BackendlessUser.class).findById(userObject, new AsyncCallback<BackendlessUser>() {
+                        @Override
+                        public void handleResponse(BackendlessUser response) {
+
+                            ReinstallApplicationClass.user=response;
+                            Intent intent = new Intent(ResidentLogin.this, com.example.reinstall_app.MainActivity.class);
+                            startActivity(intent);
+                            ResidentLogin.this.finish();
+                        }
+
+                        @Override
+                        public void handleFault(BackendlessFault fault) {
+                            Toast.makeText(ResidentLogin.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    });
+                }
+                else
+                {
+                    showProgress(false);
+                }
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+
+            }
+        });
 
         tvResidentReset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,8 +118,8 @@ public class ResidentLogin extends AppCompatActivity {
                         public void handleResponse(BackendlessUser response) {
 
                             Intent intent=new Intent(ResidentLogin.this, com.example.reinstall_app.MainActivity.class);
-                            String role="Admin";
 
+                            ReinstallApplicationClass.user=response;
                             Toast.makeText(ResidentLogin.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
                             startActivity(intent);
                             ResidentLogin.this.finish();
@@ -87,7 +131,7 @@ public class ResidentLogin extends AppCompatActivity {
                             Toast.makeText(ResidentLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
                             showProgress(false);
                         }
-                    }, false);
+                    }, true);
                 }
 
             }
