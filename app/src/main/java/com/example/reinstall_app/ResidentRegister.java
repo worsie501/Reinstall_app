@@ -26,9 +26,8 @@ public class ResidentRegister extends AppCompatActivity {
     private TextView tvLoad;
 
     EditText etResidentName,etResidentRegisterEmail, etResidentRegisterPassword, etConfirmResidentPassword;
-    Spinner spnrResidentLocations;
+    Spinner  spnrCity, spnrSuburb;
     Button btnResidentRegister;
-    String role="Resident";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,8 @@ public class ResidentRegister extends AppCompatActivity {
         etResidentRegisterEmail=findViewById(R.id.etResidentRegisterEmail);
         etResidentRegisterPassword=findViewById(R.id.etResidentRegisterPasword);
         etConfirmResidentPassword=findViewById(R.id.etConfirmResidentPassword);
-        spnrResidentLocations=findViewById(R.id.spnrResidentLocations);
+        spnrCity=findViewById(R.id.spnrResidentCity);
+        spnrSuburb=findViewById(R.id.spnrResidentSuburb);
         btnResidentRegister=findViewById(R.id.btnResidentRegister);
 
         btnResidentRegister.setOnClickListener(new View.OnClickListener() {
@@ -60,10 +60,16 @@ public class ResidentRegister extends AppCompatActivity {
 
                     if (etResidentRegisterPassword.getText().toString().trim().equals(etConfirmResidentPassword.getText().toString().trim())) {
                         BackendlessUser user = new BackendlessUser();
-                        user.setEmail(etResidentRegisterEmail.getText().toString().trim());
-                        user.setPassword(etResidentRegisterPassword.getText().toString().trim());
-                        user.setProperty("name", etResidentName.getText().toString().trim());
-                        user.setProperty("role", role);
+
+                        Resident resident=new Resident();
+
+                        resident.setResidentName(etResidentName.getText().toString().trim());
+                        resident.setEmail(etResidentRegisterEmail.getText().toString().trim());
+                        resident.setCity(spnrCity.getSelectedItem().toString().trim());
+                        resident.setSuburb(spnrSuburb.getSelectedItem().toString().trim());
+                        resident.setUserPassword(etResidentRegisterPassword.getText().toString().trim());
+
+
 
                         tvLoad.setText("Registering...Please wait...");
                         showProgress(true);

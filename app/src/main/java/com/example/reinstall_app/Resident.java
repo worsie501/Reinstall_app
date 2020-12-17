@@ -1,6 +1,6 @@
 package com.example.reinstall_app;
 
-public class Resident {
+public class Resident extends User{
 
     long userId;
     String residentName;

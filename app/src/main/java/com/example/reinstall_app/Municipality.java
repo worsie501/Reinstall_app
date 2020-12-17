@@ -5,6 +5,25 @@ public class Municipality extends District{
     String municipalityName;
     String districtName;
     String email;
+    String password;
+
+    @Override
+    public String getDistrictName() {
+        return districtName;
+    }
+
+    @Override
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getDistrict() {
         return districtName;

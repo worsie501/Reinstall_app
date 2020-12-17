@@ -5,8 +5,15 @@ public class User {
     long userId;
     String userPassword;
     String province;
-    String loginStatus;
+    boolean loginStatus;
 
+    public boolean isLoginStatus() {
+        return loginStatus;
+    }
+
+    public void setLoginStatus(boolean loginStatus) {
+        this.loginStatus = loginStatus;
+    }
 
     public long getUserId() {
         return userId;
@@ -32,11 +39,5 @@ public class User {
         this.province = location;
     }
 
-    public String getLoginStatus() {
-        return loginStatus;
-    }
 
-    public void setLoginStatus(String loginStatus) {
-        this.loginStatus = loginStatus;
-    }
 }

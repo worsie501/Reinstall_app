@@ -18,6 +18,7 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.local.UserIdStorageFactory;
 
 public class AdminLogin extends AppCompatActivity {
 
@@ -44,6 +45,50 @@ public class AdminLogin extends AppCompatActivity {
         etAdminPassword=findViewById(R.id.etAdminPassword);
         btnAdminLogin=findViewById(R.id.btnAdminLogin);
         tvAdminReset=findViewById(R.id.tvAdminReset);
+
+       /* tvLoad.setText("Busy authenticating user...please wait...");
+        showProgress(true);
+
+        Backendless.UserService.isValidLogin(new AsyncCallback<Boolean>() {
+            @Override
+            public void handleResponse(Boolean response) {
+                if(response)
+                {
+                    tvLoad.setText("User authenticated...signing in...");
+
+                    String userObjectId= UserIdStorageFactory.instance().getStorage().get();
+
+                    Backendless.Data.of(BackendlessUser.class).findById(userObjectId, new AsyncCallback<BackendlessUser>() {
+                        @Override
+                        public void handleResponse(BackendlessUser response) {
+
+                            Intent intent= new Intent(AdminLogin.this, com.example.reinstall_app.MainActivity.class);
+                            startActivity(intent);
+                            AdminLogin.this.finish();
+
+                        }
+
+                        @Override
+                        public void handleFault(BackendlessFault fault) {
+                            Toast.makeText(AdminLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }
+                else
+                {
+                    showProgress(false);
+                }
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+
+                Toast.makeText(AdminLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+                showProgress(false);
+
+            }
+        });*/
 
         tvAdminReset.setOnClickListener(new View.OnClickListener() {
             @Override
