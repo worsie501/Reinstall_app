@@ -26,9 +26,8 @@ public class MunicipalityRegister extends AppCompatActivity {
     private TextView tvLoad;
 
     EditText etMunicipalityName, etMunicipalityRegisterEmail, etMunicipalityRegisterPassword, etConfirmMunicipalityPassword;
-    Spinner spnrMunicipalityLocation;
     Button btnMunicipalityRegister;
-    String role="Municipality";
+    Spinner spnrDistrict;
 
 
     @Override
@@ -44,8 +43,8 @@ public class MunicipalityRegister extends AppCompatActivity {
         etMunicipalityRegisterEmail=findViewById(R.id.etMunicipalityRegisterEmail);
         etMunicipalityRegisterPassword=findViewById(R.id.etMunicipalityRegisterPassword);
         etConfirmMunicipalityPassword=findViewById(R.id.etConfirmMunicipalityPassword);
-        spnrMunicipalityLocation=findViewById(R.id.spnrMunicipalityLocation);
         btnMunicipalityRegister=findViewById(R.id.btnMunicipalityRegister);
+        spnrDistrict=findViewById(R.id.spnrDistrict);
 
         btnMunicipalityRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +63,7 @@ public class MunicipalityRegister extends AppCompatActivity {
                         municipality.setEmail(etMunicipalityRegisterEmail.getText().toString().trim());
                         municipality.setPassword(etMunicipalityRegisterPassword.getText().toString().trim());
                         municipality.setMunicipalityName(etMunicipalityName.getText().toString().trim());
+                        //municipality.setDistrict(spnrDistrict.getSelectedItem().toString().trim());
 
                         tvLoad.setText("Registering...Please wait...");
                         showProgress(true);
@@ -74,6 +74,7 @@ public class MunicipalityRegister extends AppCompatActivity {
                                 Toast.makeText(MunicipalityRegister.this, "Municipality Registered!", Toast.LENGTH_SHORT).show();
                                 etMunicipalityName.setText(null);
                                 etMunicipalityRegisterEmail.setText(null);
+
                                 etConfirmMunicipalityPassword.setText(null);
                                 etMunicipalityRegisterPassword.setText(null);
                                 showProgress(false);

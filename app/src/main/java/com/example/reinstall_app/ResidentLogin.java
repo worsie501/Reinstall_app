@@ -64,7 +64,7 @@ public class ResidentLogin extends AppCompatActivity {
                         @Override
                         public void handleResponse(BackendlessUser response) {
 
-                            ReinstallApplicationClass.user=response;
+                           // ReinstallApplicationClass.user=response;
                             Intent intent = new Intent(ResidentLogin.this, com.example.reinstall_app.MainActivity.class);
                             startActivity(intent);
                             ResidentLogin.this.finish();

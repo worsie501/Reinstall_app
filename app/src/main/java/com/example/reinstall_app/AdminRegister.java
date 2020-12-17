@@ -26,9 +26,9 @@ public class AdminRegister extends AppCompatActivity {
     private TextView tvLoad;
 
     EditText etAdminName, etAdminRegisterEmail, etAdminRegisterPassword, etConfirmAdminPassword;
-    Spinner spnrAdminLocation;
+
     Button btnAdminRegister;
-    String role="Admin";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,6 @@ public class AdminRegister extends AppCompatActivity {
         etAdminRegisterEmail=findViewById(R.id.etAdminRegisterEmail);
         etAdminRegisterPassword=findViewById(R.id.etAdminRegisterPassword);
         etConfirmAdminPassword=findViewById(R.id.etConfirmAdminPassword);
-        spnrAdminLocation=findViewById(R.id.spnrAdminLocation);
         btnAdminRegister=findViewById(R.id.btnAdminRegister);
 
         btnAdminRegister.setOnClickListener(new View.OnClickListener() {
@@ -59,31 +58,34 @@ public class AdminRegister extends AppCompatActivity {
                 else {
 
                     if (etAdminRegisterPassword.getText().toString().trim().equals(etConfirmAdminPassword.getText().toString().trim())) {
-                        BackendlessUser user = new BackendlessUser();
-                        user.setEmail(etAdminRegisterEmail.getText().toString().trim());
-                        user.setPassword(etAdminRegisterPassword.getText().toString().trim());
-                        user.setProperty("name", etAdminName.getText().toString().trim());
-                        user.setProperty("role", role);
+                        Admin admin=new Admin();
+                        admin.setAdminEmail(etAdminRegisterEmail.getText().toString().trim());
+                        admin.setAdminPassword(etAdminRegisterPassword.getText().toString().trim());
+                        admin.setAdminName(etAdminName.getText().toString().trim());
+
 
                         tvLoad.setText("Registering...Please wait...");
                         showProgress(true);
 
-                        Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
+                        Backendless.Persistence.save(admin, new AsyncCallback<Admin>() {
                             @Override
-                            public void handleResponse(BackendlessUser response) {
-
-                                Toast.makeText(AdminRegister.this, "Admin Registered!", Toast.LENGTH_SHORT).show();
-                                AdminRegister.this.finish();
+                            public void handleResponse(Admin response) {
+                                Toast.makeText(AdminRegister.this, "Admin Registered", Toast.LENGTH_SHORT).show();
+                                etAdminName.setText(null);
+                                etAdminRegisterEmail.setText(null);
+                                etAdminRegisterPassword.setText(null);
+                                showProgress(false);
                             }
 
                             @Override
                             public void handleFault(BackendlessFault fault) {
-
-                                Toast.makeText(AdminRegister.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AdminRegister.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
                                 showProgress(false);
                             }
                         });
-                    } else {
+
+                    }
+                    else {
                         Toast.makeText(AdminRegister.this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
                     }
                 }

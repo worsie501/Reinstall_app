@@ -46,8 +46,8 @@ public class AdminLogin extends AppCompatActivity {
         btnAdminLogin=findViewById(R.id.btnAdminLogin);
         tvAdminReset=findViewById(R.id.tvAdminReset);
 
-       // tvLoad.setText("Busy authenticating user...please wait...");
-       // showProgress(true);
+        tvLoad.setText("Busy authenticating user...please wait...");
+        showProgress(true);
 
         Backendless.UserService.isValidLogin(new AsyncCallback<Boolean>() {
             @Override

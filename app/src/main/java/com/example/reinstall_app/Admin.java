@@ -4,6 +4,15 @@ public class Admin extends User {
     long userId;
     String adminEmail;
     String adminName;
+    String adminPassword;
+
+    public String getAdminPassword() {
+        return adminPassword;
+    }
+
+    public void setAdminPassword(String adminPassword) {
+        this.adminPassword = adminPassword;
+    }
 
     @Override
     public long getUserId() {

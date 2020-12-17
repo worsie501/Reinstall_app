@@ -81,6 +81,8 @@ public class MunicipalityLogin extends AppCompatActivity {
 
             @Override
             public void handleFault(BackendlessFault fault) {
+                Toast.makeText(MunicipalityLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+                showProgress(false);
 
             }
         });
@@ -111,18 +113,14 @@ public class MunicipalityLogin extends AppCompatActivity {
                     Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
                         @Override
                         public void handleResponse(BackendlessUser response) {
-
-                            Intent intent=new Intent(MunicipalityLogin.this, com.example.reinstall_app.MainActivity.class);
-                            String role="Admin";
-
                             Toast.makeText(MunicipalityLogin.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(MunicipalityLogin.this, com.example.reinstall_app.MainActivity.class);
                             startActivity(intent);
                             MunicipalityLogin.this.finish();
                         }
 
                         @Override
                         public void handleFault(BackendlessFault fault) {
-
                             Toast.makeText(MunicipalityLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
                             showProgress(false);
                         }
