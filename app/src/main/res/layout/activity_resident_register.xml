@@ -82,6 +82,16 @@
             android:hint="Enter Email"
             android:inputType="textEmailAddress" />
 
+        <Spinner
+            android:id="@+id/spnrResidentCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Spinner
+            android:id="@+id/spnrResidentSuburb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <EditText
             android:id="@+id/etResidentRegisterPasword"
             android:layout_width="match_parent"
@@ -105,11 +115,6 @@
             android:gravity="center"
             android:hint="Confirm Password"
             android:inputType="textPassword" />
-
-    <Spinner
-        android:id="@+id/spnrResidentLocations"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/btnResidentRegister"
