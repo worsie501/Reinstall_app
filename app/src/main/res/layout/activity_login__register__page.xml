@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:gravity="center"
-        android:text="Please select login role "
+        android:text="Please select an option"
         android:textColor="#737373"
         android:textSize="18sp"
         android:textStyle="bold" />

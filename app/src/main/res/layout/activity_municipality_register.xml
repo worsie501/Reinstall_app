@@ -35,18 +35,16 @@
         android:id="@+id/login_form"
         android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvText1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:paddingLeft="120dp"
-        android:paddingRight="10dp"
-        android:text="Municipality"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tvText1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="Municipality"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvResident"
@@ -59,48 +57,66 @@
         android:textSize="30sp"
         android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/etMunicipalityName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        <EditText
+            android:id="@+id/etMunicipalityName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:text="Name" />
 
-    <EditText
-        android:id="@+id/etMunicipalityRegisterEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Enter Email"
-        android:inputType="textEmailAddress" />
+        <EditText
+            android:id="@+id/etMunicipalityRegisterEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Enter Email"
+            android:inputType="textEmailAddress" />
 
-    <EditText
-        android:id="@+id/etMunicipalityRegisterPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Enter Password"
-        android:inputType="textPassword" />
+        <EditText
+            android:id="@+id/etMunicipalityRegisterPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Enter Password"
+            android:inputType="textPassword" />
 
-    <EditText
-        android:id="@+id/etConfirmMunicipalityPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Confirm Password"
-        android:inputType="textPassword" />
+        <EditText
+            android:id="@+id/etConfirmMunicipalityPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Confirm Password"
+            android:inputType="textPassword" />
 
     <Spinner
         android:id="@+id/spnrMunicipalityLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/btnMunicipalityRegister"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
+        <Button
+            android:id="@+id/btnMunicipalityRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:text="Register" />
 
     </LinearLayout>>
 
