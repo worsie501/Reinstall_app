@@ -42,10 +42,10 @@ public class MunicipalityLogin extends AppCompatActivity {
         tvLoad = findViewById(R.id.tvLoad);
 
 
-        etMunicipalityEmail=findViewById(R.id.etMunicipalityEmail);
-        etMunicipalityPassword=findViewById(R.id.etMunicipalityPassword);
-        btnMunicipalityLogin=findViewById(R.id.btnMunicipalityLogin);
-        tvMunicipalityReset=findViewById(R.id.tvMunicipalityReset);
+        etMunicipalityEmail = findViewById(R.id.etMunicipalityEmail);
+        etMunicipalityPassword = findViewById(R.id.etMunicipalityPassword);
+        btnMunicipalityLogin = findViewById(R.id.btnMunicipalityLogin);
+        tvMunicipalityReset = findViewById(R.id.tvMunicipalityReset);
 
         tvLoad.setText("Busy authenticating user...please wait...");
         showProgress(true);
@@ -98,17 +98,22 @@ public class MunicipalityLogin extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(etMunicipalityEmail.getText().toString().isEmpty()||etMunicipalityPassword.getText().toString().isEmpty())
+                if(etMunicipalityEmail.getText().toString().isEmpty() || etMunicipalityPassword.getText().toString().isEmpty())
                 {
                     Toast.makeText(MunicipalityLogin.this, "Enter all fields!", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    String email=etMunicipalityEmail.getText().toString().trim();
-                    String password=etMunicipalityPassword.getText().toString().trim();
+                    String email = etMunicipalityEmail.getText().toString().trim();
+                    String password = etMunicipalityPassword.getText().toString().trim();
+
+                    Municipality municipality = new Municipality();
+                    municipality.setEmail(email);
+                    municipality.setPassword(password);
 
                     tvLoad.setText("Logging in...");
                     showProgress(true);
+
 
                     Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
                         @Override
@@ -124,7 +129,7 @@ public class MunicipalityLogin extends AppCompatActivity {
                             Toast.makeText(MunicipalityLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
                             showProgress(false);
                         }
-                    }, false);
+                    }, true);
                 }
 
             }

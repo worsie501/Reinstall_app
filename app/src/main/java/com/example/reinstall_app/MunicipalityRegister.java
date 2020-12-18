@@ -27,7 +27,7 @@ public class MunicipalityRegister extends AppCompatActivity {
 
     EditText etMunicipalityName, etMunicipalityRegisterEmail, etMunicipalityRegisterPassword, etConfirmMunicipalityPassword;
     Button btnMunicipalityRegister;
-    Spinner spnrDistrict;
+    Spinner spnrDistrict, spnrProvince;
 
 
     @Override
@@ -39,12 +39,13 @@ public class MunicipalityRegister extends AppCompatActivity {
         mProgressView = findViewById(R.id.login_progress);
         tvLoad = findViewById(R.id.tvLoad);
 
-        etMunicipalityName=findViewById(R.id.etMunicipalityName);
-        etMunicipalityRegisterEmail=findViewById(R.id.etMunicipalityRegisterEmail);
-        etMunicipalityRegisterPassword=findViewById(R.id.etMunicipalityRegisterPassword);
-        etConfirmMunicipalityPassword=findViewById(R.id.etConfirmMunicipalityPassword);
-        btnMunicipalityRegister=findViewById(R.id.btnMunicipalityRegister);
-        spnrDistrict=findViewById(R.id.spnrDistrict);
+        etMunicipalityName = findViewById(R.id.etMunicipalityName);
+        etMunicipalityRegisterEmail = findViewById(R.id.etMunicipalityRegisterEmail);
+        etMunicipalityRegisterPassword = findViewById(R.id.etMunicipalityRegisterPassword);
+        etConfirmMunicipalityPassword = findViewById(R.id.etConfirmMunicipalityPassword);
+        btnMunicipalityRegister = findViewById(R.id.btnMunicipalityRegister);
+        spnrDistrict = findViewById(R.id.spnrDistrict);
+        spnrProvince = findViewById(R.id.spnrProvince);
 
         btnMunicipalityRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,39 +54,61 @@ public class MunicipalityRegister extends AppCompatActivity {
                 if(etMunicipalityName.getText().toString().isEmpty()||etMunicipalityRegisterEmail.getText().toString().isEmpty()||etMunicipalityRegisterPassword.getText().toString().isEmpty())
                 {
                     Toast.makeText(MunicipalityRegister.this, "Please enter all fields!", Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(MunicipalityRegister.this, etMunicipalityRegisterEmail.getText().toString().trim(), Toast.LENGTH_SHORT).show();
                 }
 
                 else {
 
                     if (etMunicipalityRegisterPassword.getText().toString().trim().equals(etConfirmMunicipalityPassword.getText().toString().trim())) {
-                        Municipality municipality=new Municipality();
-                        municipality.setEmail(etMunicipalityRegisterEmail.getText().toString().trim());
-                        municipality.setPassword(etMunicipalityRegisterPassword.getText().toString().trim());
-                        municipality.setMunicipalityName(etMunicipalityName.getText().toString().trim());
-                        //municipality.setDistrict(spnrDistrict.getSelectedItem().toString().trim());
+
+
+                        BackendlessUser user = new BackendlessUser();
+                        user.setEmail(etMunicipalityRegisterEmail.getText().toString().trim());
+                        user.setPassword(etMunicipalityRegisterPassword.getText().toString().trim());
+                        user.setProperty("name", etMunicipalityName.getText().toString().trim());
+
 
                         tvLoad.setText("Registering...Please wait...");
                         showProgress(true);
 
-                        Backendless.Persistence.save(municipality, new AsyncCallback<Municipality>() {
+
+                        Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
+                            @Override
+                            public void handleResponse(BackendlessUser response) {
+                                Toast.makeText(MunicipalityRegister.this, "Municipality Registered!", Toast.LENGTH_SHORT).show();
+
+                               Municipality municipality = new Municipality();
+                                municipality.setEmail(etMunicipalityRegisterEmail.getText().toString().trim());
+                                municipality.setPassword(etMunicipalityRegisterPassword.getText().toString().trim());
+                                municipality.setMunicipalityName(etMunicipalityName.getText().toString().trim());
+                                //municipality.setDistrict(spnrDistrict.getSelectedItem().toString().trim());
+                                //municipality.setProvince(spnrDistrict.getSelectedItem().toString().trim());
+
+
+                                Backendless.Persistence.save(municipality, new AsyncCallback<Municipality>() {
                             @Override
                             public void handleResponse(Municipality response) {
                                 Toast.makeText(MunicipalityRegister.this, "Municipality Registered!", Toast.LENGTH_SHORT).show();
-                                etMunicipalityName.setText(null);
-                                etMunicipalityRegisterEmail.setText(null);
 
-                                etConfirmMunicipalityPassword.setText(null);
-                                etMunicipalityRegisterPassword.setText(null);
-                                showProgress(false);
                             }
 
                             @Override
                             public void handleFault(BackendlessFault fault) {
-                                Toast.makeText(MunicipalityRegister.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MunicipalityRegister.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
                                 showProgress(false);
                             }
                         });
+
+                                MunicipalityRegister.this.finish();
+                            }
+
+                            @Override
+                            public void handleFault(BackendlessFault fault) {
+                                Toast.makeText(MunicipalityRegister.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                showProgress(false);
+                            }
+                        });
+
 
                     } else {
                         Toast.makeText(MunicipalityRegister.this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
