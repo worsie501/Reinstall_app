@@ -1,10 +1,12 @@
 package com.example.reinstall_app;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,8 +29,7 @@ public class MunicipalityLogin extends AppCompatActivity {
     private TextView tvLoad;
 
 
-    EditText etMunicipalityEmail;
-    EditText etMunicipalityPassword;
+    EditText etMunicipalityEmail, etMunicipalityPassword, etEmailAccount;
     Button btnMunicipalityLogin;
     TextView tvMunicipalityReset;
 
@@ -46,6 +47,7 @@ public class MunicipalityLogin extends AppCompatActivity {
         etMunicipalityPassword = findViewById(R.id.etMunicipalityPassword);
         btnMunicipalityLogin = findViewById(R.id.btnMunicipalityLogin);
         tvMunicipalityReset = findViewById(R.id.tvMunicipalityReset);
+        etEmailAccount=findViewById(R.id.etEmailAccount);
 
         tvLoad.setText("Busy authenticating user...please wait...");
         showProgress(true);
@@ -90,6 +92,56 @@ public class MunicipalityLogin extends AppCompatActivity {
         tvMunicipalityReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                AlertDialog.Builder dialog=new AlertDialog.Builder(MunicipalityLogin.this);
+                dialog.setMessage("Enter email related to acount for password reset."+"A reset link will be sent to the email address");
+
+                View dialogView = getLayoutInflater().inflate(R.layout.dialog_view, null);
+                dialog.setView(dialogView);
+
+                etEmailAccount=dialogView.findViewById(R.id.etEmailAccount);
+
+                dialog.setPositiveButton("RESET", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        if(etEmailAccount.getText().toString().isEmpty())
+                        {
+                            Toast.makeText(MunicipalityLogin.this, "Please enter an email adress!", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+
+                            tvLoad.setText("Busy sending reset instructions to email address...please wait...");
+                            showProgress(true);
+
+                            Backendless.UserService.restorePassword(etEmailAccount.getText().toString().trim(), new AsyncCallback<Void>() {
+                                @Override
+                                public void handleResponse(Void response) {
+                                    showProgress(false);
+                                    Toast.makeText(MunicipalityLogin.this, "Reset instructions sent to email address!", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void handleFault(BackendlessFault fault) {
+
+                                    showProgress(false);
+                                    Toast.makeText(MunicipalityLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
+                        }
+
+                    }
+                });
+                dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+
+                dialog.show();
 
             }
         });

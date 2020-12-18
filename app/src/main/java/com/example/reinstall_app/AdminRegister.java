@@ -96,6 +96,7 @@ public class AdminRegister extends AppCompatActivity {
                             @Override
                             public void handleFault(BackendlessFault fault) {
                                 Toast.makeText(AdminRegister.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                showProgress(false);
                             }
                         });
 

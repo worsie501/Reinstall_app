@@ -1,11 +1,13 @@
 package com.example.reinstall_app;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -32,11 +34,11 @@ public class AdminLogin extends AppCompatActivity implements CompoundButton.OnCh
     private TextView tvLoad;
 
 
-    EditText etAdminEmail;
-    EditText etAdminPassword;
+    EditText etAdminEmail,  etAdminPassword, etEmailAccount;
     Button btnAdminLogin;
     TextView tvAdminReset;
     SwitchCompat switchAdminLogged=null;
+
 
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
     {
@@ -60,6 +62,7 @@ public class AdminLogin extends AppCompatActivity implements CompoundButton.OnCh
         btnAdminLogin=findViewById(R.id.btnAdminLogin);
         tvAdminReset=findViewById(R.id.tvAdminReset);
         switchAdminLogged=findViewById(R.id.switchAdminStayLogged);
+        etEmailAccount=findViewById(R.id.etEmailAccount);
 
         switchAdminLogged.setOnCheckedChangeListener(this);
 
@@ -115,6 +118,56 @@ public class AdminLogin extends AppCompatActivity implements CompoundButton.OnCh
         tvAdminReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                AlertDialog.Builder dialog=new AlertDialog.Builder(AdminLogin.this);
+                dialog.setMessage("Enter email related to acount for password reset."+"A reset link will be sent to the email address");
+
+                View dialogView = getLayoutInflater().inflate(R.layout.dialog_view, null);
+                dialog.setView(dialogView);
+
+                etEmailAccount=dialogView.findViewById(R.id.etEmailAccount);
+
+                dialog.setPositiveButton("RESET", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                       if(etEmailAccount.getText().toString().isEmpty())
+                       {
+                           Toast.makeText(AdminLogin.this, "Please enter an email adress!", Toast.LENGTH_SHORT).show();
+                       }
+                       else
+                       {
+
+                           tvLoad.setText("Busy sending reset instructions to email address...please wait...");
+                           showProgress(true);
+
+                           Backendless.UserService.restorePassword(etEmailAccount.getText().toString().trim(), new AsyncCallback<Void>() {
+                               @Override
+                               public void handleResponse(Void response) {
+                                   showProgress(false);
+                                   Toast.makeText(AdminLogin.this, "Reset instructions sent to email address!", Toast.LENGTH_SHORT).show();
+                               }
+
+                               @Override
+                               public void handleFault(BackendlessFault fault) {
+
+                                   showProgress(false);
+                                   Toast.makeText(AdminLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+                               }
+                           });
+                       }
+
+                    }
+                });
+                dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+
+                dialog.show();
 
             }
         });

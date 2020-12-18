@@ -19,6 +19,8 @@ import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 
+import java.util.List;
+
 public class MunicipalityRegister extends AppCompatActivity {
 
     private View mProgressView;
@@ -47,6 +49,7 @@ public class MunicipalityRegister extends AppCompatActivity {
         btnMunicipalityRegister = findViewById(R.id.btnMunicipalityRegister);
         spnrDistrict = findViewById(R.id.spnrDistrict);
         spnrProvince = findViewById(R.id.spnrProvince);
+
 
         btnMunicipalityRegister.setOnClickListener(new View.OnClickListener() {
             @Override

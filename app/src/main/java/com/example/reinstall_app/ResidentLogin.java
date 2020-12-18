@@ -1,10 +1,12 @@
 package com.example.reinstall_app;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,8 +29,7 @@ public class ResidentLogin extends AppCompatActivity {
     private TextView tvLoad;
 
 
-    EditText etResidentEmail;
-    EditText etResidentPassword;
+    EditText etResidentEmail,etResidentPassword, etEmailAccount;
     Button btnResidentLogin;
     TextView tvResidentReset;
 
@@ -47,6 +48,7 @@ public class ResidentLogin extends AppCompatActivity {
         etResidentPassword=findViewById(R.id.etResidentPassword);
         btnResidentLogin=findViewById(R.id.btnResidentLogin);
         tvResidentReset=findViewById(R.id.tvResidentReset);
+        etEmailAccount=findViewById(R.id.etEmailAccount);
 
         tvLoad.setText("Busy authenticating user...please wait...");
         showProgress(true);
@@ -64,7 +66,6 @@ public class ResidentLogin extends AppCompatActivity {
                         @Override
                         public void handleResponse(BackendlessUser response) {
 
-                            //ReinstallApplicationClass.user=response;
                             Intent intent = new Intent(ResidentLogin.this, com.example.reinstall_app.MainActivity.class);
                             startActivity(intent);
                             ResidentLogin.this.finish();
@@ -95,6 +96,56 @@ public class ResidentLogin extends AppCompatActivity {
         tvResidentReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                AlertDialog.Builder dialog=new AlertDialog.Builder(ResidentLogin.this);
+                dialog.setMessage("Enter email related to acount for password reset."+"A reset link will be sent to the email address");
+
+                View dialogView = getLayoutInflater().inflate(R.layout.dialog_view, null);
+                dialog.setView(dialogView);
+
+                etEmailAccount=dialogView.findViewById(R.id.etEmailAccount);
+
+                dialog.setPositiveButton("RESET", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        if(etEmailAccount.getText().toString().isEmpty())
+                        {
+                            Toast.makeText(ResidentLogin.this, "Please enter an email adress!", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+
+                            tvLoad.setText("Busy sending reset instructions to email address...please wait...");
+                            showProgress(true);
+
+                            Backendless.UserService.restorePassword(etEmailAccount.getText().toString().trim(), new AsyncCallback<Void>() {
+                                @Override
+                                public void handleResponse(Void response) {
+                                    showProgress(false);
+                                    Toast.makeText(ResidentLogin.this, "Reset instructions sent to email address!", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void handleFault(BackendlessFault fault) {
+
+                                    showProgress(false);
+                                    Toast.makeText(ResidentLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
+                        }
+
+                    }
+                });
+                dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+
+                dialog.show();
 
             }
         });
@@ -133,7 +184,7 @@ public class ResidentLogin extends AppCompatActivity {
                             Toast.makeText(ResidentLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
                             showProgress(false);
                         }
-                    }, false);
+                    }, true);
                 }
 
             }
