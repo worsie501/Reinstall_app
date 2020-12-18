@@ -10,9 +10,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
@@ -31,6 +34,7 @@ public class AdminLogin extends AppCompatActivity {
     EditText etAdminPassword;
     Button btnAdminLogin;
     TextView tvAdminReset;
+    Switch  switchAdminLogged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,26 @@ public class AdminLogin extends AppCompatActivity {
         etAdminPassword=findViewById(R.id.etAdminPassword);
         btnAdminLogin=findViewById(R.id.btnAdminLogin);
         tvAdminReset=findViewById(R.id.tvAdminReset);
+        switchAdminLogged=findViewById(R.id.switchAdminStayLogged);
+
+
+            switchAdminLogged.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton switchButton, boolean isChecked) {
+
+                    if(isChecked==true)
+                    {
+                        Toast.makeText(AdminLogin.this, "Checked", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(AdminLogin.this, "Unchecked", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+
+
 
         tvLoad.setText("Busy authenticating user...please wait...");
         showProgress(true);
@@ -52,17 +76,16 @@ public class AdminLogin extends AppCompatActivity {
         Backendless.UserService.isValidLogin(new AsyncCallback<Boolean>() {
             @Override
             public void handleResponse(Boolean response) {
-                if(response)
-                {
+                if (response) {
                     tvLoad.setText("User authenticated...signing in...");
 
-                    String userObjectId= UserIdStorageFactory.instance().getStorage().get();
+                    String userObjectId = UserIdStorageFactory.instance().getStorage().get();
 
                     Backendless.Data.of(BackendlessUser.class).findById(userObjectId, new AsyncCallback<BackendlessUser>() {
                         @Override
                         public void handleResponse(BackendlessUser response) {
 
-                            Intent intent= new Intent(AdminLogin.this, com.example.reinstall_app.MainActivity.class);
+                            Intent intent = new Intent(AdminLogin.this, com.example.reinstall_app.MainActivity.class);
                             startActivity(intent);
                             AdminLogin.this.finish();
 
@@ -70,13 +93,11 @@ public class AdminLogin extends AppCompatActivity {
 
                         @Override
                         public void handleFault(BackendlessFault fault) {
-                            Toast.makeText(AdminLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AdminLogin.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
 
-                }
-                else
-                {
+                } else {
                     showProgress(false);
                 }
             }
@@ -84,7 +105,7 @@ public class AdminLogin extends AppCompatActivity {
             @Override
             public void handleFault(BackendlessFault fault) {
 
-                Toast.makeText(AdminLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminLogin.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
                 showProgress(false);
 
             }
@@ -97,44 +118,41 @@ public class AdminLogin extends AppCompatActivity {
             }
         });
 
-        btnAdminLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            btnAdminLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                if(etAdminEmail.getText().toString().isEmpty()||etAdminPassword.getText().toString().isEmpty())
-                {
-                    Toast.makeText(AdminLogin.this, "Enter all fields!", Toast.LENGTH_SHORT).show();
+                    if (etAdminEmail.getText().toString().isEmpty() || etAdminPassword.getText().toString().isEmpty()) {
+                        Toast.makeText(AdminLogin.this, "Enter all fields!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        String email = etAdminEmail.getText().toString().trim();
+                        String password = etAdminPassword.getText().toString().trim();
+
+                        tvLoad.setText("Logging in...");
+                        showProgress(true);
+
+                        Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
+                            @Override
+                            public void handleResponse(BackendlessUser response) {
+
+                                Intent intent = new Intent(AdminLogin.this, com.example.reinstall_app.MainActivity.class);
+
+                                Toast.makeText(AdminLogin.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
+                                startActivity(intent);
+                                AdminLogin.this.finish();
+                            }
+
+                            @Override
+                            public void handleFault(BackendlessFault fault) {
+
+                                Toast.makeText(AdminLogin.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                showProgress(false);
+                            }
+                        },true);
+                    }
+
                 }
-                else
-                {
-                    String email=etAdminEmail.getText().toString().trim();
-                    String password=etAdminPassword.getText().toString().trim();
-
-                    tvLoad.setText("Logging in...");
-                    showProgress(true);
-
-                    Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
-                        @Override
-                        public void handleResponse(BackendlessUser response) {
-
-                            Intent intent=new Intent(AdminLogin.this, com.example.reinstall_app.MainActivity.class);
-
-                            Toast.makeText(AdminLogin.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
-                            startActivity(intent);
-                            AdminLogin.this.finish();
-                        }
-
-                        @Override
-                        public void handleFault(BackendlessFault fault) {
-
-                            Toast.makeText(AdminLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
-                            showProgress(false);
-                        }
-                    }, false);
-                }
-
-            }
-        });
+            });
     }
 
     /**

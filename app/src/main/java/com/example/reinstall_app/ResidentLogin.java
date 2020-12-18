@@ -87,6 +87,8 @@ public class ResidentLogin extends AppCompatActivity {
             @Override
             public void handleFault(BackendlessFault fault) {
 
+                Toast.makeText(ResidentLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
 
