@@ -1,11 +1,13 @@
 package com.example.reinstall_app;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -23,7 +25,7 @@ import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.local.UserIdStorageFactory;
 
-public class AdminLogin extends AppCompatActivity {
+public class AdminLogin extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
 
     private View mProgressView;
     private View mLoginFormView;
@@ -34,7 +36,15 @@ public class AdminLogin extends AppCompatActivity {
     EditText etAdminPassword;
     Button btnAdminLogin;
     TextView tvAdminReset;
-    Switch  switchAdminLogged;
+    SwitchCompat switchAdminLogged=null;
+
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+    {
+        SharedPreferences settings= getSharedPreferences("status", 0);
+        SharedPreferences.Editor editor=settings.edit();
+        editor.putBoolean("switchStatus", isChecked);
+        editor.apply();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,65 +61,56 @@ public class AdminLogin extends AppCompatActivity {
         tvAdminReset=findViewById(R.id.tvAdminReset);
         switchAdminLogged=findViewById(R.id.switchAdminStayLogged);
 
+        switchAdminLogged.setOnCheckedChangeListener(this);
 
-            switchAdminLogged.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton switchButton, boolean isChecked) {
+        SharedPreferences settings=getSharedPreferences("status", 0);
+        boolean status=settings.getBoolean("switchStatus", false);
+        switchAdminLogged.setChecked(status);
 
-                    if(isChecked==true)
-                    {
-                        Toast.makeText(AdminLogin.this, "Checked", Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        Toast.makeText(AdminLogin.this, "Unchecked", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+            if(switchAdminLogged.isChecked()) {
 
+                tvLoad.setText("Busy authenticating user...please wait...");
+                showProgress(true);
 
+                Backendless.UserService.isValidLogin(new AsyncCallback<Boolean>() {
+                    @Override
+                    public void handleResponse(Boolean response) {
+                        if (response) {
+                            tvLoad.setText("User authenticated...signing in...");
 
+                            String userObjectId = UserIdStorageFactory.instance().getStorage().get();
 
-        tvLoad.setText("Busy authenticating user...please wait...");
-        showProgress(true);
+                            Backendless.Data.of(BackendlessUser.class).findById(userObjectId, new AsyncCallback<BackendlessUser>() {
+                                @Override
+                                public void handleResponse(BackendlessUser response) {
 
-        Backendless.UserService.isValidLogin(new AsyncCallback<Boolean>() {
-            @Override
-            public void handleResponse(Boolean response) {
-                if (response) {
-                    tvLoad.setText("User authenticated...signing in...");
+                                    Intent intent = new Intent(AdminLogin.this, com.example.reinstall_app.MainActivity.class);
+                                    startActivity(intent);
+                                    AdminLogin.this.finish();
 
-                    String userObjectId = UserIdStorageFactory.instance().getStorage().get();
+                                }
 
-                    Backendless.Data.of(BackendlessUser.class).findById(userObjectId, new AsyncCallback<BackendlessUser>() {
-                        @Override
-                        public void handleResponse(BackendlessUser response) {
+                                @Override
+                                public void handleFault(BackendlessFault fault) {
+                                    Toast.makeText(AdminLogin.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
-                            Intent intent = new Intent(AdminLogin.this, com.example.reinstall_app.MainActivity.class);
-                            startActivity(intent);
-                            AdminLogin.this.finish();
-
+                        } else {
+                            showProgress(false);
                         }
+                    }
 
-                        @Override
-                        public void handleFault(BackendlessFault fault) {
-                            Toast.makeText(AdminLogin.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    @Override
+                    public void handleFault(BackendlessFault fault) {
 
-                } else {
-                    showProgress(false);
-                }
+                        Toast.makeText(AdminLogin.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                        showProgress(false);
+
+                    }
+                });
             }
 
-            @Override
-            public void handleFault(BackendlessFault fault) {
-
-                Toast.makeText(AdminLogin.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
-                showProgress(false);
-
-            }
-        });
 
         tvAdminReset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,6 +155,7 @@ public class AdminLogin extends AppCompatActivity {
                 }
             });
     }
+
 
     /**
      * Shows the progress UI and hides the login form.

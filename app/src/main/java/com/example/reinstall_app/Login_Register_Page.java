@@ -56,6 +56,7 @@ public class Login_Register_Page extends AppCompatActivity {
                 }
                 else if(verify.equals("Admin"))
                 {
+
                     Intent intent = new Intent(Login_Register_Page.this, com.example.reinstall_app.AdminLogin.class);
 
                     startActivity(intent);
