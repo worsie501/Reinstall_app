@@ -52,35 +52,48 @@ public class AdminRegister extends AppCompatActivity {
                 if(etAdminName.getText().toString().isEmpty()||etAdminRegisterEmail.getText().toString().isEmpty()||etAdminRegisterPassword.getText().toString().isEmpty())
                 {
                     Toast.makeText(AdminRegister.this, "Please enter all fields!", Toast.LENGTH_SHORT).show();
-
                 }
-
                 else {
 
                     if (etAdminRegisterPassword.getText().toString().trim().equals(etConfirmAdminPassword.getText().toString().trim())) {
-                        Admin admin=new Admin();
-                        admin.setAdminEmail(etAdminRegisterEmail.getText().toString().trim());
-                        admin.setAdminPassword(etAdminRegisterPassword.getText().toString().trim());
-                        admin.setAdminName(etAdminName.getText().toString().trim());
 
+
+                        BackendlessUser user = new BackendlessUser();
+                        user.setEmail(etAdminRegisterEmail.getText().toString().trim());
+                        user.setPassword(etAdminRegisterPassword.getText().toString().trim());
+                        user.setProperty("name", etAdminName.getText().toString().trim());
 
                         tvLoad.setText("Registering...Please wait...");
                         showProgress(true);
 
-                        Backendless.Persistence.save(admin, new AsyncCallback<Admin>() {
+                        Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
                             @Override
-                            public void handleResponse(Admin response) {
+                            public void handleResponse(BackendlessUser response) {
                                 Toast.makeText(AdminRegister.this, "Admin Registered", Toast.LENGTH_SHORT).show();
-                                etAdminName.setText(null);
-                                etAdminRegisterEmail.setText(null);
-                                etAdminRegisterPassword.setText(null);
-                                showProgress(false);
+
+                                Admin admin=new Admin();
+                                admin.setAdminEmail(etAdminRegisterEmail.getText().toString().trim());
+                                admin.setAdminPassword(etAdminRegisterPassword.getText().toString().trim());
+                                admin.setAdminName(etAdminName.getText().toString().trim());
+
+                                Backendless.Persistence.save(admin, new AsyncCallback<Admin>() {
+                                    @Override
+                                    public void handleResponse(Admin response) {
+                                        Toast.makeText(AdminRegister.this, "Admin Added", Toast.LENGTH_SHORT).show();
+                                    }
+                                    @Override
+                                    public void handleFault(BackendlessFault fault) {
+                                        Toast.makeText(AdminRegister.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                        showProgress(false);
+                                    }
+                                });
+
+                                AdminRegister.this.finish();
                             }
 
                             @Override
                             public void handleFault(BackendlessFault fault) {
                                 Toast.makeText(AdminRegister.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
-                                showProgress(false);
                             }
                         });
 
@@ -89,7 +102,6 @@ public class AdminRegister extends AppCompatActivity {
                         Toast.makeText(AdminRegister.this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
                     }
                 }
-
             }
         });
     }
