@@ -27,8 +27,7 @@ public class Resident extends User{
         this.updated = updated;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public String getUserEmail() { return userEmail;
     }
 
     public void setUserEmail(String userEmail) {

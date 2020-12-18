@@ -28,6 +28,7 @@ public class ResidentRegister extends AppCompatActivity {
     EditText etResidentName,etResidentRegisterEmail, etResidentRegisterPassword, etConfirmResidentPassword;
     Spinner  spnrCity, spnrSuburb;
     Button btnResidentRegister;
+    String role="Resident";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class ResidentRegister extends AppCompatActivity {
                     user.setEmail(etResidentRegisterEmail.getText().toString().trim());
                     user.setPassword(etResidentRegisterPassword.getText().toString().trim());
                     user.setProperty("name", etResidentName.getText().toString().trim());
+                    user.setProperty("role", role);
 
                         tvLoad.setText("Registering...Please wait...");
                         showProgress(true);

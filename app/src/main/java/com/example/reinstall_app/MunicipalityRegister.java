@@ -24,6 +24,7 @@ public class MunicipalityRegister extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
     private TextView tvLoad;
+    String role="Municipality";
 
     EditText etMunicipalityName, etMunicipalityRegisterEmail, etMunicipalityRegisterPassword, etConfirmMunicipalityPassword;
     Button btnMunicipalityRegister;
@@ -66,6 +67,7 @@ public class MunicipalityRegister extends AppCompatActivity {
                         user.setEmail(etMunicipalityRegisterEmail.getText().toString().trim());
                         user.setPassword(etMunicipalityRegisterPassword.getText().toString().trim());
                         user.setProperty("name", etMunicipalityName.getText().toString().trim());
+                        user.setProperty("role", role);
 
 
                         tvLoad.setText("Registering...Please wait...");

@@ -24,6 +24,7 @@ public class AdminRegister extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
     private TextView tvLoad;
+    String role="Admin";
 
     EditText etAdminName, etAdminRegisterEmail, etAdminRegisterPassword, etConfirmAdminPassword;
 
@@ -62,6 +63,7 @@ public class AdminRegister extends AppCompatActivity {
                         user.setEmail(etAdminRegisterEmail.getText().toString().trim());
                         user.setPassword(etAdminRegisterPassword.getText().toString().trim());
                         user.setProperty("name", etAdminName.getText().toString().trim());
+                        user.setProperty("role", role);
 
                         tvLoad.setText("Registering...Please wait...");
                         showProgress(true);
