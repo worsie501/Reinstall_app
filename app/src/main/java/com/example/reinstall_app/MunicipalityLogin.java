@@ -2,17 +2,22 @@ package com.example.reinstall_app;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.widget.CompoundButton;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +27,7 @@ import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.local.UserIdStorageFactory;
 
-public class MunicipalityLogin extends AppCompatActivity {
+public class MunicipalityLogin extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
 
     private View mProgressView;
     private View mLoginFormView;
@@ -32,6 +37,16 @@ public class MunicipalityLogin extends AppCompatActivity {
     EditText etMunicipalityEmail, etMunicipalityPassword, etEmailAccount;
     Button btnMunicipalityLogin;
     TextView tvMunicipalityReset;
+    SwitchCompat switchMunicipalityStayLogged=null;
+
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+    {
+        SharedPreferences settings= getSharedPreferences("status", 0);
+        SharedPreferences.Editor editor=settings.edit();
+        editor.putBoolean("switchStatus", isChecked);
+        editor.apply();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,46 +63,63 @@ public class MunicipalityLogin extends AppCompatActivity {
         btnMunicipalityLogin = findViewById(R.id.btnMunicipalityLogin);
         tvMunicipalityReset = findViewById(R.id.tvMunicipalityReset);
         etEmailAccount=findViewById(R.id.etEmailAccount);
+        switchMunicipalityStayLogged=findViewById(R.id.switchMunicipalityStayLogged);
 
-        tvLoad.setText("Busy authenticating user...please wait...");
-        showProgress(true);
+        switchMunicipalityStayLogged.setOnCheckedChangeListener(this);
 
-        Backendless.UserService.isValidLogin(new AsyncCallback<Boolean>() {
-            @Override
-            public void handleResponse(Boolean response) {
-                if(response)
-                {
-                    tvLoad.setText("User authenticated...signing in...");
+        SharedPreferences settings=getSharedPreferences("status", 0);
+        boolean status=settings.getBoolean("switchStatus", false);
+        switchMunicipalityStayLogged.setChecked(status);
 
-                    String userObjectId= UserIdStorageFactory.instance().getStorage().get();
 
-                    Backendless.Data.of(BackendlessUser.class).findById(userObjectId, new AsyncCallback<BackendlessUser>() {
-                        @Override
-                        public void handleResponse(BackendlessUser response) {
-                            Intent intent=new Intent(MunicipalityLogin.this, com.example.reinstall_app.MainActivity.class);
-                            startActivity(intent);
-                            MunicipalityLogin.this.finish();
-                        }
+        if(switchMunicipalityStayLogged.isChecked())
+        {
 
-                        @Override
-                        public void handleFault(BackendlessFault fault) {
-                            Toast.makeText(MunicipalityLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            tvLoad.setText("Busy authenticating user...please wait...");
+            showProgress(true);
+
+            Backendless.UserService.isValidLogin(new AsyncCallback<Boolean>() {
+                @Override
+                public void handleResponse(Boolean response) {
+                    if(response)
+                    {
+                        tvLoad.setText("User authenticated...signing in...");
+
+                        String userObjectId= UserIdStorageFactory.instance().getStorage().get();
+
+                        Backendless.Data.of(BackendlessUser.class).findById(userObjectId, new AsyncCallback<BackendlessUser>() {
+                            @Override
+                            public void handleResponse(BackendlessUser response) {
+                                Intent intent=new Intent(MunicipalityLogin.this, com.example.reinstall_app.MainActivity.class);
+                                startActivity(intent);
+                                MunicipalityLogin.this.finish();
+                            }
+
+                            @Override
+                            public void handleFault(BackendlessFault fault) {
+                                Toast.makeText(MunicipalityLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                    else
+                    {
+                        showProgress(false);
+                    }
                 }
-                else
-                {
+
+                @Override
+                public void handleFault(BackendlessFault fault) {
+                    Toast.makeText(MunicipalityLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
                     showProgress(false);
+
                 }
-            }
+            });//
 
-            @Override
-            public void handleFault(BackendlessFault fault) {
-                Toast.makeText(MunicipalityLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
-                showProgress(false);
 
-            }
-        });
+        }
+
+
+
 
         tvMunicipalityReset.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -101,6 +101,14 @@
             android:gravity="center"
             android:text="Forgot password? Click here to reset your password" />
 
+
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchMunicipalityStayLogged"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Stay Logged In" />
+
     </LinearLayout>
 
 </LinearLayout>
