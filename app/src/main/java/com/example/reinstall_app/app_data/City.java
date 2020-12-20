@@ -23,4 +23,10 @@ public class City extends Municipality {
     public void setMunicipalityName(String municipalityName) {
         this.municipalityName = municipalityName;
     }
+
+    @Override
+    public String toString()
+    {
+        return cityName;
+    }
 }

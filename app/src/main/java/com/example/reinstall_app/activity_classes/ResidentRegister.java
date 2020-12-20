@@ -8,6 +8,7 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -18,8 +19,14 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.DataQueryBuilder;
 import com.example.reinstall_app.R;
+import com.example.reinstall_app.app_data.City;
+import com.example.reinstall_app.app_data.District;
 import com.example.reinstall_app.app_data.Resident;
+import com.example.reinstall_app.app_data.Suburb;
+
+import java.util.List;
 
 public class ResidentRegister extends AppCompatActivity {
 
@@ -49,6 +56,50 @@ public class ResidentRegister extends AppCompatActivity {
         spnrSuburb=findViewById(R.id.spnrResidentSuburb);
         btnResidentRegister=findViewById(R.id.btnResidentRegister);
 
+
+        DataQueryBuilder queryBuilder = DataQueryBuilder.create();
+        queryBuilder.setGroupBy("cityName");
+
+        Backendless.Data.of(City.class).find(queryBuilder, new AsyncCallback<List<City>>() {
+            @Override
+            public void handleResponse(List<City> response) {
+
+                ArrayAdapter<City> adapter1 = new ArrayAdapter<>(ResidentRegister.this,android.R.layout.simple_list_item_1,response);
+                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                spnrCity.setAdapter(adapter1);
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+
+                Toast.makeText(ResidentRegister.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        DataQueryBuilder qryBuilder = DataQueryBuilder.create();
+        qryBuilder.setGroupBy("suburbName");
+
+        Backendless.Data.of(Suburb.class).find(qryBuilder, new AsyncCallback<List<Suburb>>() {
+            @Override
+            public void handleResponse(List<Suburb> response) {
+
+                ArrayAdapter<Suburb> adapter2 = new ArrayAdapter<>(ResidentRegister.this,android.R.layout.simple_list_item_1,response);
+                adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                spnrSuburb.setAdapter(adapter2);
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+
+                Toast.makeText(ResidentRegister.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
         btnResidentRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,6 +122,7 @@ public class ResidentRegister extends AppCompatActivity {
                     user.setProperty("name", etResidentName.getText().toString().trim());
                     user.setProperty("role", role);
 
+
                         tvLoad.setText("Registering...Please wait...");
                         showProgress(true);
 
@@ -83,10 +135,9 @@ public class ResidentRegister extends AppCompatActivity {
 
                             resident.setResidentName(etResidentName.getText().toString().trim());
                             resident.setEmail(etResidentRegisterEmail.getText().toString().trim());
-                            // resident.setCity(spnrCity.getSelectedItem().toString().trim());
-                            // resident.setSuburb(spnrSuburb.getSelectedItem().toString().trim());
+                            resident.setCity(spnrCity.getSelectedItem().toString().trim());
+                            resident.setSuburb(spnrSuburb.getSelectedItem().toString().trim());
                             resident.setUserPassword(etResidentRegisterPassword.getText().toString().trim());
-                            // resident.setUserEmail(ReinstallApplicationClass.user.getEmail());
 
 
                             Backendless.Persistence.save(resident, new AsyncCallback<Resident>() {

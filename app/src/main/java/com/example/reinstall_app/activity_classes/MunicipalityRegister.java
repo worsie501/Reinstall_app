@@ -126,8 +126,6 @@ public class MunicipalityRegister extends AppCompatActivity {
                         user.setPassword(etMunicipalityRegisterPassword.getText().toString().trim());
                         user.setProperty("name", etMunicipalityName.getText().toString().trim());
                         user.setProperty("role", role);
-                        user.setProperty("district", spnrDistrict.getSelectedItem().toString().trim());
-                        user.setProperty("province", spnrProvince.getSelectedItem().toString().trim());
 
 
                         tvLoad.setText("Registering...Please wait...");
