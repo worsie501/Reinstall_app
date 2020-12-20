@@ -24,4 +24,10 @@ public class Suburb extends City {
     public void setCityName(String cityName) {
         this.cityName = cityName;
     }
+
+    @Override
+    public String toString()
+    {
+        return suburbName;
+    }
 }
