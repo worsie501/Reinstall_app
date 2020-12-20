@@ -8,6 +8,8 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -18,8 +20,14 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.DataQueryBuilder;
 import com.example.reinstall_app.R;
+import com.example.reinstall_app.app_data.District;
 import com.example.reinstall_app.app_data.Municipality;
+import com.example.reinstall_app.app_data.Province;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MunicipalityRegister extends AppCompatActivity {
 
@@ -50,6 +58,34 @@ public class MunicipalityRegister extends AppCompatActivity {
         spnrDistrict = findViewById(R.id.spnrDistrict);
         spnrProvince = findViewById(R.id.spnrProvince);
 
+        DataQueryBuilder queryBuilder = DataQueryBuilder.create();
+        queryBuilder.setGroupBy("districtName");
+
+        Backendless.Persistence.of(District.class).find(queryBuilder, new AsyncCallback<List<District>>() {
+            @Override
+            public void handleResponse(List<District> response) {
+
+                ArrayAdapter<District> arrayAdapter = new ArrayAdapter<>(MunicipalityRegister.this,android.R.layout.simple_list_item_1,response);
+                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spnrDistrict.setAdapter(arrayAdapter);
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+
+                Toast.makeText(MunicipalityRegister.this, "Error: "+fault, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+       /* final List<String> districts=new ArrayList<>();
+        districts.add("One");
+        districts.add("Two");
+        districts.add("Three");
+
+        ArrayAdapter<String> adapter1=new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, districts);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnrDistrict.setAdapter(adapter1);*/
 
         btnMunicipalityRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +107,7 @@ public class MunicipalityRegister extends AppCompatActivity {
                         user.setPassword(etMunicipalityRegisterPassword.getText().toString().trim());
                         user.setProperty("name", etMunicipalityName.getText().toString().trim());
                         user.setProperty("role", role);
+                        user.setProperty("district", spnrDistrict.getSelectedItem().toString().trim());
 
 
                         tvLoad.setText("Registering...Please wait...");
@@ -86,7 +123,7 @@ public class MunicipalityRegister extends AppCompatActivity {
                                 municipality.setEmail(etMunicipalityRegisterEmail.getText().toString().trim());
                                 municipality.setPassword(etMunicipalityRegisterPassword.getText().toString().trim());
                                 municipality.setMunicipalityName(etMunicipalityName.getText().toString().trim());
-                                //municipality.setDistrict(spnrDistrict.getSelectedItem().toString().trim());
+                                municipality.setDistrictName(spnrDistrict.getSelectedItem().toString().trim());
                                 //municipality.setProvince(spnrDistrict.getSelectedItem().toString().trim());
 
 
