@@ -92,22 +92,24 @@
             android:gravity="center"
             android:text="Login" />
 
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchResidentStayLogged"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:text="Stay Logged In" />
+
         <TextView
             android:id="@+id/tvResidentReset"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="5dp"
             android:clickable="true"
             android:gravity="center"
             android:text="Forgot password? Click here to reset your password" />
-
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchResidentStayLogged"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Stay Logged In" />
 
     </LinearLayout>
 
