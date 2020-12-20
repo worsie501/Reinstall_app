@@ -115,8 +115,7 @@ public class ResidentRegister extends AppCompatActivity {
                     if (etResidentRegisterPassword.getText().toString().trim().equals(etConfirmResidentPassword.getText().toString().trim())) {
 
 
-
-                     BackendlessUser user = new BackendlessUser();
+                        BackendlessUser user = new BackendlessUser();
                     user.setEmail(etResidentRegisterEmail.getText().toString().trim());
                     user.setPassword(etResidentRegisterPassword.getText().toString().trim());
                     user.setProperty("name", etResidentName.getText().toString().trim());

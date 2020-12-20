@@ -6,6 +6,15 @@ public class Suburb extends City {
 
     String suburbName;
     String cityName;
+    String totalReports;
+
+    public String getTotalReports() {
+        return totalReports;
+    }
+
+    public void setTotalReports(String totalReports) {
+        this.totalReports = totalReports;
+    }
 
     public String getSuburbName() {
         return suburbName;
