@@ -25,6 +25,7 @@ import com.example.reinstall_app.R;
 import com.example.reinstall_app.app_data.District;
 import com.example.reinstall_app.app_data.Municipality;
 import com.example.reinstall_app.app_data.Province;
+import com.example.reinstall_app.app_data.ReinstallApplicationClass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,10 +59,12 @@ public class MunicipalityRegister extends AppCompatActivity {
         spnrDistrict = findViewById(R.id.spnrDistrict);
         spnrProvince = findViewById(R.id.spnrProvince);
 
+
+
         DataQueryBuilder queryBuilder = DataQueryBuilder.create();
         queryBuilder.setGroupBy("districtName");
 
-        Backendless.Persistence.of(District.class).find(queryBuilder, new AsyncCallback<List<District>>() {
+        Backendless.Data.of(District.class).find(queryBuilder, new AsyncCallback<List<District>>() {
             @Override
             public void handleResponse(List<District> response) {
 

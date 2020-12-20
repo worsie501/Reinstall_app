@@ -51,4 +51,6 @@ public class Municipality extends District {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
 }
