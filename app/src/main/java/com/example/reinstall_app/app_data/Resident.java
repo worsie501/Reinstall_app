@@ -1,8 +1,8 @@
-package com.example.reinstall_app;
+package com.example.reinstall_app.app_data;
 
 import java.util.Date;
 
-public class Resident extends User{
+public class Resident extends User {
 
     private long userId;
     private String residentName;

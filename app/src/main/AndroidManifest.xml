@@ -5,25 +5,25 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".ReinstallApplicationClass"
+        android:name=".app_data.ReinstallApplicationClass"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Categories"></activity>
-        <activity android:name=".Stats" />
-        <activity android:name=".Report" />
-        <activity android:name=".AdminRegister" />
-        <activity android:name=".AdminLogin" />
-        <activity android:name=".MunicipalityRegister" />
-        <activity android:name=".MunicipalityLogin" />
-        <activity android:name=".ResidentRegister" />
-        <activity android:name=".ResidentLogin" />
-        <activity android:name=".Login_Register_Page" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".RoleSelection">
+        <activity android:name=".activity_classes.Categories"></activity>
+        <activity android:name=".activity_classes.Stats" />
+        <activity android:name=".activity_classes.Report" />
+        <activity android:name=".activity_classes.AdminRegister" />
+        <activity android:name=".activity_classes.AdminLogin" />
+        <activity android:name=".activity_classes.MunicipalityRegister" />
+        <activity android:name=".activity_classes.MunicipalityLogin" />
+        <activity android:name=".activity_classes.ResidentRegister" />
+        <activity android:name=".activity_classes.ResidentLogin" />
+        <activity android:name=".activity_classes.Login_Register_Page" />
+        <activity android:name=".activity_classes.MainActivity" />
+        <activity android:name=".activity_classes.RoleSelection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

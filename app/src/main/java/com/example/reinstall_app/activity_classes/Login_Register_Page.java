@@ -1,4 +1,4 @@
-package com.example.reinstall_app;
+package com.example.reinstall_app.activity_classes;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,13 +11,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.backendless.Backendless;
-import com.backendless.BackendlessUser;
-import com.backendless.async.callback.AsyncCallback;
-import com.backendless.exceptions.BackendlessFault;
-import com.backendless.persistence.local.UserIdStorageFactory;
+import com.example.reinstall_app.R;
 
 public class Login_Register_Page extends AppCompatActivity {
 
@@ -50,20 +45,20 @@ public class Login_Register_Page extends AppCompatActivity {
 
                 if(verify.equals("Resident"))
                 {
-                    Intent intent = new Intent(Login_Register_Page.this, com.example.reinstall_app.ResidentLogin.class);
+                    Intent intent = new Intent(Login_Register_Page.this, ResidentLogin.class);
 
                     startActivity(intent);
                 }
                 else if(verify.equals("Admin"))
                 {
 
-                    Intent intent = new Intent(Login_Register_Page.this, com.example.reinstall_app.AdminLogin.class);
+                    Intent intent = new Intent(Login_Register_Page.this, AdminLogin.class);
 
                     startActivity(intent);
                 }
                 else
                 {
-                    Intent intent = new Intent(Login_Register_Page.this, com.example.reinstall_app.MunicipalityLogin.class);
+                    Intent intent = new Intent(Login_Register_Page.this, MunicipalityLogin.class);
 
                     startActivity(intent);
                 }
@@ -77,19 +72,19 @@ public class Login_Register_Page extends AppCompatActivity {
 
                 if(verify.equals("Resident"))
                 {
-                    Intent intent = new Intent(Login_Register_Page.this, com.example.reinstall_app.ResidentRegister.class);
+                    Intent intent = new Intent(Login_Register_Page.this, ResidentRegister.class);
 
                     startActivity(intent);
                 }
                 else if(verify.equals("Admin"))
                 {
-                    Intent intent = new Intent(Login_Register_Page.this, com.example.reinstall_app.AdminRegister.class);
+                    Intent intent = new Intent(Login_Register_Page.this, AdminRegister.class);
 
                     startActivity(intent);
                 }
                 else
                 {
-                    Intent intent = new Intent(Login_Register_Page.this, com.example.reinstall_app.MunicipalityRegister.class);
+                    Intent intent = new Intent(Login_Register_Page.this, MunicipalityRegister.class);
 
                     startActivity(intent);
                 }

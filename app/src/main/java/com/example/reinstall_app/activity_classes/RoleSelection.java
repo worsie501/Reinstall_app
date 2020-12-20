@@ -1,4 +1,4 @@
-package com.example.reinstall_app;
+package com.example.reinstall_app.activity_classes;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.reinstall_app.R;
 
 public class RoleSelection extends AppCompatActivity {
 
@@ -29,7 +31,7 @@ public class RoleSelection extends AppCompatActivity {
 
                  String verify="Admin";
 
-                Intent admin=new Intent(RoleSelection.this,  com.example.reinstall_app.Login_Register_Page.class );
+                Intent admin=new Intent(RoleSelection.this,  Login_Register_Page.class );
 
                 admin.putExtra("verifyData", verify.trim());
 
@@ -44,7 +46,7 @@ public class RoleSelection extends AppCompatActivity {
 
                 String verify="Municipality";
 
-                Intent municipality=new Intent(RoleSelection.this,  com.example.reinstall_app.Login_Register_Page.class );
+                Intent municipality=new Intent(RoleSelection.this,  Login_Register_Page.class );
 
                 municipality.putExtra("verifyData", verify.trim());
 
@@ -59,7 +61,7 @@ public class RoleSelection extends AppCompatActivity {
 
                 String verify="Resident";
 
-                Intent resident=new Intent(RoleSelection.this,  com.example.reinstall_app.Login_Register_Page.class );
+                Intent resident=new Intent(RoleSelection.this,  Login_Register_Page.class );
 
                resident.putExtra("verifyData",verify.trim());
 

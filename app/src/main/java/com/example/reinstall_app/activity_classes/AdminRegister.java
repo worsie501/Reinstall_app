@@ -1,4 +1,4 @@
-package com.example.reinstall_app;
+package com.example.reinstall_app.activity_classes;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +17,8 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.example.reinstall_app.app_data.Admin;
+import com.example.reinstall_app.R;
 
 public class AdminRegister extends AppCompatActivity {
 

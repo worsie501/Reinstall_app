@@ -1,4 +1,4 @@
-package com.example.reinstall_app;
+package com.example.reinstall_app.activity_classes;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,11 +10,11 @@ import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.CompoundButton;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,18 +24,20 @@ import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.local.UserIdStorageFactory;
+import com.example.reinstall_app.app_data.Municipality;
+import com.example.reinstall_app.R;
 
-public class ResidentLogin extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+public class MunicipalityLogin extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
 
     private View mProgressView;
     private View mLoginFormView;
     private TextView tvLoad;
 
 
-    EditText etResidentEmail,etResidentPassword, etEmailAccount;
-    Button btnResidentLogin;
-    TextView tvResidentReset;
-    SwitchCompat switchResidentStayLogged;
+    EditText etMunicipalityEmail, etMunicipalityPassword, etEmailAccount;
+    Button btnMunicipalityLogin;
+    TextView tvMunicipalityReset;
+    SwitchCompat switchMunicipalityStayLogged=null;
 
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
     {
@@ -49,55 +51,54 @@ public class ResidentLogin extends AppCompatActivity implements CompoundButton.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_resident__login);
+        setContentView(R.layout.activity_municipality_login);
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
         tvLoad = findViewById(R.id.tvLoad);
 
 
-        etResidentEmail=findViewById(R.id.etResidentEmail);
-        etResidentPassword=findViewById(R.id.etResidentPassword);
-        btnResidentLogin=findViewById(R.id.btnResidentLogin);
-        tvResidentReset=findViewById(R.id.tvResidentReset);
+        etMunicipalityEmail = findViewById(R.id.etMunicipalityEmail);
+        etMunicipalityPassword = findViewById(R.id.etMunicipalityPassword);
+        btnMunicipalityLogin = findViewById(R.id.btnMunicipalityLogin);
+        tvMunicipalityReset = findViewById(R.id.tvMunicipalityReset);
         etEmailAccount=findViewById(R.id.etEmailAccount);
-        switchResidentStayLogged=findViewById(R.id.switchResidentStayLogged);
+        switchMunicipalityStayLogged=findViewById(R.id.switchMunicipalityStayLogged);
 
-        switchResidentStayLogged.setOnCheckedChangeListener(this);
+        switchMunicipalityStayLogged.setOnCheckedChangeListener(this);
 
-        SharedPreferences settings = getSharedPreferences("status",0);
-        boolean status = settings.getBoolean("switchStatus", false);
-        switchResidentStayLogged.setChecked(status);
+        SharedPreferences settings=getSharedPreferences("status", 0);
+        boolean status=settings.getBoolean("switchStatus", false);
+        switchMunicipalityStayLogged.setChecked(status);
 
-        if(switchResidentStayLogged.isChecked())
+
+        if(switchMunicipalityStayLogged.isChecked())
         {
+
             tvLoad.setText("Busy authenticating user...please wait...");
             showProgress(true);
 
             Backendless.UserService.isValidLogin(new AsyncCallback<Boolean>() {
                 @Override
                 public void handleResponse(Boolean response) {
+                    if(response)
+                    {
+                        tvLoad.setText("User authenticated...signing in...");
 
-                    if(response) {
-                        tvLoad.setText("User authenticating...signing in...");
+                        String userObjectId= UserIdStorageFactory.instance().getStorage().get();
 
-                        String userObject = UserIdStorageFactory.instance().getStorage().get();
-
-                        Backendless.Data.of(BackendlessUser.class).findById(userObject, new AsyncCallback<BackendlessUser>() {
+                        Backendless.Data.of(BackendlessUser.class).findById(userObjectId, new AsyncCallback<BackendlessUser>() {
                             @Override
                             public void handleResponse(BackendlessUser response) {
-
-                                Intent intent = new Intent(ResidentLogin.this, com.example.reinstall_app.MainActivity.class);
+                                Intent intent=new Intent(MunicipalityLogin.this, MainActivity.class);
                                 startActivity(intent);
-                                ResidentLogin.this.finish();
+                                MunicipalityLogin.this.finish();
                             }
 
                             @Override
                             public void handleFault(BackendlessFault fault) {
-                                Toast.makeText(ResidentLogin.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
-
+                                Toast.makeText(MunicipalityLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
                             }
-
                         });
                     }
                     else
@@ -108,20 +109,23 @@ public class ResidentLogin extends AppCompatActivity implements CompoundButton.O
 
                 @Override
                 public void handleFault(BackendlessFault fault) {
-
-                    Toast.makeText(ResidentLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MunicipalityLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+                    showProgress(false);
 
                 }
             });//
+
+
         }
 
 
 
-        tvResidentReset.setOnClickListener(new View.OnClickListener() {
+
+        tvMunicipalityReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                AlertDialog.Builder dialog=new AlertDialog.Builder(ResidentLogin.this);
+                AlertDialog.Builder dialog=new AlertDialog.Builder(MunicipalityLogin.this);
                 dialog.setMessage("Enter email related to acount for password reset."+"A reset link will be sent to the email address");
 
                 View dialogView = getLayoutInflater().inflate(R.layout.dialog_view, null);
@@ -135,7 +139,7 @@ public class ResidentLogin extends AppCompatActivity implements CompoundButton.O
 
                         if(etEmailAccount.getText().toString().isEmpty())
                         {
-                            Toast.makeText(ResidentLogin.this, "Please enter an email adress!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MunicipalityLogin.this, "Please enter an email adress!", Toast.LENGTH_SHORT).show();
                         }
                         else
                         {
@@ -147,14 +151,14 @@ public class ResidentLogin extends AppCompatActivity implements CompoundButton.O
                                 @Override
                                 public void handleResponse(Void response) {
                                     showProgress(false);
-                                    Toast.makeText(ResidentLogin.this, "Reset instructions sent to email address!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MunicipalityLogin.this, "Reset instructions sent to email address!", Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override
                                 public void handleFault(BackendlessFault fault) {
 
                                     showProgress(false);
-                                    Toast.makeText(ResidentLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MunicipalityLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
 
                                 }
                             });
@@ -174,38 +178,39 @@ public class ResidentLogin extends AppCompatActivity implements CompoundButton.O
             }
         });
 
-        btnResidentLogin.setOnClickListener(new View.OnClickListener() {
+        btnMunicipalityLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(etResidentEmail.getText().toString().isEmpty()||etResidentPassword.getText().toString().isEmpty())
+                if(etMunicipalityEmail.getText().toString().isEmpty() || etMunicipalityPassword.getText().toString().isEmpty())
                 {
-                    Toast.makeText(ResidentLogin.this, "Enter all fields!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MunicipalityLogin.this, "Enter all fields!", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    String email=etResidentEmail.getText().toString().trim();
-                    String password=etResidentPassword.getText().toString().trim();
+                    String email = etMunicipalityEmail.getText().toString().trim();
+                    String password = etMunicipalityPassword.getText().toString().trim();
+
+                    Municipality municipality = new Municipality();
+                    municipality.setEmail(email);
+                    municipality.setPassword(password);
 
                     tvLoad.setText("Logging in...");
                     showProgress(true);
 
+
                     Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
                         @Override
                         public void handleResponse(BackendlessUser response) {
-
-                            Intent intent=new Intent(ResidentLogin.this, com.example.reinstall_app.MainActivity.class);
-
-                           //ReinstallApplicationClass.user=response;
-                            Toast.makeText(ResidentLogin.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MunicipalityLogin.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(MunicipalityLogin.this, MainActivity.class);
                             startActivity(intent);
-                            ResidentLogin.this.finish();
+                            MunicipalityLogin.this.finish();
                         }
 
                         @Override
                         public void handleFault(BackendlessFault fault) {
-
-                            Toast.makeText(ResidentLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MunicipalityLogin.this, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
                             showProgress(false);
                         }
                     }, true);

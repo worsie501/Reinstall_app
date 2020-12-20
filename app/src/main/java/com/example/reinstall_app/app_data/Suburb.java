@@ -1,6 +1,8 @@
-package com.example.reinstall_app;
+package com.example.reinstall_app.app_data;
 
-public class Suburb extends  City{
+import com.example.reinstall_app.app_data.City;
+
+public class Suburb extends City {
 
     String suburbName;
     String cityName;

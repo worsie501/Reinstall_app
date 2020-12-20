@@ -1,4 +1,4 @@
-package com.example.reinstall_app;
+package com.example.reinstall_app.activity_classes;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,8 +18,8 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
-
-import java.util.List;
+import com.example.reinstall_app.R;
+import com.example.reinstall_app.app_data.Municipality;
 
 public class MunicipalityRegister extends AppCompatActivity {
 

@@ -1,6 +1,6 @@
-package com.example.reinstall_app;
+package com.example.reinstall_app.app_data;
 
-public class District extends Province{
+public class District extends Province {
 
     String districtName;
     String provinceName;

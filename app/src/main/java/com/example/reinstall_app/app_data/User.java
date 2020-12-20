@@ -1,4 +1,4 @@
-package com.example.reinstall_app;
+package com.example.reinstall_app.app_data;
 
 public class User {
 

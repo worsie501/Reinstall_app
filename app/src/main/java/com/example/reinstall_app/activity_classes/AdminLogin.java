@@ -1,4 +1,4 @@
-package com.example.reinstall_app;
+package com.example.reinstall_app.activity_classes;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,16 +16,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.local.UserIdStorageFactory;
+import com.example.reinstall_app.R;
 
 public class AdminLogin extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
 
@@ -87,7 +86,7 @@ public class AdminLogin extends AppCompatActivity implements CompoundButton.OnCh
                                 @Override
                                 public void handleResponse(BackendlessUser response) {
 
-                                    Intent intent = new Intent(AdminLogin.this, com.example.reinstall_app.MainActivity.class);
+                                    Intent intent = new Intent(AdminLogin.this, MainActivity.class);
                                     startActivity(intent);
                                     AdminLogin.this.finish();
 
@@ -189,7 +188,7 @@ public class AdminLogin extends AppCompatActivity implements CompoundButton.OnCh
                             @Override
                             public void handleResponse(BackendlessUser response) {
 
-                                Intent intent = new Intent(AdminLogin.this, com.example.reinstall_app.MainActivity.class);
+                                Intent intent = new Intent(AdminLogin.this, MainActivity.class);
 
                                 Toast.makeText(AdminLogin.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
                                 startActivity(intent);

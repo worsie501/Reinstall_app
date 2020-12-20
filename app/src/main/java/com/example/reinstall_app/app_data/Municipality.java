@@ -1,6 +1,8 @@
-package com.example.reinstall_app;
+package com.example.reinstall_app.app_data;
 
-public class Municipality extends District{
+import com.example.reinstall_app.app_data.District;
+
+public class Municipality extends District {
 
     String municipalityName;
     String districtName;
