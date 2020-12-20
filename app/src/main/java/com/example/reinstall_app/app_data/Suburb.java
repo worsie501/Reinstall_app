@@ -30,4 +30,7 @@ public class Suburb extends City {
     {
         return suburbName;
     }
+
+
+
 }
