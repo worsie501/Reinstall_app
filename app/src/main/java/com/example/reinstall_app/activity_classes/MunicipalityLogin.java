@@ -203,16 +203,24 @@ public class MunicipalityLogin extends AppCompatActivity implements CompoundButt
                     Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
                         @Override
                         public void handleResponse(BackendlessUser response) {
-                            Toast.makeText(MunicipalityLogin.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
 
-                            ReinstallApplicationClass.user = response;
+                            ReinstallApplicationClass.user=response;
 
-                            //Toast.makeText(MunicipalityLogin.this, ": " + response.getProperty("role").toString(), Toast.LENGTH_SHORT).show();
+                            if(ReinstallApplicationClass.user.toString().contains("Municipality")) {
+                                Toast.makeText(MunicipalityLogin.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(MunicipalityLogin.this, MainActivity.class);
+                                ReinstallApplicationClass.user = response;
 
-                            startActivity(intent);
-                            MunicipalityLogin.this.finish();
+                                Intent intent = new Intent(MunicipalityLogin.this, MainActivity.class);
+
+                                startActivity(intent);
+                                MunicipalityLogin.this.finish();
+                            }
+                            else
+                            {
+                                Toast.makeText(MunicipalityLogin.this, "User isn't registered as Municipality!", Toast.LENGTH_SHORT).show();
+                                showProgress(false);
+                            }
                         }
 
                         @Override

@@ -196,12 +196,22 @@ public class ResidentLogin extends AppCompatActivity implements CompoundButton.O
                         @Override
                         public void handleResponse(BackendlessUser response) {
 
-                            Intent intent = new Intent(ResidentLogin.this, MainActivity.class);
+                            ReinstallApplicationClass.user=response;
 
-                            ReinstallApplicationClass.user = response;
-                            Toast.makeText(ResidentLogin.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
-                            startActivity(intent);
-                            ResidentLogin.this.finish();
+                                if(ReinstallApplicationClass.user.toString().contains("Resident")) {
+                                    Intent intent = new Intent(ResidentLogin.this, MainActivity.class);
+
+                                    ReinstallApplicationClass.user = response;
+                                    Toast.makeText(ResidentLogin.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
+                                    startActivity(intent);
+                                    ResidentLogin.this.finish();
+                                    showProgress(false);
+                                }
+                            else
+                            {
+                                Toast.makeText(ResidentLogin.this, "User isn't registered as a Resident!", Toast.LENGTH_SHORT).show();
+                                showProgress(false);
+                            }
                         }
 
                         @Override

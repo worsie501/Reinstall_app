@@ -25,6 +25,7 @@ import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.local.UserIdStorageFactory;
 import com.example.reinstall_app.R;
+import com.example.reinstall_app.app_data.ReinstallApplicationClass;
 
 public class AdminLogin extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
 
@@ -188,11 +189,21 @@ public class AdminLogin extends AppCompatActivity implements CompoundButton.OnCh
                             @Override
                             public void handleResponse(BackendlessUser response) {
 
-                                Intent intent = new Intent(AdminLogin.this, MainActivity.class);
+                                ReinstallApplicationClass.user=response;
 
-                                Toast.makeText(AdminLogin.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
-                                startActivity(intent);
-                                AdminLogin.this.finish();
+                                if(ReinstallApplicationClass.user.toString().contains("Admin")) {
+
+                                    Intent intent = new Intent(AdminLogin.this, MainActivity.class);
+
+                                    Toast.makeText(AdminLogin.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
+                                    startActivity(intent);
+                                    AdminLogin.this.finish();
+                                }
+                                else
+                                {
+                                    Toast.makeText(AdminLogin.this, "User isn't registered as an Admin!", Toast.LENGTH_SHORT).show();
+                                    showProgress(false);
+                                }
                             }
 
                             @Override
