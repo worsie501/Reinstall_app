@@ -1,5 +1,6 @@
 package com.example.reinstall_app.activity_classes;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,20 +8,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.backendless.Backendless;
+import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
 import com.example.reinstall_app.R;
+import com.example.reinstall_app.app_data.ReinstallApplicationClass;
 import com.example.reinstall_app.app_data.Suburb;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
@@ -39,6 +45,13 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListner);
+
+
+            bottomNav.getMenu().getItem(2).setVisible(false);
+
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -74,6 +87,25 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
             }
         });
     }
+
+
+    private  BottomNavigationView.OnNavigationItemSelectedListener navListner =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                    switch (menuItem.getItemId())
+                    {
+                        case R.id.nav_home:
+
+                    }
+
+
+
+                    return false;
+                }
+            };
+
 
     @Override
     public void onItemClicked(int index) {
