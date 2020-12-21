@@ -12,9 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity_classes.Categories"></activity>
-        <activity android:name=".activity_classes.Stats" />
-        <activity android:name=".activity_classes.Report" />
+
+
         <activity android:name=".activity_classes.AdminRegister" />
         <activity android:name=".activity_classes.AdminLogin" />
         <activity android:name=".activity_classes.MunicipalityRegister" />
