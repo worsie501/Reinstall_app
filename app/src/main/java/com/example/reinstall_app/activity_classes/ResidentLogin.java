@@ -89,9 +89,35 @@ public class ResidentLogin extends AppCompatActivity implements CompoundButton.O
                             @Override
                             public void handleResponse(BackendlessUser response) {
 
-                                Intent intent = new Intent(ResidentLogin.this, MainActivity.class);
-                                startActivity(intent);
-                                ResidentLogin.this.finish();
+                                if(ReinstallApplicationClass.user.toString().contains("Admin")) {
+
+                                    Intent intent = new Intent(ResidentLogin.this, MainActivity.class);
+                                    startActivity(intent);
+                                    ResidentLogin.this.finish();
+                                }
+                                else
+                                {
+                                    Toast.makeText(ResidentLogin.this, "User isn't registered as Resident!", Toast.LENGTH_SHORT).show();
+
+                                    Backendless.UserService.logout(new AsyncCallback<Void>() {
+                                        @Override
+                                        public void handleResponse(Void response) {
+                                            Toast.makeText(ResidentLogin.this, "User signed out successfully...", Toast.LENGTH_SHORT).show();
+
+                                            startActivity(new Intent(ResidentLogin.this, Login_Register_Page.class));
+                                            ResidentLogin.this.finish();
+                                        }
+
+                                        @Override
+                                        public void handleFault(BackendlessFault fault) {
+
+                                            Toast.makeText(ResidentLogin.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    });
+
+                                    showProgress(false);
+                                }
                             }
 
                             @Override

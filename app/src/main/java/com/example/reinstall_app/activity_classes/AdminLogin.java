@@ -87,9 +87,37 @@ public class AdminLogin extends AppCompatActivity implements CompoundButton.OnCh
                                 @Override
                                 public void handleResponse(BackendlessUser response) {
 
-                                    Intent intent = new Intent(AdminLogin.this, MainActivity.class);
-                                    startActivity(intent);
-                                    AdminLogin.this.finish();
+                                    ReinstallApplicationClass.user=response;
+
+                                    if(ReinstallApplicationClass.user.toString().contains("Admin")) {
+
+                                        Intent intent = new Intent(AdminLogin.this, MainActivity.class);
+                                        startActivity(intent);
+                                        AdminLogin.this.finish();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(AdminLogin.this, "User isn't registered as Admin!", Toast.LENGTH_SHORT).show();
+
+                                        Backendless.UserService.logout(new AsyncCallback<Void>() {
+                                            @Override
+                                            public void handleResponse(Void response) {
+                                                Toast.makeText(AdminLogin.this, "User signed out successfully...", Toast.LENGTH_SHORT).show();
+
+                                                startActivity(new Intent(AdminLogin.this, Login_Register_Page.class));
+                                                AdminLogin.this.finish();
+                                            }
+
+                                            @Override
+                                            public void handleFault(BackendlessFault fault) {
+
+                                                Toast.makeText(AdminLogin.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                            }
+                                        });
+
+                                        showProgress(false);
+                                    }
 
                                 }
 

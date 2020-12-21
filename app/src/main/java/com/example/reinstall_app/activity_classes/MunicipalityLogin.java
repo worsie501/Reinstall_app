@@ -91,9 +91,41 @@ public class MunicipalityLogin extends AppCompatActivity implements CompoundButt
                         Backendless.Data.of(BackendlessUser.class).findById(userObjectId, new AsyncCallback<BackendlessUser>() {
                             @Override
                             public void handleResponse(BackendlessUser response) {
-                                Intent intent=new Intent(MunicipalityLogin.this, MainActivity.class);
-                                startActivity(intent);
-                                MunicipalityLogin.this.finish();
+
+                                ReinstallApplicationClass.user=response;
+
+                                if(ReinstallApplicationClass.user.getProperty("role").equals("Municipality")) {
+
+
+                                    Intent intent = new Intent(MunicipalityLogin.this, MainActivity.class);
+                                    startActivity(intent);
+                                    MunicipalityLogin.this.finish();
+                                }
+                                else
+                                {
+
+                                    Toast.makeText(MunicipalityLogin.this, "User isn't registered as Municipality!", Toast.LENGTH_SHORT).show();
+
+                                    Backendless.UserService.logout(new AsyncCallback<Void>() {
+                                        @Override
+                                        public void handleResponse(Void response) {
+                                            Toast.makeText(MunicipalityLogin.this, "User signed out successfully...", Toast.LENGTH_SHORT).show();
+
+                                            startActivity(new Intent(MunicipalityLogin.this, Login_Register_Page.class));
+                                            MunicipalityLogin.this.finish();
+                                        }
+
+                                        @Override
+                                        public void handleFault(BackendlessFault fault) {
+
+                                            Toast.makeText(MunicipalityLogin.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    });
+
+                                    showProgress(false);
+
+                                }
                             }
 
                             @Override
