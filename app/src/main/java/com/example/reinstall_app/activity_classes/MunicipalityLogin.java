@@ -209,7 +209,7 @@ public class MunicipalityLogin extends AppCompatActivity implements CompoundButt
                             if(ReinstallApplicationClass.user.getProperty("role").equals("Municipality")) {
                                 Toast.makeText(MunicipalityLogin.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
 
-                                ReinstallApplicationClass.user = response;
+                                 ReinstallApplicationClass.user = response;
 
                                 Intent intent = new Intent(MunicipalityLogin.this, MainActivity.class);
 
