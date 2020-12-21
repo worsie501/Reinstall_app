@@ -24,6 +24,7 @@ import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
+import com.backendless.persistence.local.UserIdStorageFactory;
 import com.example.reinstall_app.R;
 import com.example.reinstall_app.app_data.ReinstallApplicationClass;
 import com.example.reinstall_app.app_data.Suburb;
@@ -49,11 +50,33 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+
        // bottomNav.setOnNavigationItemSelectedListener(navListner);
 
 
-                //bottomNav.getMenu().getItem(2).setVisible(false);
+        String userObjectId = UserIdStorageFactory.instance().getStorage().get();
+
+        Backendless.Data.of(BackendlessUser.class).findById(userObjectId, new AsyncCallback<BackendlessUser>() {
+            @Override
+            public void handleResponse(BackendlessUser response) {
+                BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+
+                if(response.getProperty("role").equals("Resident"))
+                {
+                    bottomNav.getMenu().getItem(2).setVisible(false);
+                }
+
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+
+            }
+        });
+
+
+
+
 
 
 
