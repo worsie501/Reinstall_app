@@ -206,7 +206,7 @@ public class MunicipalityLogin extends AppCompatActivity implements CompoundButt
 
                             ReinstallApplicationClass.user=response;
 
-                            if(ReinstallApplicationClass.user.toString().contains("Municipality")) {
+                            if(ReinstallApplicationClass.user.getProperty("role").equals("Municipality")) {
                                 Toast.makeText(MunicipalityLogin.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
 
                                 ReinstallApplicationClass.user = response;
@@ -219,6 +219,24 @@ public class MunicipalityLogin extends AppCompatActivity implements CompoundButt
                             else
                             {
                                 Toast.makeText(MunicipalityLogin.this, "User isn't registered as Municipality!", Toast.LENGTH_SHORT).show();
+
+                                Backendless.UserService.logout(new AsyncCallback<Void>() {
+                                    @Override
+                                    public void handleResponse(Void response) {
+                                        Toast.makeText(MunicipalityLogin.this, "User signed out successfully...", Toast.LENGTH_SHORT).show();
+
+                                        startActivity(new Intent(MunicipalityLogin.this, RoleSelection.class));
+                                        MunicipalityLogin.this.finish();
+                                    }
+
+                                    @Override
+                                    public void handleFault(BackendlessFault fault) {
+
+                                        Toast.makeText(MunicipalityLogin.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
+
                                 showProgress(false);
                             }
                         }
