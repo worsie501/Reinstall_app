@@ -36,7 +36,7 @@ public class MunicipalityRegister extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
     private TextView tvLoad;
-    String role="Municipality";
+    String role = "Municipality";
 
     EditText etMunicipalityName, etMunicipalityRegisterEmail, etMunicipalityRegisterPassword, etConfirmMunicipalityPassword;
     Button btnMunicipalityRegister;

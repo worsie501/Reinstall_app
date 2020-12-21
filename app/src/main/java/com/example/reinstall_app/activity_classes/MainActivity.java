@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,18 +42,22 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
     RecyclerView.Adapter myAdapter;
     RecyclerView.LayoutManager layoutManager;
 
+    Button btnLogout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        bottomNav.setOnNavigationItemSelectedListener(navListner);
+       // bottomNav.setOnNavigationItemSelectedListener(navListner);
 
 
-            bottomNav.getMenu().getItem(2).setVisible(false);
+                //bottomNav.getMenu().getItem(2).setVisible(false);
 
 
+
+        btnLogout = findViewById(R.id.btnLogout);
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
         tvLoad = findViewById(R.id.tvLoad);
@@ -86,25 +91,46 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
                 Toast.makeText(MainActivity.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(MainActivity.this, "busy logging out...please wait...", Toast.LENGTH_LONG).show();
+
+                Backendless.UserService.logout(new AsyncCallback<Void>() {
+                    @Override
+                    public void handleResponse(Void response) {
+                        Toast.makeText(MainActivity.this, "User signed out successfully...", Toast.LENGTH_SHORT).show();
+
+                        startActivity(new Intent(MainActivity.this, RoleSelection.class));
+                        MainActivity.this.finish();
+                    }
+
+                    @Override
+                    public void handleFault(BackendlessFault fault) {
+
+                        Toast.makeText(MainActivity.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+            }
+        });
+
+
     }
 
 
-    private  BottomNavigationView.OnNavigationItemSelectedListener navListner =
+    /*private  BottomNavigationView.OnNavigationItemSelectedListener navListner =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-                    switch (menuItem.getItemId())
-                    {
-                        case R.id.nav_home:
-
-                    }
-
-
-
                     return false;
                 }
-            };
+            };*/
 
 
     @Override

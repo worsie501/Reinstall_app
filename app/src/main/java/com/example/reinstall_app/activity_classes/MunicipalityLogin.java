@@ -26,6 +26,7 @@ import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.local.UserIdStorageFactory;
 import com.example.reinstall_app.app_data.Municipality;
 import com.example.reinstall_app.R;
+import com.example.reinstall_app.app_data.ReinstallApplicationClass;
 
 public class MunicipalityLogin extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
 
@@ -203,7 +204,13 @@ public class MunicipalityLogin extends AppCompatActivity implements CompoundButt
                         @Override
                         public void handleResponse(BackendlessUser response) {
                             Toast.makeText(MunicipalityLogin.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(MunicipalityLogin.this, MainActivity.class);
+
+                            ReinstallApplicationClass.user = response;
+
+                            //Toast.makeText(MunicipalityLogin.this, ": " + response.getProperty("role").toString(), Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(MunicipalityLogin.this, MainActivity.class);
+
                             startActivity(intent);
                             MunicipalityLogin.this.finish();
                         }

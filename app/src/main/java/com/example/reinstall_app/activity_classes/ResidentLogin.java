@@ -25,6 +25,7 @@ import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.local.UserIdStorageFactory;
 import com.example.reinstall_app.R;
+import com.example.reinstall_app.app_data.ReinstallApplicationClass;
 
 public class ResidentLogin extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
@@ -185,8 +186,8 @@ public class ResidentLogin extends AppCompatActivity implements CompoundButton.O
                 }
                 else
                 {
-                    String email=etResidentEmail.getText().toString().trim();
-                    String password=etResidentPassword.getText().toString().trim();
+                    String email = etResidentEmail.getText().toString().trim();
+                    String password = etResidentPassword.getText().toString().trim();
 
                     tvLoad.setText("Logging in...");
                     showProgress(true);
@@ -195,9 +196,9 @@ public class ResidentLogin extends AppCompatActivity implements CompoundButton.O
                         @Override
                         public void handleResponse(BackendlessUser response) {
 
-                            Intent intent=new Intent(ResidentLogin.this, MainActivity.class);
+                            Intent intent = new Intent(ResidentLogin.this, MainActivity.class);
 
-                           //ReinstallApplicationClass.user=response;
+                            ReinstallApplicationClass.user = response;
                             Toast.makeText(ResidentLogin.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
                             startActivity(intent);
                             ResidentLogin.this.finish();
