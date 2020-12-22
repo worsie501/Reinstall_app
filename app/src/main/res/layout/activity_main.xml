@@ -10,6 +10,14 @@
     android:scrollbars="vertical"
     tools:context=".activity_classes.MainActivity">
 
+    <fragment
+        android:id="@+id/reportFrag"
+        android:name="com.example.reinstall_app.activity_classes.ReportActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:layout="@layout/fragment_report" />
+
     <ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"
