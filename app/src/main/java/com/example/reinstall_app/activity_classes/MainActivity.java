@@ -89,13 +89,10 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
             @Override
             public void handleFault(BackendlessFault fault) {
 
+                Toast.makeText(MainActivity.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
-
-
-
-
-
 
 
         btnLogout = findViewById(R.id.btnLogout);
