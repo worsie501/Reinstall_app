@@ -2,6 +2,7 @@ package com.example.reinstall_app.activity_classes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -67,9 +68,10 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
         mMapView.onCreate(mapViewBundle);
 
         mMapView.getMapAsync(this);
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
 
-       // bottomNav.setOnNavigationItemSelectedListener(navListner);
+       bottomNav.setOnNavigationItemSelectedListener(navListner);
 
 
         String userObjectId = UserIdStorageFactory.instance().getStorage().get();
@@ -161,16 +163,33 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
     }
 
 
-
-
-    /*private  BottomNavigationView.OnNavigationItemSelectedListener navListner =
+    private  BottomNavigationView.OnNavigationItemSelectedListener navListner =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                    Fragment selectedFragment = null;
 
-                    return false;
+                    switch (menuItem.getItemId()){
+                        case R.id.nav_home:
+                            selectedFragment = new FeedFragment();
+                            break;
+                        case R.id.nav_record:
+                            selectedFragment = new ReportFragment();
+                            break;
+                        case R.id.nav_stats:
+                            selectedFragment = new StatisticsFragment();
+                            break;
+                        case R.id.nav_categories:
+                            selectedFragment = new CategoryFragment();
+                            break;
+
+                    }
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, selectedFragment).commit();
+
+                    return true;
                 }
-            };*/
+            };
 
 
     @Override
