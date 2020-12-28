@@ -1,6 +1,7 @@
 package com.example.reinstall_app.app_data;
 
 public class ProblemType {
+
     String problemName;
     String description;
 
