@@ -9,12 +9,30 @@
         android:id="@+id/tvDescryption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="Report a new Problem"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        />
+        android:text="Report a new Problem"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvSelectLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvDescryption"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="Select the location in which the problem you wish to report belongs"
+        android:textSize="13sp" />
+
+    <Spinner
+        android:id="@+id/spnrLocationSelect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvSelectLocation"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="30dp" />
 
     <TextView
         android:id="@+id/tvSpinnerDes"
@@ -25,7 +43,7 @@
         android:text="Select the category in which the problem you wish to report belongs"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:layout_below="@id/tvDescryption"
+        android:layout_below="@id/spnrLocationSelect"
         android:layout_marginBottom="5dp"/>
     <Spinner
         android:id="@+id/spCategory"
@@ -73,6 +91,15 @@
         android:layout_centerHorizontal="true"
         android:background="@color/colorPrimary"
         />
+
+    <Button
+        android:id="@+id/btnSubmitReport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageButton"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
+        android:text="Submit Report" />
 
 
 </RelativeLayout>
