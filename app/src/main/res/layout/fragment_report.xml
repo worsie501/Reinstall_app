@@ -16,27 +16,47 @@
         android:layout_marginTop="30dp"
         />
 
+    <TextView
+        android:id="@+id/tvSpinnerDes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        android:text="Select the category in which the problem you wish to report belongs"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/tvDescryption"
+        android:layout_marginBottom="5dp"/>
     <Spinner
         android:id="@+id/spCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_below="@id/tvDescryption"
+        android:layout_marginBottom="30dp"
+        android:layout_below="@id/tvSpinnerDes"
         android:layout_centerHorizontal="true"
         />
+
+    <TextView
+        android:id="@+id/tvDiscHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        android:text="Enter a short description of the problem you are reporting"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/spCategory"
+        android:layout_marginBottom="5dp"/>
 
     <EditText
         android:id="@+id/etDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/spCategory"
+        android:layout_below="@id/tvDiscHint"
         android:ems="10"
         android:inputType="text"
-
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:hint="report description"
@@ -45,8 +65,8 @@
 
     <ImageButton
         android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
         app:srcCompat="@android:drawable/ic_menu_camera"
         android:layout_below="@id/etDescription"
         android:layout_marginTop="30dp"

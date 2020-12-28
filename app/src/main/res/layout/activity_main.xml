@@ -68,7 +68,7 @@
         android:id="@+id/scView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/bottom_navigation"
+        android:layout_above="@id/map"
         android:layout_below="@id/tvDescryption"
         android:fillViewport="true"
         android:scrollbars="none">
@@ -100,14 +100,14 @@
                 android:textStyle="bold" />
 
 
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/map"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@id/bottom_navigation" />
-
         </LinearLayout>
     </ScrollView>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_above="@id/bottom_navigation" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
