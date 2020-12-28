@@ -86,13 +86,13 @@ public class MunicipalityLogin extends AppCompatActivity implements CompoundButt
                     {
                         tvLoad.setText("User authenticated...signing in...");
 
-                        String userObjectId= UserIdStorageFactory.instance().getStorage().get();
+                        String userObjectId = UserIdStorageFactory.instance().getStorage().get();
 
                         Backendless.Data.of(BackendlessUser.class).findById(userObjectId, new AsyncCallback<BackendlessUser>() {
                             @Override
                             public void handleResponse(BackendlessUser response) {
 
-                                ReinstallApplicationClass.user=response;
+                                ReinstallApplicationClass.user = response;
 
                                 if(ReinstallApplicationClass.user.getProperty("role").equals("Municipality")) {
 

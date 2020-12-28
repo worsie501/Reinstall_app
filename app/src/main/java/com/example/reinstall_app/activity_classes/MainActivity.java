@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
 
                 if(response.getProperty("role").equals("Resident"))
                 {
-                    bottomNav.getMenu().getItem(2).setVisible(false);
+                    bottomNav.getMenu().getItem(4).setVisible(false);
                 }
 
             }
