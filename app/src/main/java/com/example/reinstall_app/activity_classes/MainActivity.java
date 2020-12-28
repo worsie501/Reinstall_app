@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
     private View mLoginFormView;
     private TextView tvLoad;
 
+    TextView tvWelcome, tvDescryption;
+
     RecyclerView rvList;
     RecyclerView.Adapter myAdapter;
     RecyclerView.LayoutManager layoutManager;
@@ -60,12 +62,17 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        this.setTitle("Dashboard");
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
         }
         mMapView = (MapView) findViewById(R.id.map);
         mMapView.onCreate(mapViewBundle);
+
+        tvWelcome = findViewById(R.id.tvWelcome);
+        tvDescryption = findViewById(R.id.tvDescryption);
 
         mMapView.getMapAsync(this);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
@@ -168,21 +175,47 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                     Fragment selectedFragment = null;
-
                     switch (menuItem.getItemId()){
                         case R.id.nav_home:
                             selectedFragment = new FeedFragment();
+                            rvList.setVisibility(View.GONE);
+                            mMapView.setVisibility(View.GONE);
+                            tvWelcome.setVisibility(View.GONE);
+                            tvDescryption.setVisibility(View.GONE);
+                            btnLogout.setVisibility(View.GONE);
                             break;
                         case R.id.nav_record:
                             selectedFragment = new ReportFragment();
+                            rvList.setVisibility(View.GONE);
+                            mMapView.setVisibility(View.GONE);
+                            tvWelcome.setVisibility(View.GONE);
+                            tvDescryption.setVisibility(View.GONE);
+                            btnLogout.setVisibility(View.GONE);
                             break;
                         case R.id.nav_stats:
                             selectedFragment = new StatisticsFragment();
+                            rvList.setVisibility(View.GONE);
+                            mMapView.setVisibility(View.GONE);
+                            tvWelcome.setVisibility(View.GONE);
+                            tvDescryption.setVisibility(View.GONE);
+                            btnLogout.setVisibility(View.GONE);
                             break;
                         case R.id.nav_categories:
                             selectedFragment = new CategoryFragment();
+                            rvList.setVisibility(View.GONE);
+                            mMapView.setVisibility(View.GONE);
+                            tvWelcome.setVisibility(View.GONE);
+                            tvDescryption.setVisibility(View.GONE);
+                            btnLogout.setVisibility(View.GONE);
                             break;
-
+                        case R.id.nav_dashboard:
+                            selectedFragment = new DashboardFragment();
+                            rvList.setVisibility(View.VISIBLE);
+                            mMapView.setVisibility(View.VISIBLE);
+                            tvWelcome.setVisibility(View.VISIBLE);
+                            tvDescryption.setVisibility(View.VISIBLE);
+                            btnLogout.setVisibility(View.VISIBLE);
+                            break;
                     }
 
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, selectedFragment).commit();

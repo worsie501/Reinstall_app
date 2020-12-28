@@ -1,15 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimaryLight">
+    android:layout_height="match_parent">
 
 
     <TextView
+        android:id="@+id/tvDescryption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Report"
-        android:textSize="30sp"
-        android:layout_centerInParent="true"/>
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="Report a new Problem"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        />
+
+    <Spinner
+        android:id="@+id/spCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_below="@id/tvDescryption"
+        android:layout_centerHorizontal="true"
+        />
+
+    <EditText
+        android:id="@+id/etDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spCategory"
+        android:ems="10"
+        android:inputType="text"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:hint="report description"
+        android:gravity="center"
+        />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        android:layout_below="@id/etDescription"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorPrimary"
+        />
+
 
 </RelativeLayout>

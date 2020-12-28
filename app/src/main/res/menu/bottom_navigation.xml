@@ -2,9 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/nav_dashboard"
+        android:icon="@drawable/dashboard_icon"
+        android:title="Dashboard"/>
+
+    <item
         android:id="@+id/nav_home"
         android:icon="@drawable/home_icon"
-        android:title="Home"/>
+        android:title="Feed"/>
 
     <item
         android:id="@+id/nav_record"
@@ -20,4 +25,6 @@
         android:id="@+id/nav_categories"
         android:icon="@drawable/categories_icon"
         android:title="Categories"/>
+
+
 </menu>
