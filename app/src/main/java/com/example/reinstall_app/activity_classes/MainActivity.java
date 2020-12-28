@@ -28,6 +28,7 @@ import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
 import com.backendless.persistence.local.UserIdStorageFactory;
 import com.example.reinstall_app.R;
+import com.example.reinstall_app.app_data.ProblemType;
 import com.example.reinstall_app.app_data.ReinstallApplicationClass;
 import com.example.reinstall_app.app_data.Suburb;
 import com.google.android.gms.maps.GoogleMap;
@@ -115,8 +116,6 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
 
         layoutManager = new LinearLayoutManager(this);
         rvList.setLayoutManager(layoutManager);
-
-        //String whereClause == ""
 
         DataQueryBuilder queryBuilder = DataQueryBuilder.create();
         queryBuilder.setGroupBy("totalReports");
