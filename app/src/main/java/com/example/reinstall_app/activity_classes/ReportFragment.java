@@ -148,7 +148,7 @@ public class ReportFragment extends Fragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap bitmap =(Bitmap)data.getExtras().get("data");
+        Bitmap photo  =(Bitmap)data.getExtras().get("data");
     }
 
     @Override
