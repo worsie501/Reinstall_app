@@ -15,6 +15,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
+
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -22,6 +23,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
 
     //vars
+
 
     private boolean mLocationPermissionGranted = false;
     private static final int LOCATION_PERMISSION_GRANTED_REQUEST_CODE = 1234;
@@ -43,6 +45,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         getLocationPermission();
     }
 
+
+    private void getDeviceLocation()
+    {
+
+    }
+
     private void getLocationPermission(){
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION};
@@ -52,6 +60,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             if(ContextCompat.checkSelfPermission(this.getApplicationContext(), COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
             {
                 mLocationPermissionGranted = true;
+                initMap();
             }
             else
             {
