@@ -108,7 +108,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     {
         Log.d("TAG", "init: initializing");
 
-        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+       // AutocompleteSessionToken autocompleteSessionToken;
+       // autocompleteSessionToken= AutocompleteSessionToken.newInstance();
+
+        //PlacesClient placesClient;
+     //  placesClient= Places.createClient(getApplicationContext());
+
+       // final PlaceAutocompleteAdapterNew mAdapter;
+       // mAdapter = new PlaceAutocompleteAdapterNew(this, placesClient,autocompleteSessionToken);
+
+
+
+       // PlaceAutocompleteAdapterNew=new PlaceAutocompleteAdapterNew(this, placesClient, autocompleteSessionToken);
+
+      //  mSearchText.setAdapter(PlaceAutocompleteAdapterNew);
+
+        //crash met adapter
+
+                mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE || keyEvent.getAction() == KeyEvent.ACTION_DOWN || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
