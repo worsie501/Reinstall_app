@@ -16,25 +16,6 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/tvSelectLocation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvDescryption"
-        android:layout_marginTop="30dp"
-        android:gravity="center"
-        android:text="Select the location in which the problem you wish to report belongs"
-        android:textSize="13sp" />
-
-    <Spinner
-        android:id="@+id/spnrLocationSelect"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvSelectLocation"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginRight="30dp" />
-
-    <TextView
         android:id="@+id/tvSpinnerDes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,7 +24,7 @@
         android:text="Select the category in which the problem you wish to report belongs"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:layout_below="@id/spnrLocationSelect"
+        android:layout_below="@id/tvDescryption"
         android:layout_marginBottom="5dp"/>
     <Spinner
         android:id="@+id/spCategory"

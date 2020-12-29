@@ -59,7 +59,7 @@ public class ReportFragment extends Fragment
     private static final int ERROR_DIALOG_REQUEST = 9001;
 
     Button btnLocation;
-    Spinner spCategory, spnrLocationSelect;
+    Spinner spCategory;
     ImageButton btnPhoto;
     Button btnSubmitReport;
     EditText etDescription;
@@ -74,29 +74,10 @@ public class ReportFragment extends Fragment
 
         btnLocation = v.findViewById(R.id.btnLocation);
         spCategory =  v.findViewById(R.id.spCategory);
-        spnrLocationSelect=v.findViewById(R.id.spnrLocationSelect);
         btnSubmitReport=v.findViewById(R.id.btnSubmitReport);
         etDescription=v.findViewById(R.id.etDescription);
         btnPhoto=v.findViewById(R.id.btnPhoto);
 
-        DataQueryBuilder queryBuilder1 = DataQueryBuilder.create();
-        queryBuilder1.setGroupBy("suburbName");
-
-        Backendless.Data.of(Suburb.class).find(queryBuilder1, new AsyncCallback<List<Suburb>>() {
-            @Override
-            public void handleResponse(List<Suburb> response) {
-
-                ArrayAdapter<Suburb> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, response);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                spnrLocationSelect.setAdapter(adapter);
-            }
-
-            @Override
-            public void handleFault(BackendlessFault fault) {
-
-            }
-        });
 
         DataQueryBuilder queryBuilder = DataQueryBuilder.create();
         queryBuilder.setGroupBy("problemName");
@@ -129,7 +110,6 @@ public class ReportFragment extends Fragment
 
                     final ReportedProblem problem = new ReportedProblem();
                     problem.setProblemType(spCategory.getSelectedItem().toString().trim());
-                    problem.setProblemLocation(spnrLocationSelect.getSelectedItem().toString().trim());
                     problem.setDescription(etDescription.getText().toString().trim());
 
                     Backendless.Persistence.save(problem, new AsyncCallback<ReportedProblem>() {
@@ -145,7 +125,6 @@ public class ReportFragment extends Fragment
 
                         }
                     });
-                    spnrLocationSelect.setSelection(0);
                     spCategory.setSelection(0);
                     etDescription.setText(null);
                 }
