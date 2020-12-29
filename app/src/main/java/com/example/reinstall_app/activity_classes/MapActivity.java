@@ -161,6 +161,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void moveCamera(LatLng latLng, float zoom, String title)
     {
+        zoom=16f;
 
         Log.d("TAG", "moving the camera to: lat:"+latLng.latitude+", lng: "+latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
@@ -223,7 +224,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             Log.d("TAG", "onComplete: found location!");
                             Location currentLocation=(Location)task.getResult();
 
-                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),zoomLevel, "title");
+                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),zoomLevel, "Your current location");
                         }
                         else
                         {
