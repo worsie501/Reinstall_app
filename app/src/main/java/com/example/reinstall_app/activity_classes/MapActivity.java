@@ -7,13 +7,23 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.backendless.geo.GeoPoint;
 import com.example.reinstall_app.R;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -28,12 +38,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private boolean mLocationPermissionGranted = false;
     private static final int LOCATION_PERMISSION_GRANTED_REQUEST_CODE = 1234;
     private GoogleMap mMap;
+    private FusedLocationProviderClient fusedLocationProviderClient;
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Toast.makeText(this, "Map is ready!", Toast.LENGTH_SHORT).show();
         mMap = googleMap;
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+                mMap.clear();
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
+                mMap.addMarker(markerOptions);
+            }
+        });
     }
 
     @Override
@@ -43,6 +65,37 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
         getLocationPermission();
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        getLastKnownLocation();
+
+    }
+
+    private void getLastKnownLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+
+        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                if(task.isSuccessful())
+                {
+                    Location location = task.getResult();
+                    GeoPoint geoPoint = new GeoPoint(location.getLatitude(),location.getLongitude());
+
+
+                    LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(latLng);
+                    mMap.clear();
+
+                    mMap.addMarker(markerOptions);
+                }
+            }
+        });
     }
 
 
