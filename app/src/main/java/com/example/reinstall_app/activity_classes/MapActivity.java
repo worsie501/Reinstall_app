@@ -45,7 +45,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         Toast.makeText(this, "Map is ready!", Toast.LENGTH_SHORT).show();
         mMap = googleMap;
-
+        // click to add marker
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
