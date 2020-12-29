@@ -91,7 +91,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(latLng);
                     mMap.clear();
-
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
                     mMap.addMarker(markerOptions);
                 }
             }
