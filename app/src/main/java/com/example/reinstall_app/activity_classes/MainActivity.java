@@ -10,6 +10,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Application;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -31,6 +32,8 @@ import com.example.reinstall_app.R;
 import com.example.reinstall_app.app_data.ProblemType;
 import com.example.reinstall_app.app_data.ReinstallApplicationClass;
 import com.example.reinstall_app.app_data.Suburb;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -45,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
     private MapView mMapView;
 
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
+
+    private static final String TAG = "MainActivity";
 
     private View mProgressView;
     private View mLoginFormView;
@@ -166,8 +171,8 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
         });
 
 
-    }
 
+    }
 
     private  BottomNavigationView.OnNavigationItemSelectedListener navListner =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -275,7 +280,6 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
         }
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //map
 
     @Override

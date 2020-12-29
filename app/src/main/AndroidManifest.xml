@@ -3,10 +3,14 @@
     package="com.example.reinstall_app">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+
     <uses-feature
         android:glEsVersion="0x00020000"
-        android:required="true"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+        android:required="true" />
 
     <application
         android:name=".app_data.ReinstallApplicationClass"
@@ -17,7 +21,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${mapsApiKey}" />
+
+        <activity android:name=".activity_classes.MapActivity"></activity>
         <activity android:name=".activity_classes.AdminRegister" />
         <activity android:name=".activity_classes.AdminLogin" />
         <activity android:name=".activity_classes.MunicipalityRegister" />
@@ -33,9 +45,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="${mapsApiKey}" />
 
 
     </application>

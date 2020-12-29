@@ -1,13 +1,18 @@
 package com.example.reinstall_app.activity_classes;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +26,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.backendless.Backendless;
@@ -34,6 +41,11 @@ import com.example.reinstall_app.app_data.ProblemType;
 import com.example.reinstall_app.app_data.ReportedProblem;
 import com.example.reinstall_app.app_data.Suburb;
 import com.example.reinstall_app.app_data.User;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.List;
 
@@ -43,18 +55,24 @@ import static com.example.reinstall_app.app_data.ReinstallApplicationClass.user;
 public class ReportFragment extends Fragment
 {
 
+    //map vars
+    private static final int ERROR_DIALOG_REQUEST = 9001;
 
+    Button btnLocation;
     Spinner spCategory, spnrLocationSelect;
     ImageButton btnPhoto;
     Button btnSubmitReport;
     EditText etDescription;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+
         View v = inflater.inflate(R.layout.fragment_report, container, false);
 
+        btnLocation = v.findViewById(R.id.btnLocation);
         spCategory =  v.findViewById(R.id.spCategory);
         spnrLocationSelect=v.findViewById(R.id.spnrLocationSelect);
         btnSubmitReport=v.findViewById(R.id.btnSubmitReport);
@@ -145,16 +163,60 @@ public class ReportFragment extends Fragment
         return v;
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap photo  =(Bitmap)data.getExtras().get("data");
+        Bitmap photo  = (Bitmap)data.getExtras().get("data");
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        //map
+
+        if(isServicesOK())
+        {
+            init();
+        }
 
     }
+
+    private void init()
+    {
+        btnLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MapActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+
+    public boolean isServicesOK(){
+
+
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(getActivity());
+
+        if(available == ConnectionResult.SUCCESS)
+        {
+
+            return true;
+        }
+        else if(GoogleApiAvailability.getInstance().isUserResolvableError(available))
+        {
+            //error occured but could be resolved
+
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(getActivity(), available, ERROR_DIALOG_REQUEST);
+            dialog.show();
+        }
+        else
+        {
+            Toast.makeText(getActivity(), "You can't make map requests", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
+
 }

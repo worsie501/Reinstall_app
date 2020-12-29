@@ -48,13 +48,13 @@ public class StatisticsFragment extends Fragment
         rvList.setLayoutManager(layoutManager);
 
         DataQueryBuilder spinBuilder = DataQueryBuilder.create();
-        spinBuilder.setGroupBy("suburbName");
+        spinBuilder.setGroupBy("cityName");
 
-        Backendless.Data.of(Suburb.class).find(spinBuilder, new AsyncCallback<List<Suburb>>() {
+        Backendless.Data.of(City.class).find(spinBuilder, new AsyncCallback<List<City>>() {
             @Override
-            public void handleResponse(List<Suburb> response) {
+            public void handleResponse(List<City> response) {
 
-                ArrayAdapter<Suburb> adapter1 = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,response);
+                ArrayAdapter<City> adapter1 = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,response);
                 adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                 spnrLocation.setAdapter(adapter1);
