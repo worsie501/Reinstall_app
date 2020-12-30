@@ -1,11 +1,24 @@
 package com.example.reinstall_app.app_data;
 
+import android.database.sqlite.SQLiteDatabaseCorruptException;
 import android.graphics.Point;
+
+import java.util.Date;
 
 public class ReportedProblem {
 
     String description, userName, problemType, city, suburb;
+    Date date;
     int x, y;
+
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public String getUserName() {
         return userName;

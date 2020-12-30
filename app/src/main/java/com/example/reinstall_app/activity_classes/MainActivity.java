@@ -43,7 +43,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements HotSpotAdapter.ItemClicked, OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity implements HotSpotAdapter.ItemClicked, OnMapReadyCallback, FeedAdapter.FeedItemClicked{
 
     private MapView mMapView;
 
@@ -233,6 +233,8 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
     public void onItemClicked(int index) {
 
     }
+
+
 
     /**
      * Shows the progress UI and hides the login form.
