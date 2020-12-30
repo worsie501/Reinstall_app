@@ -69,6 +69,8 @@ public class DashboardFragment extends Fragment
         tvWelcome = v.findViewById(R.id.tvWelcm);
         tvDescryption = v.findViewById(R.id.tvDesc);
         btnLogout = v.findViewById(R.id.btnLogout);
+
+
         mLoginFormView = v.findViewById(R.id.login_form);
         mProgressView = v.findViewById(R.id.login_progress);
         tvLoad = v.findViewById(R.id.tvLoad);
@@ -98,11 +100,9 @@ public class DashboardFragment extends Fragment
             @Override
             public void handleFault(BackendlessFault fault) {
                 Toast.makeText(getActivity(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                showProgress(false);
             }
         });
-
-
-
 
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
