@@ -1,16 +1,10 @@
 package com.example.reinstall_app.activity_classes;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,11 +16,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.backendless.geo.GeoPoint;
 import com.example.reinstall_app.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -110,9 +108,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
        // AutocompleteSessionToken autocompleteSessionToken;
        // autocompleteSessionToken= AutocompleteSessionToken.newInstance();
-
-        //PlacesClient placesClient;
-     //  placesClient= Places.createClient(getApplicationContext());
+        // PlacesClient placesClient;
+       //placesClient= Places.createClient(getApplicationContext());
 
        // final PlaceAutocompleteAdapterNew mAdapter;
        // mAdapter = new PlaceAutocompleteAdapterNew(this, placesClient,autocompleteSessionToken);
