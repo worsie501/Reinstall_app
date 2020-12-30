@@ -209,7 +209,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(latLng);
                     mMap.clear();
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10f));
                     mMap.addMarker(markerOptions);
                 }
             }
@@ -234,11 +234,27 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         {
                             float zoomLevel=16.0f;
 
+                            Geocoder geocoder = new Geocoder(MapActivity.this);
+                            List<Address> list=new ArrayList<>();
 
                             Log.d("TAG", "onComplete: found location!");
                             Location currentLocation=(Location)task.getResult();
 
-                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),zoomLevel, "Your current location");
+                            try {
+                                list=geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 1);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            String address = list.get(0).getAddressLine(0);
+                            String city = list.get(0).getLocality();
+                            String state = list.get(0).getAdminArea();
+                            String country = list.get(0).getCountryName();
+                            String postalCode = list.get(0).getPostalCode();
+                            String knownName = list.get(0).getFeatureName();
+                            String addressLine=list.get(0).getAddressLine(0);
+
+                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),zoomLevel, addressLine);
                         }
                         else
                         {
