@@ -54,6 +54,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final int LOCATION_PERMISSION_GRANTED_REQUEST_CODE = 1234;
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
+    private String lat, lon, addressString;
 
 
     @Override
