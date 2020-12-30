@@ -1,6 +1,7 @@
 package com.example.reinstall_app.activity_classes;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -11,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ import androidx.core.content.ContextCompat;
 
 import com.backendless.geo.GeoPoint;
 import com.example.reinstall_app.R;
+import com.example.reinstall_app.app_data.ReportedProblem;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -48,6 +51,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     //widgets
     private EditText mSearchText;
     private ImageView mGps;
+    private Button btnReturn;
 
     //vars
     private boolean mLocationPermissionGranted = false;
@@ -93,6 +97,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         mSearchText=(EditText) findViewById(R.id.input_search);
         mGps=(ImageView) findViewById(R.id.ic_gps);
+        btnReturn=(Button) findViewById(R.id.btnReturn);
+
+        btnReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MapActivity.this, MainActivity.class);
+
+                int mapResultCode=2;
+
+                intent.putExtra("lat", lat.trim());
+                intent.putExtra("lon", lon.trim());
+                intent.putExtra("addressString", addressString.trim());
+                setResult(mapResultCode, intent);
+
+                MapActivity.this.finish();
+            }
+        });
 
         getLocationPermission();
 

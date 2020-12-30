@@ -7,45 +7,43 @@
     tools:context=".activity_classes.MapActivity">
 
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/map"
-        tools:context=".MapsActivity"
-        android:name="com.google.android.gms.maps.SupportMapFragment" />
+        tools:context=".MapsActivity" />
 
     <RelativeLayout
 
+        android:id="@+id/relLayout1"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:elevation="10dp"
         android:background="@drawable/white_border"
-        android:id="@+id/relLayout1">
+        android:elevation="10dp">
 
         <ImageView
+            android:id="@+id/ic_magnify"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:id="@+id/ic_magnify"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/ic_magnify"
-            />
+            android:src="@drawable/ic_magnify" />
+
         <AutoCompleteTextView
+            android:id="@+id/input_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/ic_magnify"
             android:layout_centerVertical="true"
-            android:textSize="15sp"
-            android:textColor="#000"
-            android:id="@+id/input_search"
+            android:layout_toRightOf="@+id/ic_magnify"
             android:background="@null"
             android:hint="Enter Address, City or Zip Code"
             android:imeOptions="actionSearch"
-            />
+            android:textColor="#000"
+            android:textSize="15sp" />
 
     </RelativeLayout>
 
@@ -58,6 +56,19 @@
         android:layout_marginTop="30dp"
         android:layout_marginRight="30dp"
         app:srcCompat="@drawable/ic_gps" />
+
+    <Button
+        android:id="@+id/btnReturn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ic_gps"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="500dp"
+        android:background="#FF9800"
+        android:outlineAmbientShadowColor="#151515"
+        android:paddingStart="10dp"
+        android:paddingRight="10dp"
+        android:text="Return With Coordinates" />
 
 
 </RelativeLayout>

@@ -46,6 +46,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
@@ -63,6 +64,11 @@ public class ReportFragment extends Fragment
     ImageButton btnPhoto;
     Button btnSubmitReport;
     EditText etDescription;
+
+    int mapRequestCode=2;
+    int mapResultCode=2;
+
+    String lat, lon, addressString;
 
 
 
@@ -147,7 +153,23 @@ public class ReportFragment extends Fragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap photo  = (Bitmap)data.getExtras().get("data");
+
+        if(requestCode==mapRequestCode)
+        {
+            if(resultCode == mapResultCode)
+            {
+
+                lat=data.getStringExtra("lat");
+                lon=data.getStringExtra("lon");
+                addressString=data.getStringExtra("addressString");
+
+            }
+
+
+        }
+        else if(requestCode==0) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+        }
     }
 
     @Override
@@ -169,7 +191,8 @@ public class ReportFragment extends Fragment
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MapActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, mapRequestCode);
+
             }
         });
     }
