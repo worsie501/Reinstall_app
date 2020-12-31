@@ -64,11 +64,13 @@ public class ReportFragment extends Fragment
     ImageButton btnPhoto;
     Button btnSubmitReport;
     EditText etDescription;
+    TextView tvLat,tvLon,tvAddress, tvCity;
 
     int mapRequestCode=2;
     int mapResultCode=2;
 
-    String lat, lon, addressString;
+    double lat, lon;
+    String addressString, cityLocation;
 
 
 
@@ -84,6 +86,10 @@ public class ReportFragment extends Fragment
         btnSubmitReport=v.findViewById(R.id.btnSubmitReport);
         etDescription=v.findViewById(R.id.etDescription);
         btnPhoto=v.findViewById(R.id.btnPhoto);
+        tvLat=v.findViewById(R.id.tvLat);
+        tvLon=v.findViewById(R.id.tvLon);
+        tvAddress=v.findViewById(R.id.tvAddress);
+        tvCity=v.findViewById(R.id.tvCity);
 
 
         DataQueryBuilder queryBuilder = DataQueryBuilder.create();
@@ -118,6 +124,9 @@ public class ReportFragment extends Fragment
                     final ReportedProblem problem = new ReportedProblem();
                     problem.setProblemType(spCategory.getSelectedItem().toString().trim());
                     problem.setDescription(etDescription.getText().toString().trim());
+                    problem.setCity(cityLocation.trim());
+                    problem.setX(lon);
+                    problem.setY(lat);
 
                     Backendless.Persistence.save(problem, new AsyncCallback<ReportedProblem>() {
                         @Override
@@ -159,9 +168,16 @@ public class ReportFragment extends Fragment
             if(resultCode == mapResultCode)
             {
 
-                lat=data.getStringExtra("lat");
-                lon=data.getStringExtra("lon");
+
+                lat=data.getDoubleExtra("lat", 0);
+                lon=data.getDoubleExtra("lon", 0);
                 addressString=data.getStringExtra("addressString");
+                cityLocation=data.getStringExtra("cityLocation");
+
+                tvLat.setText(String.valueOf(lat));
+                tvLon.setText(String.valueOf(lon));
+                tvAddress.setText("Address: "+addressString);
+                tvCity.setText("City: "+cityLocation);
 
             }
 

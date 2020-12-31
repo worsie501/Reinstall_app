@@ -58,7 +58,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final int LOCATION_PERMISSION_GRANTED_REQUEST_CODE = 1234;
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    private String lat, lon, addressString;
+    private double lat, lon;
+    private String addressString, locationCity;
 
 
     @Override
@@ -106,9 +107,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                 int mapResultCode=2;
 
-                intent.putExtra("lat", lat.trim());
-                intent.putExtra("lon", lon.trim());
+                intent.putExtra("lat", lat);
+                intent.putExtra("lon", lon);
                 intent.putExtra("addressString", addressString.trim());
+                intent.putExtra("cityLocation", locationCity.trim());
                 setResult(mapResultCode, intent);
 
                 MapActivity.this.finish();
@@ -191,6 +193,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
            LatLng latLng=new LatLng(address.getLatitude(), address.getLongitude());
 
            moveCamera(latLng, zoomLevel, address.getAddressLine(0));
+
+           lat=address.getLatitude();
+           lon=address.getLongitude();
+           addressString=address.getAddressLine(0);
+           locationCity=address.getLocality();
         }
 
     }
@@ -277,6 +284,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             String addressLine=list.get(0).getAddressLine(0);
 
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),zoomLevel, addressLine);
+
+                            lat=list.get(0).getLatitude();
+                            lon=list.get(0).getLongitude();
+                            addressString=list.get(0).getAddressLine(0);
+                            locationCity=city;
                         }
                         else
                         {

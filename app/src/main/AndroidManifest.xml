@@ -29,16 +29,36 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="${mapsApiKey}" />
 
-        <activity android:name=".activity_classes.MapActivity"></activity>
-        <activity android:name=".activity_classes.AdminRegister" />
-        <activity android:name=".activity_classes.AdminLogin" />
-        <activity android:name=".activity_classes.MunicipalityRegister" />
-        <activity android:name=".activity_classes.MunicipalityLogin" />
-        <activity android:name=".activity_classes.ResidentRegister" />
-        <activity android:name=".activity_classes.ResidentLogin" />
-        <activity android:name=".activity_classes.Login_Register_Page" />
-        <activity android:name=".activity_classes.MainActivity" />
-        <activity android:name=".activity_classes.RoleSelection">
+        <activity android:name=".activity_classes.MapActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity_classes.AdminRegister"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity_classes.AdminLogin"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity_classes.MunicipalityRegister"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity_classes.MunicipalityLogin"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity_classes.ResidentRegister"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity_classes.ResidentLogin"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity_classes.Login_Register_Page"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity_classes.MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity_classes.RoleSelection"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
