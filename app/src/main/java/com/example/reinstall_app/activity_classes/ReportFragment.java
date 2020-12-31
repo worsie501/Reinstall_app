@@ -73,6 +73,8 @@ public class ReportFragment extends Fragment
     double lat, lon;
     String addressString, cityLocation;
 
+    View v;
+
 
 
     @Nullable
@@ -80,7 +82,45 @@ public class ReportFragment extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
-        View v = inflater.inflate(R.layout.fragment_report, container, false);
+        v = inflater.inflate(R.layout.fragment_report, container, false);
+
+
+        return v;
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==mapRequestCode)
+        {
+            if(resultCode == mapResultCode)
+            {
+
+
+                lat=data.getDoubleExtra("lat", 0);
+                lon=data.getDoubleExtra("lon", 0);
+                addressString=data.getStringExtra("addressString");
+                cityLocation=data.getStringExtra("cityLocation");
+
+                tvLat.setText(String.valueOf(lat));
+                tvLon.setText(String.valueOf(lon));
+                tvAddress.setText("Address: "+addressString);
+                tvCity.setText("City: "+cityLocation);
+
+            }
+
+
+        }
+        else if(requestCode==0) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+        }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         btnLocation = v.findViewById(R.id.btnLocation);
         spCategory =  v.findViewById(R.id.spCategory);
@@ -157,42 +197,6 @@ public class ReportFragment extends Fragment
             }
         });
 
-        return v;
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode==mapRequestCode)
-        {
-            if(resultCode == mapResultCode)
-            {
-
-
-                lat=data.getDoubleExtra("lat", 0);
-                lon=data.getDoubleExtra("lon", 0);
-                addressString=data.getStringExtra("addressString");
-                cityLocation=data.getStringExtra("cityLocation");
-
-                tvLat.setText(String.valueOf(lat));
-                tvLon.setText(String.valueOf(lon));
-                tvAddress.setText("Address: "+addressString);
-                tvCity.setText("City: "+cityLocation);
-
-            }
-
-
-        }
-        else if(requestCode==0) {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-        }
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
 
         //map
 
@@ -210,6 +214,7 @@ public class ReportFragment extends Fragment
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MapActivity.class);
                 startActivityForResult(intent, mapRequestCode);
+
 
             }
         });
