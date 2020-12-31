@@ -19,6 +19,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
@@ -51,7 +53,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             super(itemView);
 
             tvName = itemView.findViewById(R.id.tvName);
-           // tvDate = itemView.findViewById(R.id.tvDate);
+            tvDate = itemView.findViewById(R.id.tvDate);
             tvCategory = itemView.findViewById(R.id.tvCategory);
             tvDescription = itemView.findViewById(R.id.tvDescription);
 
@@ -101,11 +103,18 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         holder.itemView.setTag(reports.get(i));
 
         holder.tvName.setText(reports.get(i).getUserName());
-        //holder.tvDate.setText(reports.get(i).getDate().toString());
         holder.tvCategory.setText(reports.get(i).getProblemType());
         holder.tvDescription.setText(reports.get(i).getDescription());
 
 
+
+        Date date;
+
+        date = reports.get(i).getCreated();
+
+        SimpleDateFormat format = new SimpleDateFormat("dd-mm-yyyy");
+
+        holder.tvDate.setText(format.format(date));
     }
 
     @Override

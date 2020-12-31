@@ -8,16 +8,16 @@ import java.util.Date;
 public class ReportedProblem {
 
     String description, userName, problemType, city, suburb;
-    Date date;
+    Date created;
     int x, y;
 
 
-    public Date getDate() {
-        return date;
+    public Date getCreated() {
+        return created;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
     public String getUserName() {
