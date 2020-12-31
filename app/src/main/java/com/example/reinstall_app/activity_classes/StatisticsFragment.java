@@ -1,11 +1,16 @@
 package com.example.reinstall_app.activity_classes;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,18 +33,41 @@ import java.util.List;
 public class StatisticsFragment extends Fragment
 {
 
+    private View mProgressView;
+    private View mLoginFormView;
+    private TextView tvLoad;
+
+
     Spinner spnrLocation;
 
     RecyclerView rvList;
     RecyclerView.Adapter myAdapter;
     RecyclerView.LayoutManager layoutManager;
 
+    View v;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v= inflater.inflate(R.layout.fragment_statistics, container, false);
 
-        spnrLocation=v.findViewById(R.id.spnrLocation);
+
+        v = inflater.inflate(R.layout.fragment_statistics, container, false);
+
+        return v;
+    }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        mLoginFormView = v.findViewById(R.id.login_form);
+        mProgressView = v.findViewById(R.id.login_progress);
+        tvLoad = v.findViewById(R.id.tvLoad);
+
+
+        spnrLocation= v.findViewById(R.id.spnrLocation);
 
         rvList = v.findViewById(R.id.rvList);
         rvList.hasFixedSize();
@@ -71,8 +99,8 @@ public class StatisticsFragment extends Fragment
         DataQueryBuilder queryBuilder = DataQueryBuilder.create();
         queryBuilder.setGroupBy("suburbName");
 
-        //showProgress(true);
-       // tvLoad.setText("Retreiving info...please wait...");
+        showProgress(true);
+        tvLoad.setText("Retreiving info...please wait...");
 
         Backendless.Persistence.of(Suburb.class).find(queryBuilder, new AsyncCallback<List<Suburb>>() {
             @Override
@@ -80,7 +108,7 @@ public class StatisticsFragment extends Fragment
 
                 myAdapter = new HotSpotAdapter(getActivity(), response);
                 rvList.setAdapter(myAdapter);
-               // showProgress(false);
+                showProgress(false);
             }
 
             @Override
@@ -90,9 +118,51 @@ public class StatisticsFragment extends Fragment
         });
 
 
+    }
 
+    /**
+     * Shows the progress UI and hides the login form.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
+            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
 
-        return v;
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+
+            tvLoad.setVisibility(show ? View.VISIBLE : View.GONE);
+            tvLoad.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    tvLoad.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            tvLoad.setVisibility(show ? View.VISIBLE : View.GONE);
+            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
     }
 }
