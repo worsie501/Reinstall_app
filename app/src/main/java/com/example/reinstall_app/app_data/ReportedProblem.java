@@ -3,14 +3,23 @@ package com.example.reinstall_app.app_data;
 import android.database.sqlite.SQLiteDatabaseCorruptException;
 import android.graphics.Point;
 
+import com.backendless.geo.GeoPoint;
+
 import java.util.Date;
 
 public class ReportedProblem {
 
     String description, userName, problemType, city, suburb;
     Date created;
-    double x, y;
+    GeoPoint geoLocation;
 
+    public GeoPoint getGeoLocation() {
+        return geoLocation;
+    }
+
+    public void setGeoLocation(GeoPoint geoLocation) {
+        this.geoLocation = geoLocation;
+    }
 
     public Date getCreated() {
         return created;
@@ -42,22 +51,6 @@ public class ReportedProblem {
 
     public void setSuburb(String suburb) {
         this.suburb = suburb;
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
     }
 
     public String getDescription() {

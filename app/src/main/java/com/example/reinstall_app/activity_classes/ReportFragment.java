@@ -34,6 +34,7 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.geo.GeoPoint;
 import com.backendless.persistence.DataQueryBuilder;
 import com.example.reinstall_app.R;
 import com.example.reinstall_app.app_data.District;
@@ -121,12 +122,13 @@ public class ReportFragment extends Fragment
                     Toast.makeText(getActivity(), "Please enter a short description of the problem", Toast.LENGTH_SHORT).show();
                 } else {
 
+                    GeoPoint geoPoint=new GeoPoint(lon, lat);
+
                     final ReportedProblem problem = new ReportedProblem();
                     problem.setProblemType(spCategory.getSelectedItem().toString().trim());
                     problem.setDescription(etDescription.getText().toString().trim());
                     problem.setCity(cityLocation.trim());
-                    problem.setX(lon);
-                    problem.setY(lat);
+                    problem.setGeoLocation(geoPoint);
 
                     Backendless.Persistence.save(problem, new AsyncCallback<ReportedProblem>() {
                         @Override
