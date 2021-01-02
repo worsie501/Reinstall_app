@@ -9,9 +9,24 @@ import java.util.Date;
 
 public class ReportedProblem {
 
-    String description, userName, problemType, city, suburb;
+    String description;
+    String userName;
+    String problemType;
+    String city;
+    String suburb;
+    String photo;
+
     Date created;
     double x, y;
+
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
     public double getX() {
         return x;
