@@ -6,12 +6,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.backendless.Backendless;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.DataQueryBuilder;
 import com.example.reinstall_app.R;
 import com.example.reinstall_app.app_data.ReportedProblem;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -83,6 +89,30 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         public void onMapReady(GoogleMap googleMap) {
             MapsInitializer.initialize(itemView.getContext());
             mapCurrent = googleMap;
+
+            final MarkerOptions markerOptions=new MarkerOptions();
+
+            DataQueryBuilder queryBuilder = DataQueryBuilder.create();
+
+            Backendless.Data.of(ReportedProblem.class).find(queryBuilder, new AsyncCallback<List<ReportedProblem>>() {
+                @Override
+                public void handleResponse(List<ReportedProblem> response) {
+
+                    for(int i=0; i<response.size(); i++)
+                    {
+                        LatLng latLng=new LatLng(response.get(i).getY(), response.get(i).getX());
+
+                        markerOptions.position(latLng);
+                        mapCurrent.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+                    }
+
+                }
+
+                @Override
+                public void handleFault(BackendlessFault fault) {
+
+                }
+            });
 
         }
     }

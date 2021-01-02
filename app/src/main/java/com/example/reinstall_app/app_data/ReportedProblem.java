@@ -11,14 +11,22 @@ public class ReportedProblem {
 
     String description, userName, problemType, city, suburb;
     Date created;
-    Point geoLocation;
+    double x, y;
 
-    public Point getGeoLocation() {
-        return geoLocation;
+    public double getX() {
+        return x;
     }
 
-    public void setGeoLocation(Point geoLocation) {
-        this.geoLocation = geoLocation;
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
     }
 
     public Date getCreated() {

@@ -71,8 +71,8 @@ public class ReportFragment extends Fragment
     int mapRequestCode=2;
     int mapResultCode=2;
 
-    double lat, lon;
-    String addressString, cityLocation, suburbConfirmed, suburbList;
+    double y, x;
+    String addressString, cityLocation, suburbConfirmed;
 
     View v;
 
@@ -100,13 +100,13 @@ public class ReportFragment extends Fragment
             {
 
 
-                lat=data.getDoubleExtra("lat", 0);
-                lon=data.getDoubleExtra("lon", 0);
+                y=data.getDoubleExtra("lat", 0);
+                x=data.getDoubleExtra("lon", 0);
                 addressString=data.getStringExtra("addressString");
                 cityLocation=data.getStringExtra("cityLocation");
 
-                tvLat.setText(String.valueOf(lat));
-                tvLon.setText(String.valueOf(lon));
+                tvLat.setText(String.valueOf(y));
+                tvLon.setText(String.valueOf(x));
                 tvAddress.setText("Address: "+addressString);
                 tvCity.setText("City: "+cityLocation);
 
@@ -135,10 +135,6 @@ public class ReportFragment extends Fragment
                                 suburbConfirmed=response.get(i).getSuburbName().trim();
                                 tvSuburnLocated.setText(suburbConfirmed);
                             }
-                           // else
-                          //  {
-                           //     tvSuburnLocated.setText("N/A");
-                          //  }
                         }
 
                     }
@@ -205,16 +201,15 @@ public class ReportFragment extends Fragment
                     Toast.makeText(getActivity(), "Please enter a short description of the problem", Toast.LENGTH_SHORT).show();
                 } else {
 
-                   // final GeoPoint geoPoint=new GeoPoint(lon, lat);
-                    Point geoPoint=new Point((int) lon,(int) lat);
+                   // GeoPoint geoPoint=new GeoPoint(lon, lat);
 
                     final ReportedProblem problem = new ReportedProblem();
                     problem.setProblemType(spCategory.getSelectedItem().toString().trim());
                     problem.setDescription(etDescription.getText().toString().trim());
                     problem.setCity(cityLocation.trim());
-                   // problem.setGeoLocation(geoPoint);
                     problem.setSuburb(suburbConfirmed);
-
+                    problem.setX(x); //lon
+                    problem.setY(y); //lat
 
 
 
