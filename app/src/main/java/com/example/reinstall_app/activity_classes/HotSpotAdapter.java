@@ -17,7 +17,7 @@ import java.util.List;
 public class HotSpotAdapter extends RecyclerView.Adapter<HotSpotAdapter.ViewHolder> {
 
 
-    private List<Suburb> hotspots;
+    final private List<Suburb> hotspots;
     ItemClicked activity;
 
     public interface ItemClicked
@@ -39,14 +39,14 @@ public class HotSpotAdapter extends RecyclerView.Adapter<HotSpotAdapter.ViewHold
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tvSuburb = itemView.findViewById(R.id.tvSuburb);
-            tvNumReports = itemView.findViewById(R.id.tvNumReports);
+            tvSuburb = itemView.findViewById(R.id.tvProblemType);
+            tvNumReports = itemView.findViewById(R.id.tvNumReportsProblems);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    activity.onItemClicked(hotspots.indexOf((Suburb)v.getTag()));
+                    activity.onItemClicked(hotspots.indexOf(v.getTag()));
 
                 }
             });
@@ -65,7 +65,7 @@ public class HotSpotAdapter extends RecyclerView.Adapter<HotSpotAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull HotSpotAdapter.ViewHolder holder, int position) {
 
-        holder.itemView.setTag(hotspots.get(position));
+        holder.itemView.setTag(hotspots.get(holder.getAdapterPosition()));
 
         holder.tvSuburb.setText(hotspots.get(position).getSuburbName());
         holder.tvNumReports.setText(hotspots.get(position).getTotalReports());

@@ -97,16 +97,16 @@ public class StatisticsFragment extends Fragment
         });
 
         DataQueryBuilder queryBuilder = DataQueryBuilder.create();
-        queryBuilder.setGroupBy("suburbName");
+        queryBuilder.setSortBy("problemType");
 
         showProgress(true);
         tvLoad.setText("Retreiving info...please wait...");
 
-        Backendless.Persistence.of(Suburb.class).find(queryBuilder, new AsyncCallback<List<Suburb>>() {
+        Backendless.Persistence.of(ReportedProblem.class).find(queryBuilder, new AsyncCallback<List<ReportedProblem>>() {
             @Override
-            public void handleResponse(List<Suburb> response) {
+            public void handleResponse(List<ReportedProblem> response) {
 
-                myAdapter = new HotSpotAdapter(getActivity(), response);
+                myAdapter = new StatsAdapter(getActivity(), response);
                 rvList.setAdapter(myAdapter);
                 showProgress(false);
             }

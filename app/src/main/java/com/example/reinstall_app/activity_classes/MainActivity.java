@@ -43,7 +43,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements HotSpotAdapter.ItemClicked, FeedAdapter.FeedItemClicked{
+public class MainActivity extends AppCompatActivity implements HotSpotAdapter.ItemClicked, FeedAdapter.FeedItemClicked, StatsAdapter.ItemClicked{
 
     private static final String TAG = "MainActivity";
 

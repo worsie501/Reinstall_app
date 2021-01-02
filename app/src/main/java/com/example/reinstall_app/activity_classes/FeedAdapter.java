@@ -66,6 +66,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             btnEdit = itemView.findViewById(R.id.btnEdit);
             btnDelete = itemView.findViewById(R.id.btnDelete);
 
+
+
             feedMap = (MapView) itemView.findViewById(R.id.feedMap);
             if(feedMap != null)
             {
@@ -90,9 +92,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             MapsInitializer.initialize(itemView.getContext());
             mapCurrent = googleMap;
 
-            final MarkerOptions markerOptions=new MarkerOptions();
+           /*  final MarkerOptions markerOptions=new MarkerOptions();
 
-            DataQueryBuilder queryBuilder = DataQueryBuilder.create();
+           DataQueryBuilder queryBuilder = DataQueryBuilder.create();
 
             Backendless.Data.of(ReportedProblem.class).find(queryBuilder, new AsyncCallback<List<ReportedProblem>>() {
                 @Override
@@ -112,7 +114,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 public void handleFault(BackendlessFault fault) {
 
                 }
-            });
+            });*/
 
         }
     }
@@ -128,13 +130,53 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FeedAdapter.ViewHolder holder, int i) {
+    public void onBindViewHolder(@NonNull final FeedAdapter.ViewHolder holder,final int i) {
+
+        holder.feedMap.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                if(holder.feedMap!=null)
+                {
+                    //double lat=-29.1439809;
+                    //double lon=26.2018104;
+                    float zoomLevel=16.0f;
+
+                    LatLng latLng = new LatLng(reports.get(i).getY(), reports.get(i).getX() );
+
+                    MarkerOptions markerOptions=new MarkerOptions();
+
+                    markerOptions.position(latLng);
+
+                    holder.mapCurrent.addMarker(new MarkerOptions().position(latLng));
+
+                    holder.mapCurrent.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+
+
+
+                    //  holder.mapCurrent.addMarker(markerOptions);
+
+                    //holder.mapCurrent.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+
+                }
+            }
+        });
 
         holder.itemView.setTag(reports.get(i));
 
         holder.tvName.setText(reports.get(i).getUserName());
         holder.tvCategory.setText(reports.get(i).getProblemType());
         holder.tvDescription.setText(reports.get(i).getDescription());
+
+
+
+        if(reports.get(i).getY()!=0 && reports.get(i).getX()!=0) {
+
+            //
+
+
+
+        }
+
 
 
 
@@ -152,7 +194,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
         if (holder.mapCurrent != null)
         {
-            holder.mapCurrent.clear();
+          //  holder.mapCurrent.clear();
             holder.mapCurrent.setMapType(GoogleMap.MAP_TYPE_NONE);
         }
     }

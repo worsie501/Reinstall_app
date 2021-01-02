@@ -75,7 +75,7 @@ public class ReportFragment extends Fragment
     int mapResultCode=2;
 
     double y, x;
-    String addressString, cityLocation, suburbConfirmed;
+    String addressString, cityLocation, suburbConfirmed="";
     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
     String photoName=y+""+x+timeStamp;
 
@@ -139,7 +139,13 @@ public class ReportFragment extends Fragment
                             {
                                 suburbConfirmed=response.get(i).getSuburbName().trim();
                                 tvSuburnLocated.setText(suburbConfirmed);
+
+                               // response.get(i).setTotalReports(+1);
                             }
+                        }
+                        if(suburbConfirmed.isEmpty())
+                        {
+                            tvSuburnLocated.setText("N/A");
                         }
 
                     }

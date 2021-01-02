@@ -83,7 +83,7 @@ public class DashboardFragment extends Fragment
 
 
         DataQueryBuilder queryBuilder = DataQueryBuilder.create();
-        queryBuilder.setGroupBy("totalReports");
+        queryBuilder.setSortBy("suburbName");
 
         showProgress(true);
         tvLoad.setText("Retreiving info...please wait...");

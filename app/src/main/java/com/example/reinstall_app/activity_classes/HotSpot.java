@@ -3,8 +3,15 @@ package com.example.reinstall_app.activity_classes;
 public class HotSpot {
 
     String suburbName;
-    int totalReports;
+    String totalReports;
 
+    public String getTotalReports() {
+        return totalReports;
+    }
+
+    public void setTotalReports(String totalReports) {
+        this.totalReports = totalReports;
+    }
 
     public String getSuburbName() {
         return suburbName;
@@ -14,11 +21,4 @@ public class HotSpot {
         this.suburbName = suburbName;
     }
 
-    public int getTotalReports() {
-        return totalReports;
-    }
-
-    public void setTotalReports(int totalReports) {
-        this.totalReports = totalReports;
-    }
 }
