@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -35,6 +36,7 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.files.BackendlessFile;
 import com.backendless.geo.GeoPoint;
 import com.backendless.persistence.DataQueryBuilder;
 import com.example.reinstall_app.R;
@@ -50,6 +52,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Date;
 import java.util.List;
 
 import static android.content.Context.RECEIVER_VISIBLE_TO_INSTANT_APPS;
@@ -73,6 +76,8 @@ public class ReportFragment extends Fragment
 
     double y, x;
     String addressString, cityLocation, suburbConfirmed;
+    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+    String photoName=y+""+x+timeStamp;
 
     View v;
 
@@ -153,6 +158,26 @@ public class ReportFragment extends Fragment
         }
         else if(requestCode==0) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
+            Backendless.Files.Android.upload( photo,
+                    Bitmap.CompressFormat.PNG,
+                    100,
+                    photoName,
+                    "photos",
+                    new AsyncCallback<BackendlessFile>()
+                    {
+                        @Override
+                        public void handleResponse( final BackendlessFile backendlessFile )
+                        {
+                        }
+
+                        @Override
+                        public void handleFault( BackendlessFault backendlessFault )
+                        {
+                            Toast.makeText( getActivity(),
+                                    backendlessFault.toString(),
+                                    Toast.LENGTH_SHORT ).show();
+                        }
+                    });
         }
     }
 
