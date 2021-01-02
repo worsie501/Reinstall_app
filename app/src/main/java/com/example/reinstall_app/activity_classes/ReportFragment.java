@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -65,13 +66,13 @@ public class ReportFragment extends Fragment
     ImageButton btnPhoto;
     Button btnSubmitReport;
     EditText etDescription;
-    TextView tvLat,tvLon,tvAddress, tvCity;
+    TextView tvLat,tvLon,tvAddress, tvCity, tvSuburnLocated;
 
     int mapRequestCode=2;
     int mapResultCode=2;
 
     double lat, lon;
-    String addressString, cityLocation;
+    String addressString, cityLocation, suburbConfirmed, suburbList;
 
     View v;
 
@@ -109,6 +110,47 @@ public class ReportFragment extends Fragment
                 tvAddress.setText("Address: "+addressString);
                 tvCity.setText("City: "+cityLocation);
 
+                final DataQueryBuilder queryBuilder = DataQueryBuilder.create();
+                //queryBuilder.setWhereClause("suburbName");
+
+                Backendless.Persistence.of(Suburb.class).find(queryBuilder, new AsyncCallback<List<Suburb>>() {
+                    @Override
+                    public void handleResponse(List<Suburb> response) {
+
+                        for(int i=0; i<response.size(); i++)
+                        {
+                         //   if(response.get(i).getSuburbName().isEmpty())
+                         //   {
+                         //      Toast.makeText(getActivity(), "No Data Found!!!", Toast.LENGTH_SHORT).show();
+                           //     tvSuburnLocated.setText("Eks fucked!!!");
+                          //  }
+                          //  else if(addressString.toLowerCase().contains(response.get(i).getSuburbName()))
+                          //  {
+                           //     suburbConfirmed=response.get(i).getSuburbName().trim();
+                           //     tvSuburnLocated.setText(suburbConfirmed);
+                           // }
+
+                            if(addressString.contains(response.get(i).getSuburbName()))
+                            {
+                                suburbConfirmed=response.get(i).getSuburbName().trim();
+                                tvSuburnLocated.setText(suburbConfirmed);
+                            }
+                           // else
+                          //  {
+                           //     tvSuburnLocated.setText("N/A");
+                          //  }
+                        }
+
+                    }
+
+                    @Override
+                    public void handleFault(BackendlessFault fault) {
+
+                        Toast.makeText(getActivity(), "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
             }
 
 
@@ -131,6 +173,7 @@ public class ReportFragment extends Fragment
         tvLon=v.findViewById(R.id.tvLon);
         tvAddress=v.findViewById(R.id.tvAddress);
         tvCity=v.findViewById(R.id.tvCity);
+        tvSuburnLocated=v.findViewById(R.id.tvSuburbLocated);
 
 
         DataQueryBuilder queryBuilder = DataQueryBuilder.create();
@@ -162,13 +205,18 @@ public class ReportFragment extends Fragment
                     Toast.makeText(getActivity(), "Please enter a short description of the problem", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    GeoPoint geoPoint=new GeoPoint(lon, lat);
+                   // final GeoPoint geoPoint=new GeoPoint(lon, lat);
+                    Point geoPoint=new Point((int) lon,(int) lat);
 
                     final ReportedProblem problem = new ReportedProblem();
                     problem.setProblemType(spCategory.getSelectedItem().toString().trim());
                     problem.setDescription(etDescription.getText().toString().trim());
                     problem.setCity(cityLocation.trim());
-                    problem.setGeoLocation(geoPoint);
+                   // problem.setGeoLocation(geoPoint);
+                    problem.setSuburb(suburbConfirmed);
+
+
+
 
                     Backendless.Persistence.save(problem, new AsyncCallback<ReportedProblem>() {
                         @Override

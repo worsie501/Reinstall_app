@@ -11,13 +11,13 @@ public class ReportedProblem {
 
     String description, userName, problemType, city, suburb;
     Date created;
-    GeoPoint geoLocation;
+    Point geoLocation;
 
-    public GeoPoint getGeoLocation() {
+    public Point getGeoLocation() {
         return geoLocation;
     }
 
-    public void setGeoLocation(GeoPoint geoLocation) {
+    public void setGeoLocation(Point geoLocation) {
         this.geoLocation = geoLocation;
     }
 
@@ -76,5 +76,7 @@ public class ReportedProblem {
     public void setProblemType(String problemType) {
         this.problemType = problemType;
     }
+
+
 
 }
