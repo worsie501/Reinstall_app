@@ -29,6 +29,7 @@ import com.example.reinstall_app.R;
 import com.example.reinstall_app.app_data.Suburb;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DashboardFragment extends Fragment
@@ -46,6 +47,8 @@ public class DashboardFragment extends Fragment
 
     Button btnLogout;
     View v ;
+
+    ArrayList<Suburb> aboveTen = new ArrayList<>();
 
     public DashboardFragment(){
 
@@ -95,8 +98,15 @@ public class DashboardFragment extends Fragment
             @Override
             public void handleResponse(List<Suburb> response) {
 
-
-                myAdapter = new HotSpotAdapter(getActivity(), response);
+                for (int i = 0; i < response.size(); i++)
+                {
+                    if(response.get(i).getTotalReports() >= 10)
+                    {
+                        Suburb sub = response.get(i);
+                        aboveTen.add(sub);
+                    }
+                }
+                myAdapter = new HotSpotAdapter(getActivity(), aboveTen);
                 rvList.setAdapter(myAdapter);
                 showProgress(false);
             }
