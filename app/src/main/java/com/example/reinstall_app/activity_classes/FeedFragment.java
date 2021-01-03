@@ -71,7 +71,9 @@ public class FeedFragment extends Fragment implements FeedAdapter.FeedItemClicke
         tvLoad = v.findViewById(R.id.tvLoad);
 
         DataQueryBuilder queryBuilder = DataQueryBuilder.create();
-        queryBuilder.setGroupBy("userName");
+        queryBuilder.setSortBy("userName");
+        int PAGESIZE = 80;
+        queryBuilder.setPageSize(PAGESIZE);
 
         showProgress(true);
         tvLoad.setText("Retreiving info...please wait...");

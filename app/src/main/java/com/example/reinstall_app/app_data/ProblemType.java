@@ -1,10 +1,38 @@
 package com.example.reinstall_app.app_data;
 
+import java.util.Date;
+
 public class ProblemType {
 
-    String problemName;
-    int totalProblems;
+    private String problemName;
+    private int totalProblems;
+    private Date created;
+    private Date updated;
+    private String objectId;
 
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
 
     public int getTotalProblems() {
         return totalProblems;

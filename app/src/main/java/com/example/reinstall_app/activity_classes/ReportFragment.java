@@ -13,6 +13,7 @@ import android.graphics.Point;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,6 +55,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -78,6 +80,8 @@ public class ReportFragment extends Fragment
 
     int mapRequestCode=2;
     int mapResultCode=2;
+
+    List<ProblemType> pt ;
 
     double y, x;
     String addressString, cityLocation, suburbConfirmed="";
@@ -107,7 +111,7 @@ public class ReportFragment extends Fragment
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode==mapRequestCode)
+        if(requestCode == mapRequestCode)
         {
             if(resultCode == mapResultCode)
             {
@@ -147,7 +151,7 @@ public class ReportFragment extends Fragment
 
                             if(addressString.contains(response.get(i).getSuburbName()))
                             {
-                                suburbConfirmed=response.get(i).getSuburbName().trim();
+                                suburbConfirmed = response.get(i).getSuburbName().trim();
                                 tvSuburnLocated.setText(suburbConfirmed);
 
                                // response.get(i).setTotalReports(+1);
@@ -224,6 +228,38 @@ public class ReportFragment extends Fragment
         tvCity=v.findViewById(R.id.tvCity);
         tvSuburnLocated=v.findViewById(R.id.tvSuburbLocated);
 
+        DataQueryBuilder subQueryBuilder = DataQueryBuilder.create();
+        int PAGESIZE = 80;
+        subQueryBuilder.setPageSize(PAGESIZE);
+
+        Backendless.Persistence.of(Suburb.class).find(subQueryBuilder, new AsyncCallback<List<Suburb>>() {
+            @Override
+            public void handleResponse(List<Suburb> response) {
+                ReinstallApplicationClass.suburbList = response;
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Toast.makeText(getActivity(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        DataQueryBuilder ptQueryBuilder = DataQueryBuilder.create();
+        ptQueryBuilder.setPageSize(PAGESIZE);
+
+        Backendless.Persistence.of(ProblemType.class).find(ptQueryBuilder, new AsyncCallback<List<ProblemType>>() {
+            @Override
+            public void handleResponse(List<ProblemType> response) {
+                ReinstallApplicationClass.problemTypes = response;
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Toast.makeText(getActivity(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         DataQueryBuilder queryBuilder = DataQueryBuilder.create();
         queryBuilder.setGroupBy("problemName");
@@ -252,16 +288,16 @@ public class ReportFragment extends Fragment
 
                 if (etDescription.getText().toString().isEmpty()) {
                     Toast.makeText(getActivity(), "Please enter a short description of the problem", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else
+                    {
 
                    // GeoPoint geoPoint=new GeoPoint(lon, lat);
-
                     String userObjectId = UserIdStorageFactory.instance().getStorage().get();
                     Backendless.Data.of(BackendlessUser.class).findById(userObjectId, new AsyncCallback<BackendlessUser>() {
                         @Override
                         public void handleResponse(BackendlessUser response) {
                             ReinstallApplicationClass.user = response;
-
                         }
 
                         @Override
@@ -279,70 +315,59 @@ public class ReportFragment extends Fragment
                     problem.setY(y); //lat
 
 
-                    DataQueryBuilder queryBuilder = DataQueryBuilder.create();
+                       Backendless.Persistence.save(problem, new AsyncCallback<ReportedProblem>() {
+                            @Override
+                            public void handleResponse(ReportedProblem response) {
+                                Toast.makeText(getActivity(), "Report Submitted!", Toast.LENGTH_SHORT).show();
+                            }
 
-                    Backendless.Persistence.of(ProblemType.class).find(queryBuilder, new AsyncCallback<List<ProblemType>>() {
-                        @Override
-                        public void handleResponse(List<ProblemType> response) {
+                            @Override
+                            public void handleFault(BackendlessFault fault) {
+                                Toast.makeText(getActivity(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
-                            problemTypes=response;
 
-                            for(int i=0; i<response.size(); i++)
+                        for(int i = 0; i < problemTypes.size(); i++)
+                        {
+
+                            if(problemTypes.get(i).getProblemName().equals(spCategory.getSelectedItem().toString().trim()))
                             {
-                                    if(response.get(i).getProblemName().equals(problem.getProblemType()))
-                                    {
-                                        Toast.makeText(getActivity(), ""+response.get(i).getProblemName(), Toast.LENGTH_SHORT).show();
 
-                                        ReinstallApplicationClass.problemTypes.get(i).setTotalProblems(response.get(i).getTotalProblems()+1);
+                                Toast.makeText(getActivity(), "" + problemTypes.get(i).getObjectId(), Toast.LENGTH_SHORT).show();
 
+                                problemTypes.get(i).setTotalProblems(problemTypes.get(i).getTotalProblems() + 1);
 
+                                Backendless.Data.of(ProblemType.class).save(ReinstallApplicationClass.problemTypes.get(i), new AsyncCallback<ProblemType>() {
+                                    @Override
+                                    public void handleResponse(ProblemType response) {
 
-                                        Backendless.Persistence.save(ReinstallApplicationClass.problemTypes.get(i), new AsyncCallback<ProblemType>() {
-                                            @Override
-                                            public void handleResponse(ProblemType response) {
-                                                Toast.makeText(getActivity(), ""+response.getProblemName(), Toast.LENGTH_SHORT).show();
-                                            }
-
-                                            @Override
-                                            public void handleFault(BackendlessFault fault) {
-
-                                                Toast.makeText(getActivity(), "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                            }
-                                        });
-
+                                        Toast.makeText(getActivity(), "Increased " + response.getProblemName() + " : " + response.getTotalProblems(), Toast.LENGTH_SHORT).show();
                                     }
+
+                                    @Override
+                                    public void handleFault(BackendlessFault fault) {
+                                        Toast.makeText(getActivity(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                break;
                             }
 
                         }
 
-                        @Override
-                        public void handleFault(BackendlessFault fault) {
-
-                            Toast.makeText(getActivity(), "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
-
-                        }
-                    });
-
-                    //wfwrerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
-
-                  /*  DataQueryBuilder suburbQuery = DataQueryBuilder.create();
-
-                    Backendless.Persistence.of(Suburb.class).find(suburbQuery, new AsyncCallback<List<Suburb>>() {
-                                @Override
-                                public void handleResponse(List<Suburb> response) {
-                                    suburbList=response;
-
-                                    for(int i=0; i<response.size(); i++)
+                                    for(int i = 0; i < suburbList.size(); i++)
                                     {
-                                        if(response.get(i).getSuburbName().equals(problem.getSuburb()))
+
+                                        if(suburbList.get(i).getSuburbName().equals(suburbConfirmed))
                                         {
-                                            ReinstallApplicationClass.suburbList.get(i).setTotalReports(response.get(i).getTotalReports()+1);
+
+                                            Toast.makeText(getActivity(), "" + suburbList.get(i).getObjectId(), Toast.LENGTH_SHORT).show();
+                                            ReinstallApplicationClass.suburbList.get(i).setTotalReports(suburbList.get(i).getTotalReports() + 1);
 
                                             Backendless.Persistence.save(suburbList.get(i), new AsyncCallback<Suburb>() {
                                                 @Override
                                                 public void handleResponse(Suburb response) {
-                                                    Toast.makeText(getActivity(), "Suburb Added", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getActivity(), "Suburb problem count increased", Toast.LENGTH_LONG).show();
                                                 }
 
                                                 @Override
@@ -353,39 +378,20 @@ public class ReportFragment extends Fragment
                                                 }
                                             });
 
-
+                                            break;
                                         }
                                     }
 
 
                                 }
 
-                                @Override
-                                public void handleFault(BackendlessFault fault) {
-                                    Toast.makeText(getActivity(), "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                }
-                            });*/
-
-
-                    Backendless.Persistence.save(problem, new AsyncCallback<ReportedProblem>() {
-                        @Override
-                        public void handleResponse(ReportedProblem response) {
-                            Toast.makeText(getActivity(), "Report Submitted!", Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void handleFault(BackendlessFault fault) {
-
-                            Toast.makeText(getActivity(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
-
-                        }
-                    });
                     spCategory.setSelection(0);
                     etDescription.setText(null);
                 }
-            }
-        });
+            });
+
+
+
 
         btnPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -404,6 +410,7 @@ public class ReportFragment extends Fragment
         }
 
     }
+
 
     private void init()
     {

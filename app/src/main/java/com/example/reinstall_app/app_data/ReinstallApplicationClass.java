@@ -5,6 +5,7 @@ import android.app.Application;
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReinstallApplicationClass extends Application {

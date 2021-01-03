@@ -2,11 +2,40 @@ package com.example.reinstall_app.app_data;
 
 import com.example.reinstall_app.app_data.City;
 
+import java.util.Date;
+
 public class Suburb extends City {
 
-    String suburbName;
-    String cityName;
-    int totalReports;
+    private String suburbName;
+    private String cityName;
+    private int totalReports;
+    private String objectId;
+    private Date updated;
+    private Date created;
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
 
     public int getTotalReports() {
         return totalReports;
