@@ -67,8 +67,11 @@ public class HotSpotAdapter extends RecyclerView.Adapter<HotSpotAdapter.ViewHold
 
         holder.itemView.setTag(hotspots.get(holder.getAdapterPosition()));
 
+        int totalReports = hotspots.get(position).getTotalReports();
+
+        holder.tvNumReports.setText(String.valueOf(totalReports));
         holder.tvSuburb.setText(hotspots.get(position).getSuburbName());
-        holder.tvNumReports.setText(hotspots.get(position).getTotalReports());
+
 
     }
 

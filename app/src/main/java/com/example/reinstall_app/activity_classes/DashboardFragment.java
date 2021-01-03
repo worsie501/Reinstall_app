@@ -45,7 +45,6 @@ public class DashboardFragment extends Fragment
     RecyclerView.LayoutManager layoutManager;
 
     Button btnLogout;
-
     View v ;
 
     public DashboardFragment(){
@@ -71,6 +70,7 @@ public class DashboardFragment extends Fragment
         btnLogout = v.findViewById(R.id.btnLogout);
 
 
+
         mLoginFormView = v.findViewById(R.id.login_form);
         mProgressView = v.findViewById(R.id.login_progress);
         tvLoad = v.findViewById(R.id.tvLoad);
@@ -88,9 +88,13 @@ public class DashboardFragment extends Fragment
         showProgress(true);
         tvLoad.setText("Retreiving info...please wait...");
 
+        int PAGESIZE = 80;
+        queryBuilder.setPageSize(PAGESIZE);
+
         Backendless.Persistence.of(Suburb.class).find(queryBuilder, new AsyncCallback<List<Suburb>>() {
             @Override
             public void handleResponse(List<Suburb> response) {
+
 
                 myAdapter = new HotSpotAdapter(getActivity(), response);
                 rvList.setAdapter(myAdapter);
@@ -103,6 +107,7 @@ public class DashboardFragment extends Fragment
                 showProgress(false);
             }
         });
+
 
 
         btnLogout.setOnClickListener(new View.OnClickListener() {

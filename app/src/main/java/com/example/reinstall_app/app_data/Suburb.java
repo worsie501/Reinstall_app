@@ -6,13 +6,13 @@ public class Suburb extends City {
 
     String suburbName;
     String cityName;
-    String totalReports;
+    int totalReports;
 
-    public String getTotalReports() {
+    public int getTotalReports() {
         return totalReports;
     }
 
-    public void setTotalReports(String totalReports) {
+    public void setTotalReports(int totalReports) {
         this.totalReports = totalReports;
     }
 
