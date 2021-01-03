@@ -25,6 +25,7 @@ import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
 import com.example.reinstall_app.R;
 import com.example.reinstall_app.app_data.City;
+import com.example.reinstall_app.app_data.ProblemType;
 import com.example.reinstall_app.app_data.ReportedProblem;
 import com.example.reinstall_app.app_data.Suburb;
 
@@ -97,14 +98,14 @@ public class StatisticsFragment extends Fragment
         });
 
         DataQueryBuilder queryBuilder = DataQueryBuilder.create();
-        queryBuilder.setSortBy("problemType");
+        queryBuilder.setSortBy("problemName");
 
         showProgress(true);
         tvLoad.setText("Retreiving info...please wait...");
 
-        Backendless.Persistence.of(ReportedProblem.class).find(queryBuilder, new AsyncCallback<List<ReportedProblem>>() {
+        Backendless.Persistence.of(ProblemType.class).find(queryBuilder, new AsyncCallback<List<ProblemType>>() {
             @Override
-            public void handleResponse(List<ReportedProblem> response) {
+            public void handleResponse(List<ProblemType> response) {
 
                 myAdapter = new StatsAdapter(getActivity(), response);
                 rvList.setAdapter(myAdapter);

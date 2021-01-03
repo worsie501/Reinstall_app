@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.reinstall_app.R;
+import com.example.reinstall_app.app_data.ProblemType;
 import com.example.reinstall_app.app_data.ReportedProblem;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.ViewHolder> {
 
 
-    private List<ReportedProblem> statsList;
+    private List<ProblemType> statsList;
     ItemClicked activity;
 
     public interface ItemClicked
@@ -25,7 +26,7 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.ViewHolder> 
         void onItemClicked(int index);
     }
 
-    public StatsAdapter(Context context, List<ReportedProblem> list)
+    public StatsAdapter(Context context, List<ProblemType> list)
     {
         statsList = list;
         activity = (ItemClicked) context;
@@ -46,7 +47,7 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.ViewHolder> 
                 @Override
                 public void onClick(View v) {
 
-                    activity.onItemClicked(statsList.indexOf((ReportedProblem) v.getTag()));
+                    activity.onItemClicked(statsList.indexOf((ProblemType) v.getTag()));
 
                 }
             });
@@ -67,8 +68,8 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.ViewHolder> 
 
         holder.itemView.setTag(statsList.get(position));
 
-        holder.tvProblemType.setText(statsList.get(position).getProblemType());
-        holder.tvNumReportsProblem.setText(statsList.get(position).getSuburb());
+        holder.tvProblemType.setText(statsList.get(position).getProblemName());
+        holder.tvNumReportsProblem.setText(String.valueOf(statsList.get(position).getTotalProblems()) );
 
     }
 

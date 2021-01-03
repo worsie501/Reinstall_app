@@ -42,6 +42,7 @@ import com.backendless.persistence.DataQueryBuilder;
 import com.example.reinstall_app.R;
 import com.example.reinstall_app.app_data.District;
 import com.example.reinstall_app.app_data.ProblemType;
+import com.example.reinstall_app.app_data.ReinstallApplicationClass;
 import com.example.reinstall_app.app_data.ReportedProblem;
 import com.example.reinstall_app.app_data.Suburb;
 import com.example.reinstall_app.app_data.User;
@@ -54,8 +55,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import static android.content.Context.RECEIVER_VISIBLE_TO_INSTANT_APPS;
+import static com.example.reinstall_app.app_data.ReinstallApplicationClass.problemTypes;
+import static com.example.reinstall_app.app_data.ReinstallApplicationClass.suburbList;
 import static com.example.reinstall_app.app_data.ReinstallApplicationClass.user;
 
 public class ReportFragment extends Fragment
@@ -149,6 +153,7 @@ public class ReportFragment extends Fragment
                         if(suburbConfirmed.isEmpty())
                         {
                             tvSuburnLocated.setText("N/A");
+                            suburbConfirmed="N/A";
                         }
 
                     }
@@ -246,8 +251,6 @@ public class ReportFragment extends Fragment
                     Toast.makeText(getActivity(), "Please enter a short description of the problem", Toast.LENGTH_SHORT).show();
                 } else {
 
-                   // GeoPoint geoPoint=new GeoPoint(lon, lat);
-
 
                     problem.setProblemType(spCategory.getSelectedItem().toString().trim());
                     problem.setDescription(etDescription.getText().toString().trim());
@@ -256,6 +259,92 @@ public class ReportFragment extends Fragment
                     problem.setX(x); //lon
                     problem.setY(y); //lat
 
+
+                    DataQueryBuilder queryBuilder = DataQueryBuilder.create();
+
+                    Backendless.Persistence.of(ProblemType.class).find(queryBuilder, new AsyncCallback<List<ProblemType>>() {
+                        @Override
+                        public void handleResponse(List<ProblemType> response) {
+
+                            problemTypes=response;
+
+                            for(int i=0; i<response.size(); i++)
+                            {
+                                    if(response.get(i).getProblemName().equals(problem.getProblemType()))
+                                    {
+                                        Toast.makeText(getActivity(), ""+response.get(i).getProblemName(), Toast.LENGTH_SHORT).show();
+
+                                        ReinstallApplicationClass.problemTypes.get(i).setTotalProblems(response.get(i).getTotalProblems()+1);
+
+
+
+                                        Backendless.Persistence.save(ReinstallApplicationClass.problemTypes.get(i), new AsyncCallback<ProblemType>() {
+                                            @Override
+                                            public void handleResponse(ProblemType response) {
+                                                Toast.makeText(getActivity(), ""+response.getProblemName(), Toast.LENGTH_SHORT).show();
+                                            }
+
+                                            @Override
+                                            public void handleFault(BackendlessFault fault) {
+
+                                                Toast.makeText(getActivity(), "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                            }
+                                        });
+
+                                    }
+                            }
+
+                        }
+
+                        @Override
+                        public void handleFault(BackendlessFault fault) {
+
+                            Toast.makeText(getActivity(), "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+
+                  /*  DataQueryBuilder suburbQuery = DataQueryBuilder.create();
+
+                    Backendless.Persistence.of(Suburb.class).find(suburbQuery, new AsyncCallback<List<Suburb>>() {
+                                @Override
+                                public void handleResponse(List<Suburb> response) {
+                                    suburbList=response;
+
+                                    for(int i=0; i<response.size(); i++)
+                                    {
+                                        if(response.get(i).getSuburbName().equals(problem.getSuburb()))
+                                        {
+                                            ReinstallApplicationClass.suburbList.get(i).setTotalReports(response.get(i).getTotalReports()+1);
+
+                                            Backendless.Persistence.save(suburbList.get(i), new AsyncCallback<Suburb>() {
+                                                @Override
+                                                public void handleResponse(Suburb response) {
+                                                    Toast.makeText(getActivity(), "Suburb Added", Toast.LENGTH_LONG).show();
+                                                }
+
+                                                @Override
+                                                public void handleFault(BackendlessFault fault) {
+
+                                                    Toast.makeText(getActivity(), "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                                }
+                                            });
+
+
+                                        }
+                                    }
+
+
+                                }
+
+                                @Override
+                                public void handleFault(BackendlessFault fault) {
+                                    Toast.makeText(getActivity(), "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                }
+                            });*/
 
 
                     Backendless.Persistence.save(problem, new AsyncCallback<ReportedProblem>() {
