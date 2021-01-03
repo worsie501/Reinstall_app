@@ -39,6 +39,7 @@ import com.backendless.exceptions.BackendlessFault;
 import com.backendless.files.BackendlessFile;
 import com.backendless.geo.GeoPoint;
 import com.backendless.persistence.DataQueryBuilder;
+import com.backendless.persistence.local.UserIdStorageFactory;
 import com.example.reinstall_app.R;
 import com.example.reinstall_app.app_data.District;
 import com.example.reinstall_app.app_data.ProblemType;
@@ -123,6 +124,8 @@ public class ReportFragment extends Fragment
                 tvCity.setText("City: "+cityLocation);
 
                 final DataQueryBuilder queryBuilder = DataQueryBuilder.create();
+                int PAGESIZE = 80;
+                queryBuilder.setPageSize(PAGESIZE);
                 //queryBuilder.setWhereClause("suburbName");
 
                 Backendless.Persistence.of(Suburb.class).find(queryBuilder, new AsyncCallback<List<Suburb>>() {
@@ -251,7 +254,23 @@ public class ReportFragment extends Fragment
                     Toast.makeText(getActivity(), "Please enter a short description of the problem", Toast.LENGTH_SHORT).show();
                 } else {
 
+                   // GeoPoint geoPoint=new GeoPoint(lon, lat);
 
+                    String userObjectId = UserIdStorageFactory.instance().getStorage().get();
+                    Backendless.Data.of(BackendlessUser.class).findById(userObjectId, new AsyncCallback<BackendlessUser>() {
+                        @Override
+                        public void handleResponse(BackendlessUser response) {
+                            ReinstallApplicationClass.user = response;
+
+                        }
+
+                        @Override
+                        public void handleFault(BackendlessFault fault) {
+                            Toast.makeText(getActivity(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    problem.setUserName(user.getProperty("name").toString());
                     problem.setProblemType(spCategory.getSelectedItem().toString().trim());
                     problem.setDescription(etDescription.getText().toString().trim());
                     problem.setCity(cityLocation.trim());
