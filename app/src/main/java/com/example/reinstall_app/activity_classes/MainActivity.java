@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -84,6 +85,47 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
             }
         });
 
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+
+        switch (item.getItemId())
+        {
+
+            case R.id.logout:
+                Toast.makeText(MainActivity.this, "busy logging out...please wait...", Toast.LENGTH_LONG).show();
+
+                Backendless.UserService.logout(new AsyncCallback<Void>() {
+                    @Override
+                    public void handleResponse(Void response) {
+                        Toast.makeText(MainActivity.this, "User signed out successfully...", Toast.LENGTH_SHORT).show();
+
+                        startActivity(new Intent(MainActivity.this, RoleSelection.class));
+                        MainActivity.this.finish();
+                    }
+
+                    @Override
+                    public void handleFault(BackendlessFault fault) {
+
+                        Toast.makeText(MainActivity.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.main, menu);
+
+        return super.onCreateOptionsMenu(menu);
 
     }
 

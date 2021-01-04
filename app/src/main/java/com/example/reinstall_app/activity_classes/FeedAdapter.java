@@ -69,7 +69,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             btnDelete = itemView.findViewById(R.id.btnDelete);
 
 
-
             feedMap = (MapView) itemView.findViewById(R.id.feedMap);
             if(feedMap != null)
             {
@@ -82,7 +81,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     activity.onItemClicked(reports.indexOf((ReportedProblem) v.getTag()));
                 }
             });
@@ -93,7 +91,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         public void onMapReady(GoogleMap googleMap) {
             MapsInitializer.initialize(itemView.getContext());
             mapCurrent = googleMap;
-
 
         }
     }
@@ -158,13 +155,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         }
 
 
-
         Date date;
-
         date = reports.get(i).getCreated();
-
         SimpleDateFormat format = new SimpleDateFormat("dd-mm-yyyy");
-
         holder.tvDate.setText(format.format(date));
     }
 
@@ -173,7 +166,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
         if (holder.mapCurrent != null)
         {
-          //  holder.mapCurrent.clear();
             holder.mapCurrent.setMapType(GoogleMap.MAP_TYPE_NONE);
         }
     }

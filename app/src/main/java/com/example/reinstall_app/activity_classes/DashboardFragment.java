@@ -45,7 +45,6 @@ public class DashboardFragment extends Fragment
     RecyclerView.Adapter myAdapter;
     RecyclerView.LayoutManager layoutManager;
 
-    Button btnLogout;
     View v ;
 
     ArrayList<Suburb> aboveTen = new ArrayList<>();
@@ -70,8 +69,6 @@ public class DashboardFragment extends Fragment
 
         tvWelcome = v.findViewById(R.id.tvWelcm);
         tvDescryption = v.findViewById(R.id.tvDesc);
-        btnLogout = v.findViewById(R.id.btnLogout);
-
 
 
         mLoginFormView = v.findViewById(R.id.login_form);
@@ -118,33 +115,6 @@ public class DashboardFragment extends Fragment
             }
         });
 
-
-
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Toast.makeText(getActivity(), "busy logging out...please wait...", Toast.LENGTH_LONG).show();
-
-                Backendless.UserService.logout(new AsyncCallback<Void>() {
-                    @Override
-                    public void handleResponse(Void response) {
-                        Toast.makeText(getActivity(), "User signed out successfully...", Toast.LENGTH_SHORT).show();
-
-                        startActivity(new Intent(getActivity(), RoleSelection.class));
-                        getActivity().finish();
-                    }
-
-                    @Override
-                    public void handleFault(BackendlessFault fault) {
-
-                        Toast.makeText(getActivity(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-
-            }
-        });
 
 
     }
