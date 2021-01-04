@@ -15,10 +15,26 @@ public class ReportedProblem {
     String city;
     String suburb;
     String photo;
-
+    Date updated;
+    String ownerId;
     Date created;
     double x, y;
 
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
 
     public String getPhoto() {
         return photo;

@@ -16,7 +16,9 @@ import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
 import com.example.reinstall_app.R;
+import com.example.reinstall_app.app_data.ReinstallApplicationClass;
 import com.example.reinstall_app.app_data.ReportedProblem;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptionsExtension;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -92,29 +94,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             MapsInitializer.initialize(itemView.getContext());
             mapCurrent = googleMap;
 
-           /*  final MarkerOptions markerOptions=new MarkerOptions();
-
-           DataQueryBuilder queryBuilder = DataQueryBuilder.create();
-
-            Backendless.Data.of(ReportedProblem.class).find(queryBuilder, new AsyncCallback<List<ReportedProblem>>() {
-                @Override
-                public void handleResponse(List<ReportedProblem> response) {
-
-                    for(int i=0; i<response.size(); i++)
-                    {
-                        LatLng latLng=new LatLng(response.get(i).getY(), response.get(i).getX());
-
-                        markerOptions.position(latLng);
-                        mapCurrent.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-                    }
-
-                }
-
-                @Override
-                public void handleFault(BackendlessFault fault) {
-
-                }
-            });*/
 
         }
     }
@@ -137,8 +116,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             public void onMapReady(GoogleMap googleMap) {
                 if(holder.feedMap!=null)
                 {
-                    //double lat=-29.1439809;
-                    //double lon=26.2018104;
+
                     float zoomLevel=16.0f;
 
                     LatLng latLng = new LatLng(reports.get(i).getY(), reports.get(i).getX() );
@@ -152,11 +130,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                     holder.mapCurrent.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
 
 
-
-                    //  holder.mapCurrent.addMarker(markerOptions);
-
-                    //holder.mapCurrent.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-
                 }
             }
         });
@@ -166,17 +139,23 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         holder.tvName.setText(reports.get(i).getUserName());
         holder.tvCategory.setText(reports.get(i).getProblemType());
         holder.tvDescription.setText(reports.get(i).getDescription());
+        holder.btnDelete.setVisibility(View.GONE);
+        holder.btnEdit.setVisibility(View.GONE);
 
-
-
-        if(reports.get(i).getY()!=0 && reports.get(i).getX()!=0) {
-
-            //
-
-
-
+        if(ReinstallApplicationClass.user.getUserId().equals(reports.get(i).getOwnerId()) || ReinstallApplicationClass.user.getProperty("role").equals("Municipality"))
+        {
+            holder.btnEdit.setVisibility(View.VISIBLE);
+            holder.btnDelete.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            holder.btnEdit.setVisibility(View.GONE);
         }
 
+        if(ReinstallApplicationClass.user.getProperty("role").equals("Municipality"))
+        {
+            holder.btnDelete.setVisibility(View.VISIBLE);
+        }
 
 
 
