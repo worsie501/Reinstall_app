@@ -1,6 +1,7 @@
 package com.example.reinstall_app.activity_classes;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,19 +49,25 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
 
     private static final String TAG = "MainActivity";
 
+    ActionBar actionBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        actionBar = getSupportActionBar();
+        actionBar.setTitle("  |  Dashboard");
+        actionBar.setIcon(R.drawable.ic_relogo);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, new DashboardFragment()).commit();
 
-        this.setTitle("Dashboard");
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
         bottomNav.setOnNavigationItemSelectedListener(navListner);
-
 
 
         String userObjectId = UserIdStorageFactory.instance().getStorage().get();
@@ -137,21 +144,28 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
                     switch (menuItem.getItemId()){
                         case R.id.nav_home:
                             selectedFragment = new FeedFragment();
+                            actionBar = getSupportActionBar();
+                            actionBar.setTitle("  |  Feed");
                             break;
                         case R.id.nav_record:
                             selectedFragment = new ReportFragment();
-
+                            actionBar = getSupportActionBar();
+                            actionBar.setTitle("  |  Report");
                             break;
                         case R.id.nav_stats:
                             selectedFragment = new StatisticsFragment();
-
+                            actionBar = getSupportActionBar();
+                            actionBar.setTitle("  |  Statistics");
                             break;
                         case R.id.nav_categories:
                             selectedFragment = new CategoryFragment();
-
+                            actionBar = getSupportActionBar();
+                            actionBar.setTitle("  |  Categories");
                             break;
                         case R.id.nav_dashboard:
                             selectedFragment = new DashboardFragment();
+                            actionBar = getSupportActionBar();
+                            actionBar.setTitle("  |  Dashboard");
                             break;
                     }
 
