@@ -1,10 +1,12 @@
 package com.example.reinstall_app.activity_classes;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +17,7 @@ import com.backendless.Backendless;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
+import com.bumptech.glide.Glide;
 import com.example.reinstall_app.R;
 import com.example.reinstall_app.app_data.ReinstallApplicationClass;
 import com.example.reinstall_app.app_data.ReportedProblem;
@@ -34,7 +37,7 @@ import java.util.List;
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     private List<ReportedProblem> reports;
-
+    private Context context;
     FeedItemClicked activity;
 
     public interface FeedItemClicked
@@ -54,6 +57,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         GoogleMap mapCurrent;
         MapView feedMap;
 
+        ImageView ivReportPhoto, ivViewPhoto, ivViewMap;
+
         TextView tvName, tvDate, tvDescription, tvCategory;
         Button btnEdit, btnDelete;
 
@@ -64,6 +69,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             tvDate = itemView.findViewById(R.id.tvDate);
             tvCategory = itemView.findViewById(R.id.tvCategory);
             tvDescription = itemView.findViewById(R.id.tvDescription);
+            ivReportPhoto = itemView.findViewById(R.id.ivReportPhoto);
+
+            ivViewPhoto = itemView.findViewById(R.id.ivViewPhoto);
+            ivViewMap = itemView.findViewById(R.id.ivViewMap);
 
             btnEdit = itemView.findViewById(R.id.btnEdit);
             btnDelete = itemView.findViewById(R.id.btnDelete);
@@ -102,11 +111,15 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.reports_feed_layout, parent, false);
 
+            context = parent.getContext();
+
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final FeedAdapter.ViewHolder holder,final int i) {
+
+
 
         holder.feedMap.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -139,6 +152,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         holder.btnDelete.setVisibility(View.GONE);
         holder.btnEdit.setVisibility(View.GONE);
 
+
+        Glide.with(context).load(reports.get(i).getPhoto()).into(holder.ivReportPhoto);
+
         if(ReinstallApplicationClass.user.getUserId().equals(reports.get(i).getOwnerId()) || ReinstallApplicationClass.user.getProperty("role").equals("Municipality"))
         {
             holder.btnEdit.setVisibility(View.VISIBLE);
@@ -159,6 +175,28 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         date = reports.get(i).getCreated();
         SimpleDateFormat format = new SimpleDateFormat("dd-mm-yyyy");
         holder.tvDate.setText(format.format(date));
+        holder.ivReportPhoto.setVisibility(View.GONE);
+
+
+       holder.ivViewPhoto.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+
+               holder.ivReportPhoto.setVisibility(View.VISIBLE);
+               holder.feedMap.setVisibility(View.GONE);
+
+           }
+       });
+
+       holder.ivViewMap.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+
+               holder.ivReportPhoto.setVisibility(View.GONE);
+               holder.feedMap.setVisibility(View.VISIBLE);
+           }
+       });
+
     }
 
     @Override

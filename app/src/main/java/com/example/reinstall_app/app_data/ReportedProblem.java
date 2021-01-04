@@ -2,6 +2,7 @@ package com.example.reinstall_app.app_data;
 
 import android.database.sqlite.SQLiteDatabaseCorruptException;
 import android.graphics.Point;
+import android.media.Image;
 
 import com.backendless.geo.GeoPoint;
 
@@ -14,11 +15,19 @@ public class ReportedProblem {
     String problemType;
     String city;
     String suburb;
-    String photo;
     Date updated;
     String ownerId;
     Date created;
     double x, y;
+    String photo;
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
     public Date getUpdated() {
         return updated;
@@ -34,14 +43,6 @@ public class ReportedProblem {
 
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
     }
 
     public double getX() {
