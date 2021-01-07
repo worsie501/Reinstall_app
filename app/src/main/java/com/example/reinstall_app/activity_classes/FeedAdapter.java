@@ -19,8 +19,10 @@ import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
 import com.bumptech.glide.Glide;
 import com.example.reinstall_app.R;
+import com.example.reinstall_app.app_data.ProblemType;
 import com.example.reinstall_app.app_data.ReinstallApplicationClass;
 import com.example.reinstall_app.app_data.ReportedProblem;
+import com.example.reinstall_app.app_data.Suburb;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptionsExtension;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,6 +35,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import static com.example.reinstall_app.app_data.ReinstallApplicationClass.problemTypes;
+import static com.example.reinstall_app.app_data.ReinstallApplicationClass.suburbList;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
@@ -194,6 +199,86 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
                holder.ivReportPhoto.setVisibility(View.GONE);
                holder.feedMap.setVisibility(View.VISIBLE);
+           }
+       });
+
+
+       holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+
+               for(int j = 0; j < problemTypes.size(); j++)
+               {
+
+                   if(problemTypes.get(j).getProblemName().equals(reports.get(i).getProblemType()))
+                   {
+
+                       //Toast.makeText(context, "" + problemTypes.get(i).getObjectId(), Toast.LENGTH_SHORT).show();
+
+                       problemTypes.get(j).setTotalProblems(problemTypes.get(j).getTotalProblems() - 1);
+
+                       Backendless.Data.of(ProblemType.class).save(ReinstallApplicationClass.problemTypes.get(j), new AsyncCallback<ProblemType>() {
+                           @Override
+                           public void handleResponse(ProblemType response) {
+
+                               Toast.makeText(context, "Decreased " + response.getProblemName() + " : " + response.getTotalProblems(), Toast.LENGTH_SHORT).show();
+                           }
+
+                           @Override
+                           public void handleFault(BackendlessFault fault) {
+                               Toast.makeText(context, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                           }
+                       });
+                       break;
+                   }
+
+               }
+
+               for(int j = 0; j < suburbList.size(); j++)
+               {
+
+                   if(suburbList.get(j).getSuburbName().equals(reports.get(i).getSuburb()))
+                   {
+
+                       // Toast.makeText(context, "" + suburbList.get(i).getObjectId(), Toast.LENGTH_SHORT).show();
+
+                       ReinstallApplicationClass.suburbList.get(j).setTotalReports(suburbList.get(j).getTotalReports() - 1);
+
+                       Backendless.Persistence.save(suburbList.get(j), new AsyncCallback<Suburb>() {
+                           @Override
+                           public void handleResponse(Suburb response) {
+                               Toast.makeText(context, "Suburb problem count Decreased", Toast.LENGTH_LONG).show();
+                           }
+
+                           @Override
+                           public void handleFault(BackendlessFault fault) {
+
+                               Toast.makeText(context, "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+                           }
+                       });
+
+                       break;
+                   }
+               }
+
+               Backendless.Persistence.of(ReportedProblem.class).remove(reports.get(i), new AsyncCallback<Long>() {
+                   @Override
+                   public void handleResponse(Long response) {
+                       notifyItemRemoved(i);
+                       Toast.makeText(context, "Report successfully removed!", Toast.LENGTH_SHORT).show();
+                   }
+
+                   @Override
+                   public void handleFault(BackendlessFault fault) {
+                       Toast.makeText(context, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                   }
+               });
+
+
+
+
+
            }
        });
 

@@ -20,6 +20,15 @@ public class ReportedProblem {
     Date created;
     double x, y;
     String photo;
+    String objectId;
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
 
     public String getPhoto() {
         return photo;

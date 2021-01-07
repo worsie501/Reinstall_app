@@ -72,6 +72,23 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
 
         String userObjectId = UserIdStorageFactory.instance().getStorage().get();
 
+        int PAGESIZE = 80;
+        DataQueryBuilder ptQueryBuilder = DataQueryBuilder.create();
+        ptQueryBuilder.setPageSize(PAGESIZE);
+
+        Backendless.Persistence.of(ProblemType.class).find(ptQueryBuilder, new AsyncCallback<List<ProblemType>>() {
+            @Override
+            public void handleResponse(List<ProblemType> response) {
+                ReinstallApplicationClass.problemTypes = response;
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Toast.makeText(MainActivity.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         Backendless.Data.of(BackendlessUser.class).findById(userObjectId, new AsyncCallback<BackendlessUser>() {
             @Override
             public void handleResponse(BackendlessUser response) {
