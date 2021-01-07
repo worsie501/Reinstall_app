@@ -10,6 +10,15 @@ public class Resident extends User {
     private String email;
     private String city;
     private Date created;
+    private int totalReports;
+
+    public int getTotalReports() {
+        return totalReports;
+    }
+
+    public void setTotalReports(int totalReports) {
+        this.totalReports = totalReports;
+    }
 
     public Date getCreated() {
         return created;

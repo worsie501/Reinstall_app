@@ -20,7 +20,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity_classes.SuburbHotspotMap"></activity>
+        <activity android:name=".activity_classes.ResidentProfile"></activity>
+        <activity android:name=".activity_classes.SuburbHotspotMap" />
 
         <meta-data
             android:name="com.google.android.gms.version"

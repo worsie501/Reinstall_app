@@ -32,7 +32,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0.2"
                     android:padding="1dp"
-                    card_view:srcCompat="@drawable/ic_profile" />
+                    card_view:srcCompat="@drawable/ic_account" />
 
                 <LinearLayout
                     android:layout_width="0dp"

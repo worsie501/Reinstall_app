@@ -51,10 +51,12 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
 
     ActionBar actionBar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         actionBar = getSupportActionBar();
         actionBar.setTitle("  |  Dashboard");
@@ -64,11 +66,10 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_Container, new DashboardFragment()).commit();
 
-
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
-        bottomNav.setOnNavigationItemSelectedListener(navListner);
 
+        bottomNav.setOnNavigationItemSelectedListener(navListner);
 
         String userObjectId = UserIdStorageFactory.instance().getStorage().get();
 
@@ -139,6 +140,13 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
                     }
                 });
 
+                break;
+
+                    case R.id.profile:
+                        Intent intent = new Intent(MainActivity.this, ResidentProfile.class);
+                        startActivity(intent);
+                        break;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -148,6 +156,15 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.main, menu);
+        MenuItem menuItem = menu.findItem(R.id.profile);
+        if(ReinstallApplicationClass.user.getProperty("role").equals("Resident"))
+        {
+            menuItem.setVisible(true);
+        }
+        else
+        {
+            menuItem.setVisible(false);
+        }
 
         return super.onCreateOptionsMenu(menu);
 
