@@ -5,10 +5,19 @@ import java.util.Date;
 public class ProblemType {
 
     private String problemName;
+    private String problemDescription;
     private int totalProblems;
     private Date created;
     private Date updated;
     private String objectId;
+
+    public String getProblemDescription() {
+        return problemDescription;
+    }
+
+    public void setProblemDescription(String problemDescription) {
+        this.problemDescription = problemDescription;
+    }
 
     public Date getCreated() {
         return created;
