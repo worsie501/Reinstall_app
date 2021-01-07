@@ -6,8 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -21,43 +20,53 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity_classes.SuburbHotspotMap"></activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${mapsApiKey}" />
 
-        <activity android:name=".activity_classes.MapActivity"
+        <activity
+            android:name=".activity_classes.MapActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity_classes.AdminRegister"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity_classes.AdminRegister"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity_classes.AdminLogin"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity_classes.AdminLogin"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity_classes.MunicipalityRegister"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity_classes.MunicipalityRegister"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity_classes.MunicipalityLogin"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity_classes.MunicipalityLogin"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity_classes.ResidentRegister"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity_classes.ResidentRegister"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity_classes.ResidentLogin"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity_classes.ResidentLogin"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity_classes.Login_Register_Page"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity_classes.Login_Register_Page"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity_classes.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity_classes.MainActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity_classes.RoleSelection"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity_classes.RoleSelection"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -66,8 +75,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
     </application>
 
 </manifest>

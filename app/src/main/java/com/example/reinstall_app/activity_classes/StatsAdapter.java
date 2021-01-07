@@ -19,17 +19,17 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.ViewHolder> 
 
 
     private List<ProblemType> statsList;
-    ItemClicked activity;
+    StatsItemClicked activity;
 
-    public interface ItemClicked
+    public interface StatsItemClicked
     {
-        void onItemClicked(int index);
+        void onStatsItemClicked(int index);
     }
 
     public StatsAdapter(Context context, List<ProblemType> list)
     {
         statsList = list;
-        activity = (ItemClicked) context;
+        activity = (StatsItemClicked) context;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder
@@ -47,7 +47,7 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.ViewHolder> 
                 @Override
                 public void onClick(View v) {
 
-                    activity.onItemClicked(statsList.indexOf((ProblemType) v.getTag()));
+                    activity.onStatsItemClicked(statsList.indexOf((ProblemType) v.getTag()));
 
                 }
             });

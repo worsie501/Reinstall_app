@@ -26,6 +26,7 @@ import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
 import com.backendless.persistence.local.UserIdStorageFactory;
 import com.example.reinstall_app.R;
+import com.example.reinstall_app.app_data.ReinstallApplicationClass;
 import com.example.reinstall_app.app_data.Suburb;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -95,14 +96,18 @@ public class DashboardFragment extends Fragment
             @Override
             public void handleResponse(List<Suburb> response) {
 
+                ReinstallApplicationClass.suburbList = response;
+
                 for (int i = 0; i < response.size(); i++)
                 {
-                    if(response.get(i).getTotalReports() >= 10)
+                    if(response.get(i).getTotalReports() >= 1)
                     {
                         Suburb sub = response.get(i);
                         aboveTen.add(sub);
+
                     }
                 }
+                ReinstallApplicationClass.hotspotList = aboveTen;
                 myAdapter = new HotSpotAdapter(getActivity(), aboveTen);
                 rvList.setAdapter(myAdapter);
                 showProgress(false);
@@ -114,7 +119,6 @@ public class DashboardFragment extends Fragment
                 showProgress(false);
             }
         });
-
 
 
     }
@@ -164,4 +168,6 @@ public class DashboardFragment extends Fragment
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
+
+
 }

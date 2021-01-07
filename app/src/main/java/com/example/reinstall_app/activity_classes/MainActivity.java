@@ -45,7 +45,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements HotSpotAdapter.ItemClicked, FeedAdapter.FeedItemClicked, StatsAdapter.ItemClicked{
+public class MainActivity extends AppCompatActivity implements HotSpotAdapter.ItemClicked, FeedAdapter.FeedItemClicked, StatsAdapter.StatsItemClicked{
 
     private static final String TAG = "MainActivity";
 
@@ -179,6 +179,19 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
     @Override
     public void onItemClicked(int index) {
 
+        Intent intent = new Intent(MainActivity.this, SuburbHotspotMap.class);
+        intent.putExtra("index", index);
+        startActivity(intent);
+
     }
 
+    @Override
+    public void onFeedItemClicked(int index) {
+
+    }
+
+    @Override
+    public void onStatsItemClicked(int index) {
+
+    }
 }

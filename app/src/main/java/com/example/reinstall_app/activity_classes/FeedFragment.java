@@ -26,7 +26,7 @@ import com.example.reinstall_app.app_data.ReportedProblem;
 
 import java.util.List;
 
-public class FeedFragment extends Fragment implements FeedAdapter.FeedItemClicked
+public class FeedFragment extends Fragment
 {
 
     RecyclerView rvFeed;
@@ -48,11 +48,6 @@ public class FeedFragment extends Fragment implements FeedAdapter.FeedItemClicke
          v = inflater.inflate(R.layout.fragment_feed, container, false);
 
         return v;
-    }
-
-    @Override
-    public void onItemClicked(int index) {
-
     }
 
 

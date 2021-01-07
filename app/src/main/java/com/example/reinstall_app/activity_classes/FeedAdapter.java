@@ -42,7 +42,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     public interface FeedItemClicked
     {
-        void onItemClicked(int index);
+        void onFeedItemClicked(int index);
     }
 
     public FeedAdapter (Context context, List<ReportedProblem> list)
@@ -79,6 +79,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
 
             feedMap = (MapView) itemView.findViewById(R.id.feedMap);
+
             if(feedMap != null)
             {
                 feedMap.onCreate(null);
@@ -90,7 +91,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    activity.onItemClicked(reports.indexOf((ReportedProblem) v.getTag()));
+                    activity.onFeedItemClicked(reports.indexOf((ReportedProblem) v.getTag()));
                 }
             });
 
@@ -120,14 +121,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull final FeedAdapter.ViewHolder holder,final int i) {
 
 
-
         holder.feedMap.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 if(holder.feedMap!=null)
                 {
 
-                    float zoomLevel=16.0f;
+                    float zoomLevel = 16.0f;
 
                     LatLng latLng = new LatLng(reports.get(i).getY(), reports.get(i).getX() );
 
