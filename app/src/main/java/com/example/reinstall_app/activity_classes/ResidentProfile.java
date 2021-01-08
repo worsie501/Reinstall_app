@@ -13,8 +13,13 @@ import com.example.reinstall_app.app_data.ReinstallApplicationClass;
 import com.example.reinstall_app.app_data.Resident;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.telephony.CellSignalStrength;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,10 +33,20 @@ public class ResidentProfile extends AppCompatActivity {
     Button btnUserLogout;
     ImageView ivFirstTrophy, ivSecondTrophy, ivThirdTrophy;
 
+
+    private View mProgressView;
+    private View mLoginFormView;
+    private TextView tvLoad;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resident_profile);
+
+        mLoginFormView = findViewById(R.id.login_form);
+        mProgressView = findViewById(R.id.login_progress);
+        tvLoad = findViewById(R.id.tvLoad);
+
 
         tvUserTotalReports = findViewById(R.id.tvUserTotalReports);
         tvTrophies = findViewById(R.id.tvTrophies);
@@ -43,6 +58,8 @@ public class ResidentProfile extends AppCompatActivity {
         ivFirstTrophy = findViewById(R.id.ivFirstTrophy);
         ivSecondTrophy = findViewById(R.id.ivSecondTrophy);
         ivThirdTrophy = findViewById(R.id.ivThirdTrophy);
+
+        this.setTitle("My Profile");
 
         String userObjectId = UserIdStorageFactory.instance().getStorage().get();
 
@@ -65,6 +82,10 @@ public class ResidentProfile extends AppCompatActivity {
         DataQueryBuilder queryBuilder = DataQueryBuilder.create();
         queryBuilder.setWhereClause(whereClause);
         queryBuilder.setPageSize(PAGESIZE);
+
+        showProgress(true);
+        tvLoad.setText("Fetching profile...please wait...");
+
 
         Backendless.Persistence.of(Resident.class).find(queryBuilder, new AsyncCallback<List<Resident>>() {
             @Override
@@ -121,18 +142,66 @@ public class ResidentProfile extends AppCompatActivity {
                      ivThirdTrophy.setImageResource(R.drawable.notunlocked);
                  }
 
+                showProgress(false);
 
             }
 
             @Override
             public void handleFault(BackendlessFault fault) {
-
+                Toast.makeText(ResidentProfile.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                showProgress(false);
             }
         });
 
 
 
-
-
     }
+
+
+    /**
+     * Shows the progress UI and hides the login form.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
+
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+
+            tvLoad.setVisibility(show ? View.VISIBLE : View.GONE);
+            tvLoad.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    tvLoad.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            tvLoad.setVisibility(show ? View.VISIBLE : View.GONE);
+            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
+    }
+
 }
