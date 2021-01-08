@@ -99,6 +99,27 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
                 if(response.getProperty("role").equals("Resident"))
                 {
                     bottomNav.getMenu().getItem(4).setVisible(false);
+
+                    int PAGESIZE = 80;
+                    String whereClause = "email = '" + ReinstallApplicationClass.user.getEmail() + "'";
+                    DataQueryBuilder queryBuilder = DataQueryBuilder.create();
+                    queryBuilder.setWhereClause(whereClause);
+                    queryBuilder.setPageSize(PAGESIZE);
+
+                    Backendless.Persistence.of(Resident.class).find(queryBuilder, new AsyncCallback<List<Resident>>() {
+                        @Override
+                        public void handleResponse(List<Resident> response) {
+
+                            ReinstallApplicationClass.resident = response.get(0);
+
+                        }
+
+                        @Override
+                        public void handleFault(BackendlessFault fault) {
+                            Toast.makeText(MainActivity.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 }
 
             }
@@ -113,24 +134,7 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
 
 
 
-        String whereClause = "email = '" + ReinstallApplicationClass.user.getEmail() + "'";
-        DataQueryBuilder queryBuilder = DataQueryBuilder.create();
-        queryBuilder.setWhereClause(whereClause);
-        queryBuilder.setPageSize(PAGESIZE);
 
-        Backendless.Persistence.of(Resident.class).find(queryBuilder, new AsyncCallback<List<Resident>>() {
-            @Override
-            public void handleResponse(List<Resident> response) {
-
-                ReinstallApplicationClass.resident = response.get(0);
-
-            }
-
-            @Override
-            public void handleFault(BackendlessFault fault) {
-                Toast.makeText(MainActivity.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
     }

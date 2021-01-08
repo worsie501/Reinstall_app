@@ -16,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.CellSignalStrength;
@@ -152,6 +153,33 @@ public class ResidentProfile extends AppCompatActivity {
                 showProgress(false);
             }
         });
+
+        btnUserLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(ResidentProfile.this, "busy logging out...please wait...", Toast.LENGTH_LONG).show();
+
+                Backendless.UserService.logout(new AsyncCallback<Void>() {
+                    @Override
+                    public void handleResponse(Void response) {
+                        Toast.makeText(ResidentProfile.this, "User signed out successfully...", Toast.LENGTH_SHORT).show();
+
+                        startActivity(new Intent(ResidentProfile.this, RoleSelection.class));
+                        ResidentProfile.this.finish();
+
+                    }
+
+                    @Override
+                    public void handleFault(BackendlessFault fault) {
+
+                        Toast.makeText(ResidentProfile.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+            }
+        });
+
 
 
 
