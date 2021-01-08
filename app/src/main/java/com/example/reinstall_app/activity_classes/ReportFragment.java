@@ -46,6 +46,7 @@ import com.example.reinstall_app.app_data.District;
 import com.example.reinstall_app.app_data.ProblemType;
 import com.example.reinstall_app.app_data.ReinstallApplicationClass;
 import com.example.reinstall_app.app_data.ReportedProblem;
+import com.example.reinstall_app.app_data.Resident;
 import com.example.reinstall_app.app_data.Suburb;
 import com.example.reinstall_app.app_data.User;
 import com.google.android.gms.common.ConnectionResult;
@@ -380,6 +381,28 @@ public class ReportFragment extends Fragment
 
                                             break;
                                         }
+                                    }
+
+
+
+                                    if(user.getProperty("role").equals("Resident"))
+                                    {
+
+
+                                        ReinstallApplicationClass.resident.setTotalReports(ReinstallApplicationClass.resident.getTotalReports() + 1);
+
+                                        Backendless.Persistence.save(ReinstallApplicationClass.resident, new AsyncCallback<Resident>() {
+                                            @Override
+                                            public void handleResponse(Resident response) {
+
+                                            }
+
+                                            @Override
+                                            public void handleFault(BackendlessFault fault) {
+
+                                            }
+                                        });
+
                                     }
 
 

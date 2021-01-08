@@ -33,6 +33,7 @@ import com.backendless.persistence.local.UserIdStorageFactory;
 import com.example.reinstall_app.R;
 import com.example.reinstall_app.app_data.ProblemType;
 import com.example.reinstall_app.app_data.ReinstallApplicationClass;
+import com.example.reinstall_app.app_data.Resident;
 import com.example.reinstall_app.app_data.Suburb;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -68,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
-
         bottomNav.setOnNavigationItemSelectedListener(navListner);
 
         String userObjectId = UserIdStorageFactory.instance().getStorage().get();
@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
             @Override
             public void handleResponse(BackendlessUser response) {
                 BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+                ReinstallApplicationClass.user = response;
 
                 if(response.getProperty("role").equals("Resident"))
                 {
@@ -107,6 +108,27 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
 
                 Toast.makeText(MainActivity.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
 
+            }
+        });
+
+
+
+        String whereClause = "email = '" + ReinstallApplicationClass.user.getEmail() + "'";
+        DataQueryBuilder queryBuilder = DataQueryBuilder.create();
+        queryBuilder.setWhereClause(whereClause);
+        queryBuilder.setPageSize(PAGESIZE);
+
+        Backendless.Persistence.of(Resident.class).find(queryBuilder, new AsyncCallback<List<Resident>>() {
+            @Override
+            public void handleResponse(List<Resident> response) {
+
+                ReinstallApplicationClass.resident = response.get(0);
+
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Toast.makeText(MainActivity.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -157,6 +179,8 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
 
         getMenuInflater().inflate(R.menu.main, menu);
         MenuItem menuItem = menu.findItem(R.id.profile);
+
+        ////////////////////////////////////////////////////////////////////////////////////////////// FIX
         if(ReinstallApplicationClass.user.getProperty("role").equals("Resident"))
         {
             menuItem.setVisible(true);

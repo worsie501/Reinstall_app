@@ -11,6 +11,18 @@ public class Resident extends User {
     private String city;
     private Date created;
     private int totalReports;
+    private String objectId;
+    private Date updated;
+    private String userEmail;
+    private String ownerId;
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
 
     public int getTotalReports() {
         return totalReports;
@@ -51,9 +63,6 @@ public class Resident extends User {
         this.objectId = objectId;
     }
 
-    private Date updated;
-    private String userEmail;
-    private String objectId;
 
     public long getUserId() {
         return userId;

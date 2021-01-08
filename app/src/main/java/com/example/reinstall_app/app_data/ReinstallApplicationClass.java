@@ -22,6 +22,8 @@ public class ReinstallApplicationClass extends Application {
 
     public static List<Suburb> hotspotList;
 
+    public static Resident resident;
+
     @Override
     public void onCreate() {
         super.onCreate();
