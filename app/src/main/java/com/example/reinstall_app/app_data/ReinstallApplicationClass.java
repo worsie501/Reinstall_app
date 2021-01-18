@@ -10,8 +10,8 @@ import java.util.List;
 
 public class ReinstallApplicationClass extends Application {
 
-    public static final String APPLICATION_ID = "75A538D0-1849-8BBB-FFEF-9D766ECC4500";
-    public static final String API_KEY = "7D16AB1D-FD2D-4CC1-A03F-B71841B23F96";
+    public static final String APPLICATION_ID = "2FDB9EDF-3E2F-5329-FF04-61FE182AB200";
+    public static final String API_KEY = "FA15AED0-1910-4378-B9BF-533012EBD11A";
     public static final String SERVER_URL = "https://api.backendless.com";
 
     public static BackendlessUser user;

@@ -88,7 +88,7 @@ public class ReportFragment extends Fragment
     String addressString, cityLocation, suburbConfirmed="";
     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
     String photoName= y +""+ x + timeStamp;
-    String photoPath = "https://backendlessappcontent.com/75A538D0-1849-8BBB-FFEF-9D766ECC4500/FAB6E7BA-ED2F-4AC8-B356-CA99442F20A4/files/photos/";
+    String photoPath = "https://backendlessappcontent.com/2FDB9EDF-3E2F-5329-FF04-61FE182AB200/323B802E-C877-4C1B-8AB7-B1F37675BED5/files/photos";
 
     final ReportedProblem problem = new ReportedProblem();
 
