@@ -65,7 +65,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         ImageView ivReportPhoto, ivViewPhoto, ivViewMap;
 
         TextView tvName, tvDate, tvDescription, tvCategory;
-        Button btnEdit, btnDelete;
+        Button btnEdit, btnDelete, btnResolved;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -81,7 +81,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
             btnEdit = itemView.findViewById(R.id.btnEdit);
             btnDelete = itemView.findViewById(R.id.btnDelete);
-
+            btnResolved = itemView.findViewById(R.id.btnResolved);
 
             feedMap = (MapView) itemView.findViewById(R.id.feedMap);
 
@@ -156,13 +156,16 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         holder.tvDescription.setText(reports.get(i).getDescription());
         holder.btnDelete.setVisibility(View.GONE);
         holder.btnEdit.setVisibility(View.GONE);
+        holder.btnResolved.setVisibility(View.GONE);
 
 
         Glide.with(context).load(reports.get(i).getPhoto()).into(holder.ivReportPhoto);
 
         if(ReinstallApplicationClass.user.getUserId().equals(reports.get(i).getOwnerId()) || ReinstallApplicationClass.user.getProperty("role").equals("Municipality"))
         {
-            holder.btnEdit.setVisibility(View.VISIBLE);
+            //Edit will be implemented at a later stage;
+           //holder.btnEdit.setVisibility(View.VISIBLE);
+
             holder.btnDelete.setVisibility(View.VISIBLE);
         }
         else
@@ -173,13 +176,14 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         if(ReinstallApplicationClass.user.getProperty("role").equals("Municipality"))
         {
             holder.btnDelete.setVisibility(View.VISIBLE);
+            holder.btnResolved.setVisibility(View.VISIBLE);
         }
 
 
         Date date;
         date = reports.get(i).getCreated();
-        SimpleDateFormat format = new SimpleDateFormat("dd-mm-yyyy");
-        holder.tvDate.setText(format.format(date));
+        //SimpleDateFormat format = new SimpleDateFormat("dd-mm-yyyy");
+        holder.tvDate.setText(date.toString());
         holder.ivReportPhoto.setVisibility(View.GONE);
 
 
@@ -221,7 +225,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                            @Override
                            public void handleResponse(ProblemType response) {
 
-                               Toast.makeText(context, "Decreased " + response.getProblemName() + " : " + response.getTotalProblems(), Toast.LENGTH_SHORT).show();
+                              // Toast.makeText(context, "Decreased " + response.getProblemName() + " : " + response.getTotalProblems(), Toast.LENGTH_SHORT).show();
                            }
 
                            @Override

@@ -27,6 +27,8 @@ import com.backendless.persistence.DataQueryBuilder;
 import com.backendless.persistence.local.UserIdStorageFactory;
 import com.example.reinstall_app.R;
 import com.example.reinstall_app.app_data.ReinstallApplicationClass;
+import com.example.reinstall_app.app_data.ReportedProblem;
+import com.example.reinstall_app.app_data.Resident;
 import com.example.reinstall_app.app_data.Suburb;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -40,7 +42,8 @@ public class DashboardFragment extends Fragment
     private View mLoginFormView;
     private TextView tvLoad;
 
-    TextView tvWelcome, tvDescryption;
+
+    TextView tvWelcome, tvDescryption, tvReportsTotal, tvActiveResidents;
 
     RecyclerView rvList;
     RecyclerView.Adapter myAdapter;
@@ -70,7 +73,8 @@ public class DashboardFragment extends Fragment
 
         tvWelcome = v.findViewById(R.id.tvWelcm);
         tvDescryption = v.findViewById(R.id.tvDesc);
-
+        tvReportsTotal = v.findViewById(R.id.tvReportsTotal);
+        tvActiveResidents = v.findViewById(R.id.tvActiveResidents);
 
         mLoginFormView = v.findViewById(R.id.login_form);
         mProgressView = v.findViewById(R.id.login_progress);
@@ -117,6 +121,44 @@ public class DashboardFragment extends Fragment
             public void handleFault(BackendlessFault fault) {
                 Toast.makeText(getActivity(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
                 showProgress(false);
+            }
+        });
+
+        DataQueryBuilder probQueryBuilder = DataQueryBuilder.create();
+
+
+        Backendless.Persistence.of(ReportedProblem.class).find(probQueryBuilder, new AsyncCallback<List<ReportedProblem>>() {
+            @Override
+            public void handleResponse(List<ReportedProblem> response) {
+                int totalReports = 0;
+
+                totalReports = response.size();
+
+                tvReportsTotal.setText(String.valueOf(totalReports));
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+
+                Toast.makeText(getActivity(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+        DataQueryBuilder residentQueryBuilder = DataQueryBuilder.create();
+
+        Backendless.Persistence.of(Resident.class).find(residentQueryBuilder, new AsyncCallback<List<Resident>>() {
+            @Override
+            public void handleResponse(List<Resident> response) {
+
+               tvActiveResidents.setText(String.valueOf(response.size()));
+
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+
             }
         });
 
