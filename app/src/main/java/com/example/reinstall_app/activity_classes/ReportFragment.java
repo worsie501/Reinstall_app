@@ -88,7 +88,8 @@ public class ReportFragment extends Fragment
     String addressString, cityLocation, suburbConfirmed="";
     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
     String photoName= y +""+ x + timeStamp;
-    String photoPath = "https://backendlessappcontent.com/2FDB9EDF-3E2F-5329-FF04-61FE182AB200/323B802E-C877-4C1B-8AB7-B1F37675BED5/files/photos";
+    String photoPath = "https://backendlessappcontent.com/2FDB9EDF-3E2F-5329-FF04-61FE182AB200/323B802E-C877-4C1B-8AB7-B1F37675BED5/files/photos/";
+
 
     final ReportedProblem problem = new ReportedProblem();
 
@@ -200,10 +201,11 @@ public class ReportFragment extends Fragment
                                     Toast.LENGTH_SHORT ).show();
                         }
                     });
+
             Backendless.Persistence.of(ReportedProblem.class).save(problem, new AsyncCallback<ReportedProblem>() {
                 @Override
                 public void handleResponse(ReportedProblem response) {
-                    problem.setPhoto(photoPath+photoName);
+                    problem.setPhoto(photoPath + photoName);
                 }
 
                 @Override
