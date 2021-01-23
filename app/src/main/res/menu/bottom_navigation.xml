@@ -21,6 +21,7 @@
         android:icon="@drawable/stats_thin_icon"
         android:title="Statistics"/>
 
+
     <item
         android:id="@+id/nav_categories"
         android:icon="@drawable/categories_icon"
