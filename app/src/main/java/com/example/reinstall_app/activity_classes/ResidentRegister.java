@@ -20,13 +20,17 @@ import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
+import com.cometchat.pro.core.CometChat;
+import com.cometchat.pro.exceptions.CometChatException;
+import com.cometchat.pro.models.User;
 import com.example.reinstall_app.R;
 import com.example.reinstall_app.app_data.City;
-import com.example.reinstall_app.app_data.District;
 import com.example.reinstall_app.app_data.Resident;
 import com.example.reinstall_app.app_data.Suburb;
 
 import java.util.List;
+
+import static com.example.reinstall_app.app_data.ReinstallApplicationClass.AUTH_KEY;
 
 public class ResidentRegister extends AppCompatActivity {
 
@@ -124,6 +128,28 @@ public class ResidentRegister extends AppCompatActivity {
 
                         tvLoad.setText("Registering...Please wait...");
                         showProgress(true);
+
+                        String email = etResidentRegisterEmail.getText().toString().trim();
+                        String EMAIl_PATTERN = "[^a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+";
+                        String modifiedEmail = email.replaceAll(EMAIl_PATTERN, "").replaceAll("\\p{Punct}", "");
+
+
+                        User chatUser = new User();
+                        chatUser.setUid(modifiedEmail); // Replace with the UID for the user to be created
+                        chatUser.setName(etResidentName.getText().toString().trim()); // Replace with the name of the user
+
+                        CometChat.createUser(chatUser, AUTH_KEY, new CometChat.CallbackListener<User>() {
+                            @Override
+                            public void onSuccess(User user) {
+                               // Toast.makeText(ResidentRegister.this, "Comet chat Resident Registered!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onError(CometChatException e) {
+                                Toast.makeText(ResidentRegister.this, "Error: "+ e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
 
                     Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
                         @Override

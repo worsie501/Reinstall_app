@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,8 @@ import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
 import com.backendless.persistence.local.UserIdStorageFactory;
+import com.cometchat.pro.core.CometChat;
+import com.cometchat.pro.exceptions.CometChatException;
 import com.example.reinstall_app.R;
 import com.example.reinstall_app.app_data.ProblemType;
 import com.example.reinstall_app.app_data.ReinstallApplicationClass;
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
     private static final String TAG = "MainActivity";
 
     ActionBar actionBar;
+    ImageButton btnChats;
 
 
     @Override
@@ -58,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        btnChats = findViewById(R.id.btnChats);
 
         actionBar = getSupportActionBar();
         actionBar.setTitle("  |  Dashboard");
@@ -134,6 +139,16 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
 
 
 
+        btnChats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, ChatGroupsList.class);
+                startActivity(intent);
+
+            }
+        });
+
 
 
 
@@ -148,6 +163,20 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
 
             case R.id.logout:
                 Toast.makeText(MainActivity.this, "busy logging out...please wait...", Toast.LENGTH_LONG).show();
+
+                CometChat.logout(new CometChat.CallbackListener<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        Toast.makeText(MainActivity.this, "Comet chat user logged out", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(CometChatException e) {
+                        Toast.makeText(MainActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
 
                 Backendless.UserService.logout(new AsyncCallback<Void>() {
                     @Override

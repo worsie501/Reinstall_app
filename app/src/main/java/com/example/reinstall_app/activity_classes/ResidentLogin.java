@@ -24,8 +24,14 @@ import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.local.UserIdStorageFactory;
+import com.cometchat.pro.core.CometChat;
+import com.cometchat.pro.exceptions.CometChatException;
+import com.cometchat.pro.models.User;
 import com.example.reinstall_app.R;
 import com.example.reinstall_app.app_data.ReinstallApplicationClass;
+
+import static com.example.reinstall_app.app_data.ReinstallApplicationClass.AUTH_KEY;
+import static com.example.reinstall_app.app_data.ReinstallApplicationClass.user;
 
 public class ResidentLogin extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
@@ -92,6 +98,31 @@ public class ResidentLogin extends AppCompatActivity implements CompoundButton.O
                                 ReinstallApplicationClass.user = response;
 
                                 if(ReinstallApplicationClass.user.getProperty("role").equals("Resident")) {
+
+                                    String email = user.getEmail();
+
+                                    String EMAIl_PATTERN = "[^a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+";
+                                    String UID =   email.replaceAll(EMAIl_PATTERN, "").replaceAll("\\p{Punct}", "");
+
+
+                                    if (CometChat.getLoggedInUser() == null) {
+                                        CometChat.login(UID, AUTH_KEY, new CometChat.CallbackListener<User>() {
+
+                                            @Override
+                                            public void onSuccess(User user) {
+                                               // Toast.makeText(ResidentLogin.this, "Comet chat user Successfully logged in!", Toast.LENGTH_SHORT).show();
+                                            }
+
+                                            @Override
+                                            public void onError(CometChatException e) {
+                                                Toast.makeText(ResidentLogin.this, "Error" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    } else {
+                                        // User already logged in
+                                       // Toast.makeText(ResidentLogin.this, "User already logged in ", Toast.LENGTH_SHORT).show();
+
+                                    }
 
                                     Intent intent = new Intent(ResidentLogin.this, MainActivity.class);
                                     startActivity(intent);
@@ -217,8 +248,31 @@ public class ResidentLogin extends AppCompatActivity implements CompoundButton.O
                     String email = etResidentEmail.getText().toString().trim();
                     String password = etResidentPassword.getText().toString().trim();
 
+
+                    String EMAIl_PATTERN = "[^a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+";
+                    String modifiedEmail = email.replaceAll(EMAIl_PATTERN, "").replaceAll("\\p{Punct}", "");
+                    String UID = modifiedEmail;
+
                     tvLoad.setText("Logging in...");
                     showProgress(true);
+
+                    if (CometChat.getLoggedInUser() == null) {
+                        CometChat.login(UID, AUTH_KEY, new CometChat.CallbackListener<User>() {
+
+                            @Override
+                            public void onSuccess(User user) {
+                               // Toast.makeText(ResidentLogin.this, "Comet chat user Successfully logged in!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onError(CometChatException e) {
+                                Toast.makeText(ResidentLogin.this, "Error" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        // User already logged in
+                        //Toast.makeText(ResidentLogin.this, "User already logged in ", Toast.LENGTH_SHORT).show();
+                    }
 
                     Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
                         @Override

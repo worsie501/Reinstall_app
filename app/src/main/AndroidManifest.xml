@@ -20,7 +20,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity_classes.ResidentProfile"></activity>
+        <activity android:name=".activity_classes.ChatActivity"></activity>
+        <activity android:name=".activity_classes.ChatGroupsList" />
+        <activity android:name=".activity_classes.ResidentProfile" />
         <activity android:name=".activity_classes.SuburbHotspotMap" />
 
         <meta-data
