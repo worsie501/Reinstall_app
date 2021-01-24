@@ -345,7 +345,7 @@ public class ReportFragment extends Fragment
                                     @Override
                                     public void handleResponse(ProblemType response) {
 
-                                        Toast.makeText(getActivity(), "Increased " + response.getProblemName() + " : " + response.getTotalProblems(), Toast.LENGTH_SHORT).show();
+                                       Toast.makeText(getActivity(), "Increased " + response.getProblemName() + " : " + response.getTotalProblems(), Toast.LENGTH_SHORT).show();
                                     }
 
                                     @Override
@@ -364,7 +364,7 @@ public class ReportFragment extends Fragment
                                         if(suburbList.get(i).getSuburbName().equals(suburbConfirmed))
                                         {
 
-                                            Toast.makeText(getActivity(), "" + suburbList.get(i).getObjectId(), Toast.LENGTH_SHORT).show();
+                                           Toast.makeText(getActivity(), "" + suburbList.get(i).getObjectId(), Toast.LENGTH_SHORT).show();
                                             ReinstallApplicationClass.suburbList.get(i).setTotalReports(suburbList.get(i).getTotalReports() + 1);
 
                                             Backendless.Persistence.save(suburbList.get(i), new AsyncCallback<Suburb>() {
@@ -401,6 +401,8 @@ public class ReportFragment extends Fragment
 
                                             @Override
                                             public void handleFault(BackendlessFault fault) {
+
+                                                Toast.makeText(getActivity(), "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
 
                                             }
                                         });

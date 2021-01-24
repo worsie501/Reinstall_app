@@ -284,5 +284,9 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
     @Override
     public void onStatsItemClicked(int index) {
 
+        Intent intent = new Intent(MainActivity.this, ProblemStatsMap.class);
+        intent.putExtra("index", index);
+        startActivity(intent);
+
     }
 }

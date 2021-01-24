@@ -98,7 +98,6 @@ public class StatisticsFragment extends Fragment
         });
 
         DataQueryBuilder queryBuilder = DataQueryBuilder.create();
-        queryBuilder.setSortBy("problemName");
 
         showProgress(true);
         tvLoad.setText("Retreiving info...please wait...");
