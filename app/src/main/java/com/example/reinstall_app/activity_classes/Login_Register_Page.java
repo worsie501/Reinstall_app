@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.example.reinstall_app.R;
 
 public class Login_Register_Page extends AppCompatActivity {
-
+//123
     private View mProgressView;
     private View mLoginFormView;
     private TextView tvLoad;
