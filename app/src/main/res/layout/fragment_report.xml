@@ -159,36 +159,54 @@
 
         />
 
-    <ImageButton
-        android:id="@+id/btnPhoto"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:srcCompat="@drawable/ic_camera"
-        android:layout_below="@id/btnLocation"
-        android:layout_marginTop="30dp"
-        android:layout_centerHorizontal="true"
-        android:background="@color/colorPrimary"
-        />
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etDescription"
+            android:layout_marginTop="33dp"
+            android:text="Urgency Level" />
 
-    <Button
-        android:id="@+id/btnLocation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Pin Location"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/etDescription"
-        android:layout_marginTop="30dp"/>
+        <TextView
+            android:id="@+id/tvUrgencyDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView25"
+            android:text="bla bla bla" />
 
-    <Button
-        android:id="@+id/btnSubmitReport"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btnPhoto"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="30dp"
-        android:text="Submit Report" />
+        <Spinner
+            android:id="@+id/spnrUrgency"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvUrgencyDescription"
+            android:layout_marginTop="35dp" />
 
 
+        <ImageButton
+            android:id="@+id/btnPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/btnLocation"
+            android:layout_marginTop="26dp"
+            android:background="@color/colorPrimary"
+            app:srcCompat="@drawable/ic_camera" />
+
+        <Button
+            android:id="@+id/btnLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etDescription"
+            android:layout_marginTop="165dp"
+            android:text="Pin Location" />
+
+        <Button
+            android:id="@+id/btnSubmitReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnPhoto"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="34dp"
+            android:text="Submit Report" />
 
         <TextView
             android:id="@+id/tvLat"

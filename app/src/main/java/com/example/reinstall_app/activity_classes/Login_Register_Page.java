@@ -22,6 +22,7 @@ public class Login_Register_Page extends AppCompatActivity {
 
     Button btnMainLogin;
     Button btnMainRegister;
+    Button btnBackRoleSelection;
 
 
     @Override
@@ -38,6 +39,17 @@ public class Login_Register_Page extends AppCompatActivity {
 
         btnMainLogin=findViewById(R.id.btnMainLogin);
         btnMainRegister=findViewById(R.id.btnMainRegister);
+        btnBackRoleSelection=findViewById(R.id.btnBackRoleSelection);
+
+        btnBackRoleSelection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(Login_Register_Page.this,RoleSelection.class);
+                int autoRoleSelect=4;
+                intent.putExtra("autoRoleSelect", autoRoleSelect);
+                startActivity(intent);
+            }
+        });
 
         btnMainLogin.setOnClickListener(new View.OnClickListener() {
             @Override

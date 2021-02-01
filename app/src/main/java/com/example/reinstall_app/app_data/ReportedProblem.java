@@ -21,6 +21,16 @@ public class ReportedProblem {
     double x, y;
     String photo;
     String objectId;
+    String reportUrgency;
+
+    public String getReportUrgency() {
+        return reportUrgency;
+    }
+
+    public void setReportUrgency(String reportUrgency) {
+        this.reportUrgency = reportUrgency;
+    }
+
 
     public String getObjectId() {
         return objectId;

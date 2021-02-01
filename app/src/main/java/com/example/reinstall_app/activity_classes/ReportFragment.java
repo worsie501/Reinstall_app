@@ -73,7 +73,7 @@ public class ReportFragment extends Fragment
     private static final int ERROR_DIALOG_REQUEST = 9001;
 
     Button btnLocation;
-    Spinner spCategory;
+    Spinner spCategory, spnrUrgency;;
     ImageButton btnPhoto;
     Button btnSubmitReport;
     EditText etDescription;
@@ -230,6 +230,18 @@ public class ReportFragment extends Fragment
         tvAddress=v.findViewById(R.id.tvAddress);
         tvCity=v.findViewById(R.id.tvCity);
         tvSuburnLocated=v.findViewById(R.id.tvSuburbLocated);
+        spnrUrgency=v.findViewById(R.id.spnrUrgency);
+
+        List<String> urgencySpinnerArray= new ArrayList<String>();
+        urgencySpinnerArray.add("Low");
+        urgencySpinnerArray.add("Medium(Normal)");
+        urgencySpinnerArray.add("High");
+        urgencySpinnerArray.add("Critical");
+
+        ArrayAdapter<String> urgencyAdapter=new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, urgencySpinnerArray);
+
+        urgencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnrUrgency.setAdapter(urgencyAdapter);
 
         DataQueryBuilder subQueryBuilder = DataQueryBuilder.create();
         int PAGESIZE = 80;
@@ -316,6 +328,7 @@ public class ReportFragment extends Fragment
                     problem.setSuburb(suburbConfirmed);
                     problem.setX(x); //lon
                     problem.setY(y); //lat
+                    problem.setReportUrgency(spnrUrgency.getSelectedItem().toString().trim());
 
 
                        Backendless.Persistence.save(problem, new AsyncCallback<ReportedProblem>() {
