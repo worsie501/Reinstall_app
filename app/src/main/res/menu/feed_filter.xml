@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:id="@+id/activeReports"
+        android:title="Active Reports"
+        android:icon="@drawable/ic_active"
+        />
+
+    <item android:id="@+id/resolvedReports"
+        android:title="Resolved Reports"
+        android:icon="@drawable/ic_resolved"
+        />
+
+    <item android:id="@+id/verifiedReports"
+        android:title="Verified Reports"
+        android:icon="@drawable/ic_verified"
+        />
+
+    <item android:id="@+id/fakeReports"
+        android:title="Fake Reports"
+        android:icon="@drawable/ic_report"
+        />
+
+
+
+
+
+</menu>

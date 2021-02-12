@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/reportAsFake"
+        android:title="Report as Fake"
+        android:icon="@drawable/ic_report"
+        />
+
+    <item android:id="@+id/verify"
+        android:title="Verify report"
+        android:icon="@drawable/ic_verified"
+        />
+
+    <item android:id="@+id/viewPhoto"
+        android:title="View photo"
+        android:icon="@drawable/ic_camera_gray"
+        />
+
+    <item android:id="@+id/viewMap"
+        android:title="View Map"
+        android:icon="@drawable/ic_map_gray"
+        />
+
+
+
+
+</menu>

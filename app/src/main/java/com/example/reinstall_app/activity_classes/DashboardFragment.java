@@ -124,8 +124,10 @@ public class DashboardFragment extends Fragment
             }
         });
 
+        //Updated where clause for Active reports
+        String whereClause = "resolved = false AND fakeReport = false";
         DataQueryBuilder probQueryBuilder = DataQueryBuilder.create();
-
+        probQueryBuilder.setWhereClause(whereClause);
 
         Backendless.Persistence.of(ReportedProblem.class).find(probQueryBuilder, new AsyncCallback<List<ReportedProblem>>() {
             @Override

@@ -13,6 +13,11 @@ public class ReportedProblem {
     String description;
     String userName;
     String problemType;
+    boolean resolved;
+    boolean fakeReport;
+    boolean verifiedReport;
+    int fakeReportCount;
+    int verificationCount;
     String city;
     String suburb;
     Date updated;
@@ -22,6 +27,46 @@ public class ReportedProblem {
     String photo;
     String objectId;
     String reportUrgency;
+
+    public int getFakeReportCount() {
+        return fakeReportCount;
+    }
+
+    public void setFakeReportCount(int fakeReportCount) {
+        this.fakeReportCount = fakeReportCount;
+    }
+
+    public int getVerificationCount() {
+        return verificationCount;
+    }
+
+    public void setVerificationCount(int verificationCount) {
+        this.verificationCount = verificationCount;
+    }
+
+    public boolean isResolved() {
+        return resolved;
+    }
+
+    public void setResolved(boolean resolved) {
+        this.resolved = resolved;
+    }
+
+    public boolean isFakeReport() {
+        return fakeReport;
+    }
+
+    public void setFakeReport(boolean fakeReport) {
+        this.fakeReport = fakeReport;
+    }
+
+    public boolean isVerifiedReport() {
+        return verifiedReport;
+    }
+
+    public void setVerifiedReport(boolean verifiedReport) {
+        this.verifiedReport = verifiedReport;
+    }
 
     public String getReportUrgency() {
         return reportUrgency;

@@ -6,8 +6,10 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,12 +24,17 @@ import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
 import com.example.reinstall_app.R;
+import com.example.reinstall_app.app_data.ReinstallApplicationClass;
 import com.example.reinstall_app.app_data.ReportedProblem;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.List;
 
 public class FeedFragment extends Fragment
 {
+
+    TextView tvFilter;
 
     RecyclerView rvFeed;
     RecyclerView.Adapter feedAdapter;
@@ -65,8 +72,13 @@ public class FeedFragment extends Fragment
         mProgressView = v.findViewById(R.id.login_progress);
         tvLoad = v.findViewById(R.id.tvLoad);
 
+        tvFilter = v.findViewById(R.id.tvFilter);
+
+        String activeWhereClause = "resolved = false AND fakeReport = false";
+
         DataQueryBuilder queryBuilder = DataQueryBuilder.create();
-        queryBuilder.setSortBy("userName");
+        queryBuilder.setSortBy("created");
+        queryBuilder.setWhereClause(activeWhereClause);
         int PAGESIZE = 80;
         queryBuilder.setPageSize(PAGESIZE);
 
@@ -77,6 +89,7 @@ public class FeedFragment extends Fragment
             @Override
             public void handleResponse(List<ReportedProblem> response) {
 
+                ReinstallApplicationClass.activeProblems = response;
                 feedAdapter = new FeedAdapter(getActivity(), response);
                 rvFeed.setAdapter(feedAdapter);
                 showProgress(false);
@@ -92,6 +105,170 @@ public class FeedFragment extends Fragment
 
 
 
+        tvFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                PopupMenu popup = new PopupMenu(getContext(), v);
+
+                try{
+                    Field[] fields = popup.getClass().getDeclaredFields();
+                    for (Field field : fields) {
+                        if ("mPopup".equals(field.getName())) {
+                            field.setAccessible(true);
+                            Object menuPopupHelper = field.get(popup);
+                            Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                            Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
+                            setForceIcons.invoke(menuPopupHelper, true);
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                popup.inflate(R.menu.feed_filter);
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+
+                        switch (item.getItemId()) {
+
+                            case R.id.fakeReports:
+
+                                String fakeClause = "fakeReport = true";
+
+                                DataQueryBuilder fakeQBuilder = DataQueryBuilder.create();
+                                fakeQBuilder.setWhereClause(fakeClause);
+                                fakeQBuilder.setPageSize(PAGESIZE);
+
+                                showProgress(true);
+                                tvLoad.setText("Retreiving info...please wait...");
+
+                                Backendless.Persistence.of(ReportedProblem.class).find(fakeQBuilder, new AsyncCallback<List<ReportedProblem>>() {
+                                    @Override
+                                    public void handleResponse(List<ReportedProblem> response) {
+
+                                        feedAdapter = new FeedAdapter(getActivity(), response);
+                                        rvFeed.setAdapter(feedAdapter);
+                                        showProgress(false);
+                                    }
+
+                                    @Override
+                                    public void handleFault(BackendlessFault fault) {
+
+                                        Toast.makeText(getActivity(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                        showProgress(false);
+                                    }
+                                });
+
+                                return true;
+
+                            case R.id.verifiedReports:
+
+                                String verifiedClause = "verifiedReport = true";
+
+                                DataQueryBuilder verifiedQBuilder = DataQueryBuilder.create();
+                                verifiedQBuilder.setWhereClause(verifiedClause);
+                                verifiedQBuilder.setPageSize(PAGESIZE);
+
+                                showProgress(true);
+                                tvLoad.setText("Retreiving info...please wait...");
+
+                                Backendless.Persistence.of(ReportedProblem.class).find(verifiedQBuilder, new AsyncCallback<List<ReportedProblem>>() {
+                                    @Override
+                                    public void handleResponse(List<ReportedProblem> response) {
+
+                                        feedAdapter = new FeedAdapter(getActivity(), response);
+                                        rvFeed.setAdapter(feedAdapter);
+                                        showProgress(false);
+                                    }
+
+                                    @Override
+                                    public void handleFault(BackendlessFault fault) {
+
+                                        Toast.makeText(getActivity(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                        showProgress(false);
+                                    }
+                                });
+
+
+                                return true;
+
+                            case R.id.resolvedReports:
+
+                                String whereClause = "resolved = true";
+
+                                DataQueryBuilder queryBuilder = DataQueryBuilder.create();
+                                queryBuilder.setWhereClause(whereClause);
+                                queryBuilder.setPageSize(PAGESIZE);
+
+                                showProgress(true);
+                                tvLoad.setText("Retreiving info...please wait...");
+
+                                Backendless.Persistence.of(ReportedProblem.class).find(queryBuilder, new AsyncCallback<List<ReportedProblem>>() {
+                                    @Override
+                                    public void handleResponse(List<ReportedProblem> response) {
+
+                                        feedAdapter = new FeedAdapter(getActivity(), response);
+                                        rvFeed.setAdapter(feedAdapter);
+                                        showProgress(false);
+                                    }
+
+                                    @Override
+                                    public void handleFault(BackendlessFault fault) {
+
+                                        Toast.makeText(getActivity(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                        showProgress(false);
+                                    }
+                                });
+                                return true;
+
+                            case R.id.activeReports:
+
+
+                                String activeWhereClause = "resolved = false AND fakeReport = false";
+                                DataQueryBuilder aQueryBuilder = DataQueryBuilder.create();
+                                aQueryBuilder.setSortBy("created");
+                                aQueryBuilder.setWhereClause(activeWhereClause);
+                                int PAGESIZE = 80;
+                                aQueryBuilder.setPageSize(PAGESIZE);
+
+                                showProgress(true);
+                                tvLoad.setText("Retreiving info...please wait...");
+
+                                Backendless.Persistence.of(ReportedProblem.class).find(aQueryBuilder, new AsyncCallback<List<ReportedProblem>>() {
+                                    @Override
+                                    public void handleResponse(List<ReportedProblem> response) {
+
+                                        feedAdapter = new FeedAdapter(getActivity(), response);
+                                        rvFeed.setAdapter(feedAdapter);
+                                        showProgress(false);
+                                    }
+
+                                    @Override
+                                    public void handleFault(BackendlessFault fault) {
+
+                                        Toast.makeText(getActivity(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                        showProgress(false);
+                                    }
+                                });
+
+
+                                return true;
+
+                            default:
+                                return false;
+
+                        }
+                    }
+                });
+
+                popup.show();
+            }
+        });
 
 
     }

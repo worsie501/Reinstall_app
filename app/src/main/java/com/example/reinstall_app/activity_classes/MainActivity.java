@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ import com.cometchat.pro.exceptions.CometChatException;
 import com.example.reinstall_app.R;
 import com.example.reinstall_app.app_data.ProblemType;
 import com.example.reinstall_app.app_data.ReinstallApplicationClass;
+import com.example.reinstall_app.app_data.ReportedProblem;
 import com.example.reinstall_app.app_data.Resident;
 import com.example.reinstall_app.app_data.Suburb;
 import com.google.android.gms.common.ConnectionResult;
@@ -49,7 +51,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements HotSpotAdapter.ItemClicked, FeedAdapter.FeedItemClicked, StatsAdapter.StatsItemClicked{
+public class MainActivity extends AppCompatActivity implements HotSpotAdapter.ItemClicked, FeedAdapter.FeedItemClicked, StatsAdapter.StatsItemClicked {
 
     private static final String TAG = "MainActivity";
 
@@ -95,47 +97,62 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
         });
 
 
-        Backendless.Data.of(BackendlessUser.class).findById(userObjectId, new AsyncCallback<BackendlessUser>() {
-            @Override
-            public void handleResponse(BackendlessUser response) {
-                BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-                ReinstallApplicationClass.user = response;
+        DataQueryBuilder rQueryBuilder = DataQueryBuilder.create();
+        rQueryBuilder.setPageSize(PAGESIZE);
 
-                if(response.getProperty("role").equals("Resident"))
-                {
-                    bottomNav.getMenu().getItem(4).setVisible(false);
+        Backendless.Persistence.of(ReportedProblem.class).find(rQueryBuilder, new AsyncCallback<List<ReportedProblem>>() {
+                    @Override
+                    public void handleResponse(List<ReportedProblem> response) {
+                       ReinstallApplicationClass.reportedProblems = response;
+                    }
 
-                    int PAGESIZE = 80;
-                    String whereClause = "email = '" + ReinstallApplicationClass.user.getEmail() + "'";
-                    DataQueryBuilder queryBuilder = DataQueryBuilder.create();
-                    queryBuilder.setWhereClause(whereClause);
-                    queryBuilder.setPageSize(PAGESIZE);
+                    @Override
+                    public void handleFault(BackendlessFault fault) {
+                        Toast.makeText(MainActivity.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-                    Backendless.Persistence.of(Resident.class).find(queryBuilder, new AsyncCallback<List<Resident>>() {
-                        @Override
-                        public void handleResponse(List<Resident> response) {
 
-                            ReinstallApplicationClass.resident = response.get(0);
+                Backendless.Data.of(BackendlessUser.class).findById(userObjectId, new AsyncCallback<BackendlessUser>() {
+                    @Override
+                    public void handleResponse(BackendlessUser response) {
+                        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+                        ReinstallApplicationClass.user = response;
+
+                        if (response.getProperty("role").equals("Resident")) {
+                            bottomNav.getMenu().getItem(4).setVisible(false);
+
+                            int PAGESIZE = 80;
+                            String whereClause = "email = '" + ReinstallApplicationClass.user.getEmail() + "'";
+                            DataQueryBuilder queryBuilder = DataQueryBuilder.create();
+                            queryBuilder.setWhereClause(whereClause);
+                            queryBuilder.setPageSize(PAGESIZE);
+
+                            Backendless.Persistence.of(Resident.class).find(queryBuilder, new AsyncCallback<List<Resident>>() {
+                                @Override
+                                public void handleResponse(List<Resident> response) {
+
+                                    ReinstallApplicationClass.resident = response.get(0);
+
+                                }
+
+                                @Override
+                                public void handleFault(BackendlessFault fault) {
+                                    Toast.makeText(MainActivity.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
                         }
 
-                        @Override
-                        public void handleFault(BackendlessFault fault) {
-                            Toast.makeText(MainActivity.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    }
 
-                }
+                    @Override
+                    public void handleFault(BackendlessFault fault) {
 
-            }
+                        Toast.makeText(MainActivity.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
 
-            @Override
-            public void handleFault(BackendlessFault fault) {
-
-                Toast.makeText(MainActivity.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
+                    }
+                });
 
 
 
@@ -156,7 +173,6 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
 
         switch (item.getItemId())
         {
@@ -289,4 +305,5 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
         startActivity(intent);
 
     }
+
 }

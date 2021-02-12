@@ -54,7 +54,7 @@ public class ProblemStatsMap extends AppCompatActivity  implements OnMapReadyCal
             @Override
             public void onMapReady(GoogleMap googleMap) {
 
-                String whereClause = "problemType = '" + ReinstallApplicationClass.problemTypes.get(index).getProblemName() + "'";
+                String whereClause = "problemType = '" + ReinstallApplicationClass.problemTypes.get(index).getProblemName() + "' AND resolved = false AND fakeReport = false";
                 DataQueryBuilder queryBuilder = DataQueryBuilder.create();
                 queryBuilder.setWhereClause(whereClause);
 
@@ -73,11 +73,9 @@ public class ProblemStatsMap extends AppCompatActivity  implements OnMapReadyCal
 
                             LatLng latLng = new LatLng(response.get(i).getY(), response.get(i).getX());
 
-                            MarkerOptions markerOptions = new MarkerOptions();
-
-                            markerOptions.position(latLng);
-
-                            mapCurrent.addMarker(new MarkerOptions().position(latLng));
+                            mapCurrent.addMarker(new MarkerOptions().position(latLng)
+                                    .title(response.get(i).getSuburb())
+                                    .snippet("Urgency: " + response.get(i).getReportUrgency()));
 
                             mapCurrent.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
                         }
@@ -89,14 +87,12 @@ public class ProblemStatsMap extends AppCompatActivity  implements OnMapReadyCal
 
                         Toast.makeText(ProblemStatsMap.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
 
-
                     }
                 });
 
 
             }
         });
-
 
     btnCloseStatsMap.setOnClickListener(new View.OnClickListener() {
         @Override
@@ -106,7 +102,6 @@ public class ProblemStatsMap extends AppCompatActivity  implements OnMapReadyCal
 
         }
     });
-
 
     }
 

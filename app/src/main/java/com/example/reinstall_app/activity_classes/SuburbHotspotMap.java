@@ -27,6 +27,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -63,7 +64,7 @@ public class SuburbHotspotMap extends AppCompatActivity implements OnMapReadyCal
             @Override
             public void onMapReady(GoogleMap googleMap) {
 
-                String whereClause = "suburb = '" + ReinstallApplicationClass.hotspotList.get(index).getSuburbName() + "'";
+                String whereClause = "suburb = '" + ReinstallApplicationClass.hotspotList.get(index).getSuburbName() + "' AND resolved = false AND fakeReport = false";
                 DataQueryBuilder queryBuilder = DataQueryBuilder.create();
                 queryBuilder.setWhereClause(whereClause);
 
@@ -81,11 +82,10 @@ public class SuburbHotspotMap extends AppCompatActivity implements OnMapReadyCal
 
                             LatLng latLng = new LatLng(response.get(i).getY(), response.get(i).getX());
 
-                            MarkerOptions markerOptions = new MarkerOptions();
-
-                            markerOptions.position(latLng);
-
-                            mapCurrent.addMarker(new MarkerOptions().position(latLng));
+                            mapCurrent.addMarker(new MarkerOptions().position(latLng)
+                            .title(response.get(i).getProblemType())
+                            .snippet("Urgency: " + response.get(i).getReportUrgency())
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
                             mapCurrent.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
                         }

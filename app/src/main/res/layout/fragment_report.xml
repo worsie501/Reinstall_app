@@ -110,7 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="20dp"
         android:layout_below="@id/tvSpinnerDes"
         android:layout_centerHorizontal="true"
         />
@@ -155,6 +155,7 @@
         android:inputType="text"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
         android:hint="report description"
 
         />
@@ -164,22 +165,42 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/etDescription"
-            android:layout_marginTop="33dp"
-            android:text="Urgency Level" />
+            android:layout_marginStart="30dp"
+            android:text="Urgency Level"
+            android:layout_marginBottom="5dp"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/textView25"
+            android:layout_below="@id/etDescription"
+            android:layout_marginStart="2dp"
+            card_view:srcCompat="@drawable/ic_urgency"
+            />
+
 
         <TextView
             android:id="@+id/tvUrgencyDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/textView25"
-            android:text="bla bla bla" />
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="12sp"
+            android:textStyle="italic"
+            android:text="Select the urgency level of your report" />
 
         <Spinner
             android:id="@+id/spnrUrgency"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
             android:layout_below="@id/tvUrgencyDescription"
-            android:layout_marginTop="35dp" />
+             />
 
 
         <ImageButton
@@ -187,16 +208,20 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_below="@id/btnLocation"
-            android:layout_marginTop="26dp"
-            android:background="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:backgroundTint="@color/colorPrimary"
             app:srcCompat="@drawable/ic_camera" />
 
         <Button
             android:id="@+id/btnLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/etDescription"
-            android:layout_marginTop="165dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_below="@id/spnrUrgency"
+            android:textStyle="bold"
             android:text="Pin Location" />
 
         <Button
@@ -205,7 +230,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/btnPhoto"
             android:layout_centerVertical="true"
-            android:layout_marginTop="34dp"
+            android:textStyle="bold"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:text="Submit Report" />
 
         <TextView

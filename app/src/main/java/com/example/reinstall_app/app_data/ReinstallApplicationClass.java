@@ -28,6 +28,10 @@ public class ReinstallApplicationClass extends Application {
 
     public static List<ProblemType> problemTypes;
 
+    public static List<ReportedProblem> reportedProblems;
+
+    public static List<ReportedProblem> activeProblems;
+
     public static List<Suburb> suburbList;
 
     public static List<Suburb> hotspotList;
