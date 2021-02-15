@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -75,9 +76,10 @@ public class ReportFragment extends Fragment
     Button btnLocation;
     Spinner spCategory, spnrUrgency;;
     ImageButton btnPhoto;
-    Button btnSubmitReport;
+    Button btnSubmitReport, btnCancelReport;
     EditText etDescription;
-    TextView tvLat,tvLon,tvAddress, tvCity, tvSuburnLocated;
+    TextView tvLat,tvLon,tvAddress, tvCity, tvSuburnLocated, tvSumDesc, tvSumType, tvSumUrgency;
+    CardView cvSummary;
 
     int mapRequestCode=2;
     int mapResultCode=2;
@@ -119,15 +121,32 @@ public class ReportFragment extends Fragment
             {
 
 
-                y=data.getDoubleExtra("lat", 0);
-                x=data.getDoubleExtra("lon", 0);
-                addressString=data.getStringExtra("addressString");
-                cityLocation=data.getStringExtra("cityLocation");
+                y = data.getDoubleExtra("lat", 0);
+                x = data.getDoubleExtra("lon", 0);
+                addressString = data.getStringExtra("addressString");
+                cityLocation = data.getStringExtra("cityLocation");
+
 
                 tvLat.setText(String.valueOf(y));
                 tvLon.setText(String.valueOf(x));
-                tvAddress.setText("Address: "+addressString);
-                tvCity.setText("City: "+cityLocation);
+                tvAddress.setText(addressString);
+                tvCity.setText(cityLocation);
+
+                if (etDescription.getText().toString().isEmpty() || spCategory.getSelectedItem() == null || spnrUrgency.getSelectedItem() == null )
+                {
+
+                    Toast.makeText(getContext(), "Please enter all fields", Toast.LENGTH_SHORT).show();
+
+                }
+                else
+                {
+                    tvSumDesc.setText(etDescription.getText());
+                    tvSumUrgency.setText(spnrUrgency.getSelectedItem().toString());
+                    tvSumType.setText(spCategory.getSelectedItem().toString());
+                    cvSummary.setVisibility(View.VISIBLE);
+                }
+
+
 
                 final DataQueryBuilder queryBuilder = DataQueryBuilder.create();
                 int PAGESIZE = 80;
@@ -223,6 +242,7 @@ public class ReportFragment extends Fragment
         btnLocation = v.findViewById(R.id.btnLocation);
         spCategory =  v.findViewById(R.id.spCategory);
         btnSubmitReport=v.findViewById(R.id.btnSubmitReport);
+        btnCancelReport = v.findViewById(R.id.btnCancelReport);
         etDescription=v.findViewById(R.id.etDescription);
         btnPhoto=v.findViewById(R.id.btnPhoto);
         tvLat=v.findViewById(R.id.tvLat);
@@ -231,6 +251,13 @@ public class ReportFragment extends Fragment
         tvCity=v.findViewById(R.id.tvCity);
         tvSuburnLocated=v.findViewById(R.id.tvSuburbLocated);
         spnrUrgency=v.findViewById(R.id.spnrUrgency);
+        cvSummary = v.findViewById(R.id.cvSummary);
+
+        tvSumDesc = v.findViewById(R.id.tvSumDesc);
+        tvSumType = v.findViewById(R.id.tvSumType);
+        tvSumUrgency = v.findViewById(R.id.tvSumUrgency);
+
+        cvSummary.setVisibility(View.GONE);
 
         List<String> urgencySpinnerArray= new ArrayList<String>();
         urgencySpinnerArray.add("Low");
@@ -335,6 +362,7 @@ public class ReportFragment extends Fragment
                             @Override
                             public void handleResponse(ReportedProblem response) {
                                 Toast.makeText(getActivity(), "Report Submitted!", Toast.LENGTH_SHORT).show();
+                                cvSummary.setVisibility(View.GONE);
                             }
 
                             @Override
@@ -427,10 +455,24 @@ public class ReportFragment extends Fragment
 
                     spCategory.setSelection(0);
                     etDescription.setText(null);
+
                 }
             });
 
 
+        btnCancelReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                cvSummary.setVisibility(View.GONE);
+                spCategory.setSelection(0);
+                spnrUrgency.setSelection(0);
+                etDescription.setText(null);
+
+
+            }
+        });
 
 
         btnPhoto.setOnClickListener(new View.OnClickListener() {
@@ -452,6 +494,8 @@ public class ReportFragment extends Fragment
     }
 
 
+
+
     private void init()
     {
         btnLocation.setOnClickListener(new View.OnClickListener() {
@@ -459,6 +503,7 @@ public class ReportFragment extends Fragment
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MapActivity.class);
                 startActivityForResult(intent, mapRequestCode);
+
 
 
             }
