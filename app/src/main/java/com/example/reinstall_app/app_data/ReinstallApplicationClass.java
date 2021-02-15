@@ -13,8 +13,8 @@ import java.util.List;
 public class ReinstallApplicationClass extends Application {
 
     //backendless
-    public static final String APPLICATION_ID = "2FDB9EDF-3E2F-5329-FF04-61FE182AB200";
-    public static final String API_KEY = "FA15AED0-1910-4378-B9BF-533012EBD11A";
+    public static final String APPLICATION_ID = "0DDD13FF-20A8-91F2-FFE4-4842B5764B00";
+    public static final String API_KEY = "CE54F51D-A192-4608-854D-908936D42DB9";
     public static final String SERVER_URL = "https://api.backendless.com";
 
     //CometChat
