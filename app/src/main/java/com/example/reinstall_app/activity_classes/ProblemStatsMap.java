@@ -31,6 +31,8 @@ public class ProblemStatsMap extends AppCompatActivity  implements OnMapReadyCal
     MapView statsMap;
     Button btnCloseStatsMap;
 
+    String suburbSelected, filteredProblemSelected;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,14 @@ public class ProblemStatsMap extends AppCompatActivity  implements OnMapReadyCal
         btnCloseStatsMap = findViewById(R.id.btnCloseStatsMap);
 
         final int index = getIntent().getIntExtra("index", 0);
+
+
+        //Retreive intent info
+        //------------------------------------------
+
+        suburbSelected = getIntent().getStringExtra("suburbSelected");
+        filteredProblemSelected = getIntent().getStringExtra("problemSelected");
+
 
         if(statsMap != null)
         {
@@ -54,7 +64,9 @@ public class ProblemStatsMap extends AppCompatActivity  implements OnMapReadyCal
             @Override
             public void onMapReady(GoogleMap googleMap) {
 
-                String whereClause = "problemType = '" + ReinstallApplicationClass.problemTypes.get(index).getProblemName() + "' AND resolved = false AND fakeReport = false";
+
+
+                String whereClause = "suburb = '" + suburbSelected + "' AND problemType = '" + filteredProblemSelected + "' AND resolved = false AND fakeReport = false";
                 DataQueryBuilder queryBuilder = DataQueryBuilder.create();
                 queryBuilder.setWhereClause(whereClause);
 
@@ -64,7 +76,6 @@ public class ProblemStatsMap extends AppCompatActivity  implements OnMapReadyCal
                 Backendless.Data.of(ReportedProblem.class).find(queryBuilder, new AsyncCallback<List<ReportedProblem>>() {
                     @Override
                     public void handleResponse(List<ReportedProblem> response) {
-
 
                         float zoomLevel = 14.0f;
 

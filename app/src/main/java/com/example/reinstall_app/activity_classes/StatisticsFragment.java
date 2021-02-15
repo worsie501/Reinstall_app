@@ -26,9 +26,11 @@ import com.backendless.persistence.DataQueryBuilder;
 import com.example.reinstall_app.R;
 import com.example.reinstall_app.app_data.City;
 import com.example.reinstall_app.app_data.ProblemType;
+import com.example.reinstall_app.app_data.ReinstallApplicationClass;
 import com.example.reinstall_app.app_data.ReportedProblem;
 import com.example.reinstall_app.app_data.Suburb;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StatisticsFragment extends Fragment
@@ -38,6 +40,7 @@ public class StatisticsFragment extends Fragment
     private View mLoginFormView;
     private TextView tvLoad;
 
+    ArrayList<Suburb> aboveTen = new ArrayList<>();
 
     Spinner spnrLocation;
 
@@ -97,23 +100,39 @@ public class StatisticsFragment extends Fragment
             }
         });
 
+
         DataQueryBuilder queryBuilder = DataQueryBuilder.create();
+        queryBuilder.setPageSize(80);
 
         showProgress(true);
         tvLoad.setText("Retreiving info...please wait...");
 
-        Backendless.Persistence.of(ProblemType.class).find(queryBuilder, new AsyncCallback<List<ProblemType>>() {
+        Backendless.Persistence.of(Suburb.class).find(queryBuilder, new AsyncCallback<List<Suburb>>() {
             @Override
-            public void handleResponse(List<ProblemType> response) {
+            public void handleResponse(List<Suburb> response) {
 
-                myAdapter = new StatsAdapter(getActivity(), response);
+                ReinstallApplicationClass.hotspotList = response;
+
+                for (int i = 0; i < response.size(); i++)
+                {
+                    if(response.get(i).getTotalReports() >= 1)
+                    {
+                        Suburb sub = response.get(i);
+                        aboveTen.add(sub);
+
+                    }
+                }
+
+                ReinstallApplicationClass.hotspotList = aboveTen;
+                myAdapter = new StatsAdapter(getActivity(), aboveTen);
                 rvList.setAdapter(myAdapter);
                 showProgress(false);
+
             }
 
             @Override
             public void handleFault(BackendlessFault fault) {
-                Toast.makeText(getActivity(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
 

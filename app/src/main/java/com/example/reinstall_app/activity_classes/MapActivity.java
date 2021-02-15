@@ -83,9 +83,36 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             public void onMapClick(LatLng latLng) {
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
-                GeoPoint geoPoint = new GeoPoint(latLng.latitude,latLng.longitude);
+
+                Geocoder geocoder = new Geocoder(MapActivity.this);
+                List<Address> list=new ArrayList<>();
+                try {
+                    list = geocoder.getFromLocation(latLng.latitude, latLng.longitude,2);
+                }catch (IOException e)
+                {
+                    Log.e("TAG", "geoLocate: IOException: " + e.getMessage());
+                }
+
+                if(list.size()>0)
+                {
+                    Address address = list.get(0);
+
+                    Log.d("TAG", "geoLocate: found a location: "+address.toString());
+
+                    float zoomLevel=16.0f;
+
+                    latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+                    moveCamera(latLng, zoomLevel, address.getAddressLine(0));
+
+                    lat = address.getLatitude();
+                    lon = address.getLongitude();
+                    addressString = address.getAddressLine(0);
+                    locationCity = address.getLocality();
+                }
+
+
                 mMap.clear();
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
                 mMap.addMarker(markerOptions);
             }
         });
@@ -96,16 +123,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        mSearchText=(EditText) findViewById(R.id.input_search);
-        mGps=(ImageView) findViewById(R.id.ic_gps);
-        btnReturn=(Button) findViewById(R.id.btnReturn);
+        mSearchText = (EditText) findViewById(R.id.input_search);
+        mGps = (ImageView) findViewById(R.id.ic_gps);
+        btnReturn = (Button) findViewById(R.id.btnReturn);
 
         btnReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MapActivity.this, MainActivity.class);
 
-                int mapResultCode=2;
+                Intent intent = new Intent(MapActivity.this, MainActivity.class);
+
+                int mapResultCode = 2;
 
                 intent.putExtra("lat", lat);
                 intent.putExtra("lon", lon);
@@ -130,22 +158,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     {
         Log.d("TAG", "init: initializing");
 
-       // AutocompleteSessionToken autocompleteSessionToken;
-       // autocompleteSessionToken= AutocompleteSessionToken.newInstance();
-        // PlacesClient placesClient;
-       //placesClient= Places.createClient(getApplicationContext());
-
-       // final PlaceAutocompleteAdapterNew mAdapter;
-       // mAdapter = new PlaceAutocompleteAdapterNew(this, placesClient,autocompleteSessionToken);
-
-
-
-       // PlaceAutocompleteAdapterNew=new PlaceAutocompleteAdapterNew(this, placesClient, autocompleteSessionToken);
-
-      //  mSearchText.setAdapter(PlaceAutocompleteAdapterNew);
-
-        //crash met adapter
-
                 mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
@@ -161,6 +173,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View view) {
                 Log.d("TAG", "onClick: clicked gps icon");
+                mMap.clear();
                 getDeviceLocation();
             }
         });
@@ -171,7 +184,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     {
         Log.d("TAG", "geoLocate: geolocating");
 
-        String searchString=mSearchText.getText().toString().trim();
+        String searchString = mSearchText.getText().toString().trim();
+        mMap.clear();
 
         Geocoder geocoder = new Geocoder(MapActivity.this);
         List<Address> list=new ArrayList<>();
@@ -184,7 +198,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         if(list.size()>0)
         {
-            Address address=list.get(0);
+            Address address = list.get(0);
 
             Log.d("TAG", "geoLocate: found a location: "+address.toString());
 
@@ -194,10 +208,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
            moveCamera(latLng, zoomLevel, address.getAddressLine(0));
 
-           lat=address.getLatitude();
-           lon=address.getLongitude();
-           addressString=address.getAddressLine(0);
-           locationCity=address.getLocality();
+           lat = address.getLatitude();
+           lon = address.getLongitude();
+           addressString = address.getAddressLine(0);
+           locationCity = address.getLocality();
         }
 
     }
@@ -223,7 +237,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             return;
         }
 
-
         fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
 
             @Override
@@ -231,8 +244,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 if(task.isSuccessful())
                 {
                     Location location = task.getResult();
-                    GeoPoint geoPoint = new GeoPoint(location.getLatitude(),location.getLongitude());
 
+                    GeoPoint geoPoint = new GeoPoint(location.getLatitude(),location.getLongitude());
 
                     LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
                     MarkerOptions markerOptions = new MarkerOptions();

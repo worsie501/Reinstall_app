@@ -87,7 +87,7 @@ public class ReportFragment extends Fragment
     List<ProblemType> pt ;
 
     double y, x;
-    String addressString, cityLocation, suburbConfirmed="";
+    String addressString, cityLocation, suburbConfirmed = "";
     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
     String photoName= y +""+ x + timeStamp;
     String photoPath = "https://backendlessappcontent.com/0DDD13FF-20A8-91F2-FFE4-4842B5764B00/BB772A4D-ACFA-47B3-B3F3-C08BA9D0707F/files/photos/";
@@ -103,9 +103,7 @@ public class ReportFragment extends Fragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-
         v = inflater.inflate(R.layout.fragment_report, container, false);
-
 
         return v;
     }
@@ -120,17 +118,16 @@ public class ReportFragment extends Fragment
             if(resultCode == mapResultCode)
             {
 
-
                 y = data.getDoubleExtra("lat", 0);
                 x = data.getDoubleExtra("lon", 0);
                 addressString = data.getStringExtra("addressString");
                 cityLocation = data.getStringExtra("cityLocation");
 
-
                 tvLat.setText(String.valueOf(y));
                 tvLon.setText(String.valueOf(x));
                 tvAddress.setText(addressString);
                 tvCity.setText(cityLocation);
+
 
                 if (etDescription.getText().toString().isEmpty() || spCategory.getSelectedItem() == null || spnrUrgency.getSelectedItem() == null )
                 {
@@ -147,11 +144,9 @@ public class ReportFragment extends Fragment
                 }
 
 
-
-                final DataQueryBuilder queryBuilder = DataQueryBuilder.create();
+                DataQueryBuilder queryBuilder = DataQueryBuilder.create();
                 int PAGESIZE = 80;
                 queryBuilder.setPageSize(PAGESIZE);
-                //queryBuilder.setWhereClause("suburbName");
 
                 Backendless.Persistence.of(Suburb.class).find(queryBuilder, new AsyncCallback<List<Suburb>>() {
                     @Override
@@ -159,30 +154,21 @@ public class ReportFragment extends Fragment
 
                         for(int i=0; i<response.size(); i++)
                         {
-                         //   if(response.get(i).getSuburbName().isEmpty())
-                         //   {
-                         //      Toast.makeText(getActivity(), "No Data Found!!!", Toast.LENGTH_SHORT).show();
-                           //     tvSuburnLocated.setText("Eks fucked!!!");
-                          //  }
-                          //  else if(addressString.toLowerCase().contains(response.get(i).getSuburbName()))
-                          //  {
-                           //     suburbConfirmed=response.get(i).getSuburbName().trim();
-                           //     tvSuburnLocated.setText(suburbConfirmed);
-                           // }
 
                             if(addressString.contains(response.get(i).getSuburbName()))
                             {
                                 suburbConfirmed = response.get(i).getSuburbName().trim();
                                 tvSuburnLocated.setText(suburbConfirmed);
 
-                               // response.get(i).setTotalReports(+1);
+                                i = response.size();
+                            }
+                            else
+                            {
+                                    tvSuburnLocated.setText("N/A");
+                                    suburbConfirmed = "N/A";
                             }
                         }
-                        if(suburbConfirmed.isEmpty())
-                        {
-                            tvSuburnLocated.setText("N/A");
-                            suburbConfirmed="N/A";
-                        }
+
 
                     }
 
@@ -198,7 +184,7 @@ public class ReportFragment extends Fragment
 
 
         }
-        else if(requestCode==0) {
+        else if(requestCode == 0) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             Backendless.Files.Android.upload( photo,
                     Bitmap.CompressFormat.PNG,
@@ -501,10 +487,10 @@ public class ReportFragment extends Fragment
         btnLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(getActivity(), MapActivity.class);
+
                 startActivityForResult(intent, mapRequestCode);
-
-
 
             }
         });
