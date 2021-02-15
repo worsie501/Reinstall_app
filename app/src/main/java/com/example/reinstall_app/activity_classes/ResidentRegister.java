@@ -82,8 +82,10 @@ public class ResidentRegister extends AppCompatActivity {
             }
         });
 
+        int PAGESIZE = 80;
         DataQueryBuilder qryBuilder = DataQueryBuilder.create();
         qryBuilder.setGroupBy("suburbName");
+        qryBuilder.setPageSize(PAGESIZE);
 
         Backendless.Data.of(Suburb.class).find(qryBuilder, new AsyncCallback<List<Suburb>>() {
             @Override
