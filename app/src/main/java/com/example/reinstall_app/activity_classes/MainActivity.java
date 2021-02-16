@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //initializations
+
         btnChats = findViewById(R.id.btnChats);
 
         actionBar = getSupportActionBar();
