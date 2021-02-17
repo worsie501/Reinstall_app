@@ -213,7 +213,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 holder.ivUrgency.setImageResource(R.drawable.low);
 
             }
-        else if(reports.get(i).getReportUrgency().equals("Medium"))
+        else if(reports.get(i).getReportUrgency().equals("Medium(Normal)"))
         {
             holder.ivUrgency.setImageResource(R.drawable.medium);
         }

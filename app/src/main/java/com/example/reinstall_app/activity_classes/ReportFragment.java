@@ -70,6 +70,13 @@ import static com.example.reinstall_app.app_data.ReinstallApplicationClass.user;
 public class ReportFragment extends Fragment
 {
 
+
+    //Progres wheel vars
+    private View mProgressView;
+    private View mLoginFormView;
+    private TextView tvLoad;
+
+
     //map vars
     private static final int ERROR_DIALOG_REQUEST = 9001;
 
@@ -225,6 +232,10 @@ public class ReportFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        mLoginFormView = v.findViewById(R.id.login_form);
+        mProgressView = v.findViewById(R.id.login_progress);
+        tvLoad = v.findViewById(R.id.tvLoad);
+
         btnLocation = v.findViewById(R.id.btnLocation);
         spCategory =  v.findViewById(R.id.spCategory);
         btnSubmitReport=v.findViewById(R.id.btnSubmitReport);
@@ -343,19 +354,8 @@ public class ReportFragment extends Fragment
                     problem.setY(y); //lat
                     problem.setReportUrgency(spnrUrgency.getSelectedItem().toString().trim());
 
-
-                       Backendless.Persistence.save(problem, new AsyncCallback<ReportedProblem>() {
-                            @Override
-                            public void handleResponse(ReportedProblem response) {
-                                Toast.makeText(getActivity(), "Report Submitted!", Toast.LENGTH_SHORT).show();
-                                cvSummary.setVisibility(View.GONE);
-                            }
-
-                            @Override
-                            public void handleFault(BackendlessFault fault) {
-                                Toast.makeText(getActivity(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                    showProgress(true);
+                    tvLoad.setText("Submitting new report...please wait");
 
 
                         for(int i = 0; i < problemTypes.size(); i++)
@@ -364,7 +364,7 @@ public class ReportFragment extends Fragment
                             if(problemTypes.get(i).getProblemName().equals(spCategory.getSelectedItem().toString().trim()))
                             {
 
-                                Toast.makeText(getActivity(), "" + problemTypes.get(i).getObjectId(), Toast.LENGTH_SHORT).show();
+                               // Toast.makeText(getActivity(), "" + problemTypes.get(i).getObjectId(), Toast.LENGTH_SHORT).show();
 
                                 problemTypes.get(i).setTotalProblems(problemTypes.get(i).getTotalProblems() + 1);
 
@@ -372,12 +372,13 @@ public class ReportFragment extends Fragment
                                     @Override
                                     public void handleResponse(ProblemType response) {
 
-                                       Toast.makeText(getActivity(), "Increased " + response.getProblemName() + " : " + response.getTotalProblems(), Toast.LENGTH_SHORT).show();
+                                      // Toast.makeText(getActivity(), "Increased " + response.getProblemName() + " : " + response.getTotalProblems(), Toast.LENGTH_SHORT).show();
                                     }
 
                                     @Override
                                     public void handleFault(BackendlessFault fault) {
                                         Toast.makeText(getActivity(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                        showProgress(false);
                                     }
                                 });
                                 break;
@@ -391,20 +392,20 @@ public class ReportFragment extends Fragment
                                         if(suburbList.get(i).getSuburbName().equals(suburbConfirmed))
                                         {
 
-                                           Toast.makeText(getActivity(), "" + suburbList.get(i).getObjectId(), Toast.LENGTH_SHORT).show();
+                                           //Toast.makeText(getActivity(), "" + suburbList.get(i).getObjectId(), Toast.LENGTH_SHORT).show();
                                             ReinstallApplicationClass.suburbList.get(i).setTotalReports(suburbList.get(i).getTotalReports() + 1);
 
                                             Backendless.Persistence.save(suburbList.get(i), new AsyncCallback<Suburb>() {
                                                 @Override
                                                 public void handleResponse(Suburb response) {
-                                                    Toast.makeText(getActivity(), "Suburb problem count increased", Toast.LENGTH_LONG).show();
+                                                   // Toast.makeText(getActivity(), "Suburb problem count increased", Toast.LENGTH_LONG).show();
                                                 }
 
                                                 @Override
                                                 public void handleFault(BackendlessFault fault) {
 
                                                     Toast.makeText(getActivity(), "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
-
+                                                    showProgress(false);
                                                 }
                                             });
 
@@ -430,12 +431,28 @@ public class ReportFragment extends Fragment
                                             public void handleFault(BackendlessFault fault) {
 
                                                 Toast.makeText(getActivity(), "Error: "+fault.getMessage(), Toast.LENGTH_SHORT).show();
-
+                                                showProgress(false);
                                             }
                                         });
 
                                     }
 
+                        Backendless.Persistence.save(problem, new AsyncCallback<ReportedProblem>() {
+                            @Override
+                            public void handleResponse(ReportedProblem response) {
+                                Toast.makeText(getActivity(), "Report Submitted!", Toast.LENGTH_SHORT).show();
+                                cvSummary.setVisibility(View.GONE);
+
+                                tvLoad.setText("Report Submitted...");
+                                showProgress(false);
+                            }
+
+                            @Override
+                            public void handleFault(BackendlessFault fault) {
+                                Toast.makeText(getActivity(), "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                showProgress(false);
+                            }
+                        });
 
                                 }
 
@@ -519,6 +536,53 @@ public class ReportFragment extends Fragment
             Toast.makeText(getActivity(), "You can't make map requests", Toast.LENGTH_SHORT).show();
         }
         return false;
+    }
+
+
+    /**
+     * Shows the progress UI and hides the login form.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
+
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+
+            tvLoad.setVisibility(show ? View.VISIBLE : View.GONE);
+            tvLoad.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    tvLoad.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            tvLoad.setVisibility(show ? View.VISIBLE : View.GONE);
+            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
     }
 
 }
