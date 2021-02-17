@@ -275,11 +275,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                     reportMenuItem.setVisible(true);
                 }
 
-
-
-
-
-
                 
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override

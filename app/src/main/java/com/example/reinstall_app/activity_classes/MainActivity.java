@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
@@ -51,7 +52,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements HotSpotAdapter.ItemClicked, FeedAdapter.FeedItemClicked, StatsAdapter.StatsItemClicked {
+public class MainActivity extends AppCompatActivity implements HotSpotAdapter.ItemClicked, FeedAdapter.FeedItemClicked, StatsAdapter.StatsItemClicked, LogoutDialog.LogoutDialogListener {
 
     private static final String TAG = "MainActivity";
 
@@ -180,38 +181,8 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
         {
 
             case R.id.logout:
-                Toast.makeText(MainActivity.this, "busy logging out...please wait...", Toast.LENGTH_LONG).show();
 
-                CometChat.logout(new CometChat.CallbackListener<String>() {
-                    @Override
-                    public void onSuccess(String s) {
-                        Toast.makeText(MainActivity.this, "Comet chat user logged out", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(CometChatException e) {
-                        Toast.makeText(MainActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-
-
-                Backendless.UserService.logout(new AsyncCallback<Void>() {
-                    @Override
-                    public void handleResponse(Void response) {
-                        Toast.makeText(MainActivity.this, "User signed out successfully...", Toast.LENGTH_SHORT).show();
-
-                        startActivity(new Intent(MainActivity.this, RoleSelection.class));
-                        MainActivity.this.finish();
-                    }
-
-                    @Override
-                    public void handleFault(BackendlessFault fault) {
-
-                        Toast.makeText(MainActivity.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
-
-                    }
-                });
+                openDialog();
 
                 break;
 
@@ -223,6 +194,13 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void openDialog()
+    {
+        LogoutDialog dialog = new LogoutDialog();
+        dialog.show(getSupportFragmentManager(), "logout dialog");
     }
 
     @Override
@@ -304,4 +282,41 @@ public class MainActivity extends AppCompatActivity implements HotSpotAdapter.It
 
     }
 
+    @Override
+    public void onLogoutClicked() {
+
+        Toast.makeText(MainActivity.this, "busy logging out...please wait...", Toast.LENGTH_LONG).show();
+
+        CometChat.logout(new CometChat.CallbackListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                Toast.makeText(MainActivity.this, "Comet chat user logged out", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(CometChatException e) {
+                Toast.makeText(MainActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+        Backendless.UserService.logout(new AsyncCallback<Void>() {
+            @Override
+            public void handleResponse(Void response) {
+                Toast.makeText(MainActivity.this, "User signed out successfully...", Toast.LENGTH_SHORT).show();
+
+                startActivity(new Intent(MainActivity.this, RoleSelection.class));
+                MainActivity.this.finish();
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+
+                Toast.makeText(MainActivity.this, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
 }
