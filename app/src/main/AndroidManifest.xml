@@ -21,7 +21,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity_classes.ProblemStatsMap"></activity>
+        <activity android:name=".activity_classes.CombinedRegister"></activity>
+
+        <activity android:name=".activity_classes.CombinedLogin">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+
+        <activity android:name=".activity_classes.ProblemStatsMap" />
         <activity android:name=".activity_classes.ChatActivity" />
         <activity android:name=".activity_classes.ChatGroupsList" />
         <activity android:name=".activity_classes.ResidentProfile" />
@@ -74,11 +84,6 @@
             android:name=".activity_classes.RoleSelection"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

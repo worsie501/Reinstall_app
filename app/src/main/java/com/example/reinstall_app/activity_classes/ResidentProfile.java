@@ -8,6 +8,8 @@ import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
 import com.backendless.persistence.local.UserIdStorageFactory;
+import com.cometchat.pro.core.CometChat;
+import com.cometchat.pro.exceptions.CometChatException;
 import com.example.reinstall_app.R;
 import com.example.reinstall_app.app_data.ReinstallApplicationClass;
 import com.example.reinstall_app.app_data.Resident;
@@ -158,14 +160,30 @@ public class ResidentProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(ResidentProfile.this, "busy logging out...please wait...", Toast.LENGTH_LONG).show();
+
+                showProgress(true);
+                tvLoad.setText("Bussy logging you out...please wait...");
+
+                CometChat.logout(new CometChat.CallbackListener<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        //Toast.makeText(ResidentProfile.this, "Comet chat user logged out", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(CometChatException e) {
+                        Toast.makeText(ResidentProfile.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+
 
                 Backendless.UserService.logout(new AsyncCallback<Void>() {
                     @Override
                     public void handleResponse(Void response) {
-                        Toast.makeText(ResidentProfile.this, "User signed out successfully...", Toast.LENGTH_SHORT).show();
 
-                        startActivity(new Intent(ResidentProfile.this, RoleSelection.class));
+                        startActivity(new Intent(ResidentProfile.this, CombinedLogin.class));
                         ResidentProfile.this.finish();
 
                     }

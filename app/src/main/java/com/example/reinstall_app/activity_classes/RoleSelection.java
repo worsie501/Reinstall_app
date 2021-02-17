@@ -26,7 +26,7 @@ public class RoleSelection extends AppCompatActivity {
 
         SharedPreferences sharedPreferences=getSharedPreferences("autoRoleSelect", MODE_PRIVATE);
 
-        verifyRoleSelected=sharedPreferences.getInt("roleSelected", autoroleSelected);
+        verifyRoleSelected = sharedPreferences.getInt("roleSelected", autoroleSelected);
 
         final int intentAutoRoleSelect=getIntent().getIntExtra("autoRoleSelect",3);
 
