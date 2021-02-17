@@ -132,10 +132,10 @@ public class CombinedRegister extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                ValidatePassword();
+               /* ValidatePassword();
                 ValidateConfirm();
                 ValidatePasswordMatch();
-                ValidateEmail();
+                ValidateEmail();*/
 
                 if (textInputName.getEditText().getText().toString().isEmpty()) {
 
@@ -246,8 +246,15 @@ public class CombinedRegister extends AppCompatActivity {
             return false;
 
         }
-        else if(textInputRegisterPass.getEditText().getText().toString().trim().equals(textInputRegisterConfirm.getEditText().getText().toString().trim()))
+        else if(!textInputRegisterPass.getEditText().getText().toString().trim().equals(textInputRegisterConfirm.getEditText().getText().toString().trim()))
         {
+            textInputRegisterPass.setError("Passwords does not match");
+            textInputRegisterConfirm.setError("Passwords does not match");
+            return false;
+        }
+        else if(ValidatePassword() & ValidateConfirm())
+        {
+
             textInputRegisterPass.setError("");
             textInputRegisterConfirm.setError("");
 
@@ -258,8 +265,6 @@ public class CombinedRegister extends AppCompatActivity {
         }
         else
         {
-            textInputRegisterPass.setError("Passwords does not match");
-            textInputRegisterConfirm.setError("Passwords does not match");
             return false;
         }
 

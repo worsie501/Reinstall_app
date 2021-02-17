@@ -643,7 +643,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                                                         });
 
 
-                                                        if (ReinstallApplicationClass.activeProblems.get(i).getVerificationCount() >= 3 ||
+                                                        if (ReinstallApplicationClass.activeProblems.get(i).getVerificationCount() >= 3 |
                                                                 ReinstallApplicationClass.user.getProperty("role").equals("Municipality")) {
 
                                                             ReinstallApplicationClass.activeProblems.get(i).setVerifiedReport(true);

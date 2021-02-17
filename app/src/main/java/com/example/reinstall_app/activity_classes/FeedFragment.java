@@ -168,7 +168,7 @@ public class FeedFragment extends Fragment
 
                             case R.id.verifiedReports:
 
-                                String verifiedClause = "verifiedReport = true";
+                                String verifiedClause = "verifiedReport = true AND resolved = false";
 
                                 DataQueryBuilder verifiedQBuilder = DataQueryBuilder.create();
                                 verifiedQBuilder.setWhereClause(verifiedClause);
