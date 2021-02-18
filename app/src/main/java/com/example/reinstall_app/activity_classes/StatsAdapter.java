@@ -142,7 +142,7 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.ViewHolder> 
                                     if(problemSelected.contains(response.get(i).getProblemName()))
                                     {
                                         filteredProbleSelected = response.get(i).getProblemName().trim();
-                                        Toast.makeText(holder.ivPopupMenu.getContext(), "MenuPos: "+menuPos, Toast.LENGTH_SHORT).show();
+                                       // Toast.makeText(holder.ivPopupMenu.getContext(), "MenuPos: "+menuPos, Toast.LENGTH_SHORT).show();
 
                                         Intent intent=new Intent(holder.ivPopupMenu.getContext(), ProblemStatsMap.class);
 
