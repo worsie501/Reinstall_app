@@ -301,6 +301,7 @@ public class ReportFragment extends Fragment
 
 
         DataQueryBuilder queryBuilder = DataQueryBuilder.create();
+        queryBuilder.setPageSize(80);
         queryBuilder.setGroupBy("problemName");
 
         Backendless.Data.of(ProblemType.class).find(queryBuilder, new AsyncCallback<List<ProblemType>>() {
